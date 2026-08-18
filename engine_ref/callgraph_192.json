@@ -1,0 +1,5908 @@
+[
+ {
+  "ord": 29,
+  "addr": "0x140001fb0",
+  "name": "sub_140001FB0",
+  "role": "Hook/隐藏",
+  "size": 390,
+  "callers": [
+   "静态图未找到；可能是入口",
+   "回调",
+   "间接调用或被保护壳隐藏"
+  ],
+  "callees": [
+   "Mem_HeapFree(0x1400029f0)",
+   "Rtl_RegisterAtExit(0x1401036b0)",
+   "Mem_HeapAlloc(0x140133e10)",
+   "HV_Dispatch(0x1401536b0)"
+  ],
+  "key": [
+   "`__int64 sub_140001FB0()`",
+   "`  _QWORD *v0; // rax`",
+   "`  _QWORD *v1; // rdi`",
+   "`  _OWORD *v2; // rax`",
+   "`  _QWORD *v3; // rbx`",
+   "`  __int64 v4; // rdx`",
+   "`  _QWORD *v5; // rax`",
+   "`  __int64 retaddr; // [rsp+38h] [rbp+0h]`",
+   "`  v0 = Mem_HeapAlloc(0x30u);`",
+   "`    HV_Dispatch(0x3678656u, 48, retaddr, retaddr - 0x140000000LL, 0);`",
+   "`    JUMPOUT(0x140002135LL);`",
+   "`  g_Hook_ListSentinel = (__int64)v0;`"
+  ]
+ },
+ {
+  "ord": 443,
+  "addr": "0x1400401a0",
+  "name": "sub_1400401A0",
+  "role": "EPT/NPT内存映射",
+  "size": 906,
+  "callers": [
+   "sub_140040C10(0x140040c10)",
+   "sub_140041000(0x140041000)",
+   "sub_140041C90(0x140041c90)",
+   "Lic_ReportAppCompatCache(0x140043b40)",
+   "sub_14004AB80(0x14004ab80)",
+   "Lic_ReportNetwork(0x14004b000)",
+   "Lic_ReportServiceDrivers(0x14004c870)"
+  ],
+  "callees": [
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)",
+   "HV_MemsetGuestVa(0x140152df0)"
+  ],
+  "key": [
+   "`bool __fastcall sub_1400401A0(char *a1, __int64 a2)`",
+   "`  unsigned __int64 v4; // rsi`",
+   "`  char *v5; // rbx`",
+   "`  bool v6; // zf`",
+   "`  __int64 v7; // rax`",
+   "`  int v8; // edi`",
+   "`  unsigned __int64 v9; // rbx`",
+   "`  __int64 v10; // rdx`",
+   "`  __int64 i; // rax`",
+   "`  unsigned __int64 v12; // rax`",
+   "`  __int64 v13; // rdx`",
+   "`  __int64 v14; // rsi`"
+  ]
+ },
+ {
+  "ord": 444,
+  "addr": "0x140040530",
+  "name": "sub_140040530",
+  "role": "EPT/NPT内存映射",
+  "size": 1555,
+  "callers": [
+   "sub_140040B50(0x140040b50)",
+   "sub_140042B20(0x140042b20)",
+   "sub_140045CA0(0x140045ca0)",
+   "Lic_ReportNetwork(0x14004b000)",
+   "Lic_ReportServiceDrivers(0x14004c870)"
+  ],
+  "callees": [
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)",
+   "HV_MemsetGuestVa(0x140152df0)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140040530(__int64 a1, char *a2)`",
+   "`  unsigned __int64 v4; // rsi`",
+   "`  char *v5; // rbx`",
+   "`  unsigned __int64 v6; // rax`",
+   "`  __int64 v7; // rcx`",
+   "`  __int64 v8; // rcx`",
+   "`  int v9; // eax`",
+   "`  unsigned __int64 v10; // rbx`",
+   "`  __int64 v11; // rdx`",
+   "`  __int64 i; // rax`",
+   "`  unsigned __int64 v13; // rax`",
+   "`  __int64 v14; // rdx`"
+  ]
+ },
+ {
+  "ord": 463,
+  "addr": "0x1400448f0",
+  "name": "sub_1400448F0",
+  "role": "EPT/NPT内存映射",
+  "size": 962,
+  "callers": [
+   "Lic_ReportServiceDrivers(0x14004c870)"
+  ],
+  "callees": [
+   "sub_1400447F0(0x1400447f0)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)"
+  ],
+  "key": [
+   "`char __fastcall sub_1400448F0(char *a1)`",
+   "`  char *v1; // rax`",
+   "`  char *v2; // r14`",
+   "`  unsigned __int64 v3; // rsi`",
+   "`  char v4; // r15`",
+   "`  char *v5; // rbx`",
+   "`  bool v6; // zf`",
+   "`  __int64 v7; // rax`",
+   "`  __int64 v8; // rcx`",
+   "`  int v9; // eax`",
+   "`  unsigned __int64 v10; // rbx`",
+   "`  __int64 v11; // rdx`"
+  ]
+ },
+ {
+  "ord": 465,
+  "addr": "0x140044e30",
+  "name": "sub_140044E30",
+  "role": "EPT/NPT内存映射",
+  "size": 850,
+  "callers": [
+   "Lic_ReportProcesses(0x14004fa40)"
+  ],
+  "callees": [
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)",
+   "sub_14014C400(0x14014c400)"
+  ],
+  "key": [
+   "`char *__fastcall sub_140044E30(__int64 a1)`",
+   "`  char *v3; // r14`",
+   "`  __int64 v4; // rsi`",
+   "`  bool v5; // zf`",
+   "`  __int64 v6; // rax`",
+   "`  __int64 v7; // rcx`",
+   "`  int v8; // eax`",
+   "`  __int64 v9; // rdx`",
+   "`  unsigned __int16 *v10; // rax`",
+   "`  int v11; // ecx`",
+   "`  unsigned __int64 v12; // rbx`",
+   "`  char *v13; // rax`"
+  ]
+ },
+ {
+  "ord": 466,
+  "addr": "0x140045190",
+  "name": "sub_140045190",
+  "role": "EPT/NPT内存映射",
+  "size": 748,
+  "callers": [
+   "sub_14004D5E0(0x14004d5e0)"
+  ],
+  "callees": [
+   "Util_WideToUtf8(0x14003eac0)",
+   "sub_140053A20(0x140053a20)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)"
+  ],
+  "key": [
+   "`char __fastcall sub_140045190(__int64 a1, char *a2, unsigned __int64 *a3)`",
+   "`  unsigned __int64 v4; // rbx`",
+   "`  int v5; // eax`",
+   "`  char v6; // r14`",
+   "`  unsigned int v7; // edx`",
+   "`  __int64 v8; // rcx`",
+   "`  unsigned int v9; // edx`",
+   "`  signed __int64 *v10; // rax`",
+   "`  unsigned __int64 v11; // rdi`",
+   "`  unsigned __int64 v12; // r8`",
+   "`  __int64 v13; // rdx`",
+   "`  __int64 i; // rax`"
+  ]
+ },
+ {
+  "ord": 467,
+  "addr": "0x140045480",
+  "name": "sub_140045480",
+  "role": "EPT/NPT内存映射",
+  "size": 661,
+  "callers": [
+   "sub_140046320(0x140046320)",
+   "sub_1400466D0(0x1400466d0)",
+   "sub_140046C40(0x140046c40)",
+   "sub_140047080(0x140047080)",
+   "sub_140047600(0x140047600)"
+  ],
+  "callees": [
+   "sub_1400525B0(0x1400525b0)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)",
+   "sub_1401349F0(0x1401349f0)"
+  ],
+  "key": [
+   "`char __fastcall sub_140045480(char *a1, char *a2, __int64 a3)`",
+   "`  unsigned __int64 v4; // rbx`",
+   "`  int v5; // eax`",
+   "`  char v6; // si`",
+   "`  __int64 v7; // rdx`",
+   "`  __int64 i; // rax`",
+   "`  unsigned __int64 v9; // rax`",
+   "`  __int64 v10; // rdx`",
+   "`  __int64 v11; // rdx`",
+   "`  __int64 v12; // rdx`",
+   "`  __int64 v13; // rax`",
+   "`  __int64 v15; // rcx`"
+  ]
+ },
+ {
+  "ord": 468,
+  "addr": "0x140045720",
+  "name": "sub_140045720",
+  "role": "EPT/NPT内存映射",
+  "size": 645,
+  "callers": [
+   "sub_14004D5E0(0x14004d5e0)"
+  ],
+  "callees": [
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)",
+   "sub_1401349F0(0x1401349f0)",
+   "HV_MemsetGuestVa(0x140152df0)"
+  ],
+  "key": [
+   "`char __fastcall sub_140045720(__int64 a1, __int64 a2, _DWORD *a3)`",
+   "`  unsigned __int64 v4; // rbx`",
+   "`  char v5; // si`",
+   "`  __int64 v6; // rdx`",
+   "`  __int64 i; // rax`",
+   "`  unsigned __int64 v8; // rax`",
+   "`  __int64 v9; // rdx`",
+   "`  __int64 v10; // rdx`",
+   "`  __int64 v11; // rdx`",
+   "`  __int64 v12; // rax`",
+   "`  __int64 v14; // rcx`",
+   "`  __int128 v15; // [rsp+80h] [rbp+27h]`"
+  ]
+ },
+ {
+  "ord": 474,
+  "addr": "0x140046320",
+  "name": "sub_140046320",
+  "role": "EPT/NPT内存映射",
+  "size": 942,
+  "callers": [
+   "sub_1400466D0(0x1400466d0)"
+  ],
+  "callees": [
+   "Rtl_AbortStringTooLong(0x140002870)",
+   "Mem_HeapFree(0x1400029f0)",
+   "sub_140045480(0x140045480)",
+   "sub_1400525B0(0x1400525b0)",
+   "sub_140053920(0x140053920)",
+   "sub_1400608A0(0x1400608a0)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140046320(char *a1, __int64 a2)`",
+   "`  unsigned __int64 v4; // rsi`",
+   "`  __int64 v5; // r8`",
+   "`  int v6; // r8d`",
+   "`  unsigned __int64 v7; // rdi`",
+   "`  __int64 v8; // r14`",
+   "`  char *v9; // rbx`",
+   "`  int v10; // r8d`",
+   "`  char *v11; // rbx`",
+   "`  __int64 v12; // rdx`",
+   "`  __int64 i; // rax`",
+   "`  __int128 v14; // xmm1`"
+  ]
+ },
+ {
+  "ord": 477,
+  "addr": "0x140047080",
+  "name": "sub_140047080",
+  "role": "EPT/NPT内存映射",
+  "size": 1393,
+  "callers": [
+   "Lic_ReportQQUserData(0x140049e90)"
+  ],
+  "callees": [
+   "Rtl_AbortStringTooLong(0x140002870)",
+   "Mem_HeapFree(0x1400029f0)",
+   "sub_140045480(0x140045480)",
+   "sub_140046020(0x140046020)",
+   "sub_140046C40(0x140046c40)",
+   "sub_1400525B0(0x1400525b0)",
+   "sub_1400526D0(0x1400526d0)",
+   "sub_140053920(0x140053920)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140047080(__int64 a1)`",
+   "`  __int64 v2; // rsi`",
+   "`  __int64 v3; // r8`",
+   "`  int v4; // r8d`",
+   "`  unsigned __int64 v5; // rdi`",
+   "`  __int64 v6; // r14`",
+   "`  char *v7; // rbx`",
+   "`  char *v8; // rbx`",
+   "`  __int64 v9; // rdx`",
+   "`  __int64 i; // rax`",
+   "`  __int128 v11; // xmm1`",
+   "`  unsigned __int64 v12; // rax`"
+  ]
+ },
+ {
+  "ord": 479,
+  "addr": "0x140047ad0",
+  "name": "sub_140047AD0",
+  "role": "EPT/NPT内存映射",
+  "size": 1715,
+  "callers": [
+   "sub_140048660(0x140048660)"
+  ],
+  "callees": [
+   "sub_14003F470(0x14003f470)",
+   "sub_1400525B0(0x1400525b0)",
+   "sub_140087190(0x140087190)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)"
+  ],
+  "key": [
+   "`char __fastcall sub_140047AD0(char *a1, _QWORD *a2, int *a3)`",
+   "`  char *v5; // rax`",
+   "`  unsigned __int64 v6; // rdi`",
+   "`  int v7; // r13d`",
+   "`  int v8; // r14d`",
+   "`  char *v9; // r14`",
+   "`  _WORD *v10; // rax`",
+   "`  unsigned __int64 v11; // rbx`",
+   "`  __int64 j; // rax`",
+   "`  unsigned __int64 v13; // rdx`",
+   "`  _QWORD *v14; // rcx`",
+   "`  __int64 v15; // rcx`"
+  ]
+ },
+ {
+  "ord": 492,
+  "addr": "0x14004b000",
+  "name": "Lic_ReportNetwork",
+  "role": "Hook/隐藏",
+  "size": 3529,
+  "callers": [
+   "Lic_CollectMachineReport(0x14004fe60)"
+  ],
+  "callees": [
+   "Mem_HeapFree(0x1400029f0)",
+   "sub_14003E7E0(0x14003e7e0)",
+   "Util_WideToUtf8(0x14003eac0)",
+   "sub_1400401A0(0x1400401a0)",
+   "sub_140040530(0x140040530)",
+   "sub_140040C10(0x140040c10)",
+   "Lic_NetEnumHelper(0x14004a8d0)",
+   "sub_14004A9A0(0x14004a9a0)"
+  ],
+  "key": [
+   "`  __int64 *v2; // r13`",
+   "`  unsigned __int64 v3; // r12`",
+   "`  __m128i si128; // xmm6`",
+   "`  __m128i v5; // xmm7`",
+   "`  __int64 v6; // rbx`",
+   "`  _QWORD *v7; // r14`",
+   "`  __int64 v8; // r8`",
+   "`  int v9; // r8d`",
+   "`  unsigned __int64 v10; // rdi`",
+   "`  __int64 v11; // rsi`",
+   "`  char *v12; // rbx`",
+   "`  __m128i *v13; // rax`"
+  ]
+ },
+ {
+  "ord": 639,
+  "addr": "0x140062650",
+  "name": "sub_140062650",
+  "role": "Hook/隐藏",
+  "size": 2447,
+  "callers": [
+   "sub_140159C30(0x140159c30)"
+  ],
+  "callees": [
+   "HV_InitAttachCore(0x14003e390)",
+   "sub_140062410(0x140062410)",
+   "sub_14012F1F0(0x14012f1f0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "sub_140141000(0x140141000)",
+   "sub_14014F6A0(0x14014f6a0)",
+   "HV_Dispatch(0x1401536b0)",
+   "sub_140154100(0x140154100)"
+  ],
+  "key": [
+   "`void __fastcall sub_140062650(__int64 a1, __int64 a2, __int64 a3, __int64 a4)`",
+   "`  unsigned __int64 v4; // rsi`",
+   "`  __int64 v6; // rdx`",
+   "`  _DWORD *SystemInformation; // r14`",
+   "`  unsigned int *v8; // r12`",
+   "`  _DWORD *v9; // rax`",
+   "`  _DWORD *v10; // rbx`",
+   "`  unsigned __int64 v11; // rdi`",
+   "`  __int64 v12; // rcx`",
+   "`  __int64 v13; // r14`",
+   "`  char *v14; // rdi`",
+   "`  __int64 v15; // rax`"
+  ]
+ },
+ {
+  "ord": 689,
+  "addr": "0x140068450",
+  "name": "sub_140068450",
+  "role": "EPT/NPT内存映射",
+  "size": 2442,
+  "callers": [
+   "sub_1400695F0(0x1400695f0)"
+  ],
+  "callees": [
+   "sub_14003E7E0(0x14003e7e0)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140068450(char *a1, __int64 a2, __int64 *a3, _QWORD *a4, _QWORD *a5)`",
+   "`  _QWORD *v8; // r15`",
+   "`  unsigned __int64 v9; // rsi`",
+   "`  char *v11; // rbx`",
+   "`  bool v12; // zf`",
+   "`  __int64 v13; // rax`",
+   "`  int v14; // r14d`",
+   "`  unsigned __int64 v15; // rbx`",
+   "`  __int64 v16; // rdx`",
+   "`  __int64 i; // rax`",
+   "`  __int128 v18; // xmm1`",
+   "`  unsigned __int64 v19; // rax`"
+  ]
+ },
+ {
+  "ord": 739,
+  "addr": "0x140074440",
+  "name": "sub_140074440",
+  "role": "EPT/NPT内存映射",
+  "size": 1764,
+  "callers": [
+   "sub_140074B30(0x140074b30)",
+   "sub_140075120(0x140075120)",
+   "sub_140075550(0x140075550)",
+   "sub_140075B00(0x140075b00)"
+  ],
+  "callees": [
+   "Rtl_AbortStringTooLong(0x140002870)",
+   "Util_StringAssign(0x140002930)",
+   "Mem_HeapFree(0x1400029f0)",
+   "Mem_HeapAllocAligned(0x140002aa0)",
+   "sub_140053A20(0x140053a20)",
+   "sub_140065B00(0x140065b00)",
+   "sub_14006BF40(0x14006bf40)",
+   "sub_14006C040(0x14006c040)"
+  ],
+  "key": [
+   "`bool __fastcall sub_140074440(__int64 a1, __int64 a2, __int64 a3, unsigned __int64 *a4)`",
+   "`  __int64 v5; // rsi`",
+   "`  unsigned __int64 v8; // rdi`",
+   "`  char *v10; // rax`",
+   "`  __int64 v11; // rdx`",
+   "`  char *v12; // rbx`",
+   "`  unsigned __int64 v13; // rdi`",
+   "`  unsigned __int64 v14; // rsi`",
+   "`  __int64 v15; // r14`",
+   "`  unsigned __int64 v16; // r8`",
+   "`  __int64 *v17; // rdx`",
+   "`  bool v18; // bl`"
+  ]
+ },
+ {
+  "ord": 771,
+  "addr": "0x14007cda0",
+  "name": "sub_14007CDA0",
+  "role": "EPT/NPT内存映射",
+  "size": 1020,
+  "callers": [
+   "sub_14007D1A0(0x14007d1a0)",
+   "sub_14007E010(0x14007e010)"
+  ],
+  "callees": [
+   "sub_14007CCD0(0x14007ccd0)",
+   "sub_140087190(0x140087190)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)"
+  ],
+  "key": [
+   "`void __fastcall sub_14007CDA0(__int64 a1, char *a2, __int64 a3, char *a4)`",
+   "`  unsigned __int64 v6; // rbx`",
+   "`  _BYTE *i; // rdi`",
+   "`  char v8; // cl`",
+   "`  unsigned __int64 j; // rsi`",
+   "`  char v10; // cl`",
+   "`  unsigned __int64 k; // r14`",
+   "`  char v12; // cl`",
+   "`  unsigned __int64 v13; // rcx`",
+   "`  __int64 v14; // rdx`",
+   "`  unsigned __int64 v15; // rax`",
+   "`  unsigned __int64 v16; // rax`"
+  ]
+ },
+ {
+  "ord": 851,
+  "addr": "0x1400884b0",
+  "name": "sub_1400884B0",
+  "role": "EPT/NPT内存映射",
+  "size": 760,
+  "callers": [
+   "sub_1400887B0(0x1400887b0)"
+  ],
+  "callees": [
+   "sub_140088AF0(0x140088af0)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_1400884B0(char *a1, __int64 a2, unsigned int a3)`",
+   "`  unsigned __int64 v6; // rsi`",
+   "`  char *v7; // rdi`",
+   "`  unsigned int v8; // esi`",
+   "`  __int64 v9; // rdx`",
+   "`  __int64 i; // rax`",
+   "`  __int64 **v11; // rcx`",
+   "`  __int64 v12; // rax`",
+   "`  __int128 v13; // xmm1`",
+   "`  __int64 j; // rcx`",
+   "`  __int64 *k; // rcx`",
+   "`  unsigned __int64 v16; // rax`"
+  ]
+ },
+ {
+  "ord": 853,
+  "addr": "0x140088af0",
+  "name": "sub_140088AF0",
+  "role": "EPT/NPT内存映射",
+  "size": 1863,
+  "callers": [
+   "sub_14007E010(0x14007e010)",
+   "sub_1400884B0(0x1400884b0)"
+  ],
+  "callees": [
+   "HV_FlushOrSyncAfterRegister(0x14003e1e0)",
+   "sub_14003E7E0(0x14003e7e0)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140088AF0(unsigned __int16 *a1, __int64 a2, unsigned int a3)`",
+   "`  unsigned __int64 v3; // r15`",
+   "`  __int64 v6; // rsi`",
+   "`  char *v7; // rdi`",
+   "`  bool v8; // zf`",
+   "`  __int64 v9; // rax`",
+   "`  int v10; // esi`",
+   "`  unsigned __int64 v11; // rbx`",
+   "`  __int64 v12; // rdx`",
+   "`  __int64 j; // rax`",
+   "`  unsigned __int64 v14; // rax`",
+   "`  __int64 v15; // rdx`"
+  ]
+ },
+ {
+  "ord": 914,
+  "addr": "0x1400943c0",
+  "name": "sub_1400943C0",
+  "role": "EPT/NPT内存映射",
+  "size": 2464,
+  "callers": [
+   "sub_140077F20(0x140077f20)",
+   "sub_14007F370(0x14007f370)"
+  ],
+  "callees": [
+   "sub_1400927C0(0x1400927c0)",
+   "sub_140094F80(0x140094f80)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "Mem_HeapAllocRaw(0x140134370)"
+  ],
+  "key": [
+   "`char __fastcall sub_1400943C0(__int64 *a1, __int64 **a2, _DWORD *a3, unsigned int a4)`",
+   "`  __int64 *v4; // rbx`",
+   "`  __int64 v7; // rdx`",
+   "`  unsigned __int64 v8; // r14`",
+   "`  unsigned int v9; // r15d`",
+   "`  int v10; // r12d`",
+   "`  __int64 v11; // r13`",
+   "`  unsigned __int64 v12; // rbx`",
+   "`  signed __int64 *v13; // rax`",
+   "`  unsigned __int64 v14; // r13`",
+   "`  unsigned __int64 v15; // rcx`",
+   "`  unsigned __int64 v16; // rdx`"
+  ]
+ },
+ {
+  "ord": 1096,
+  "addr": "0x1400acbc0",
+  "name": "sub_1400ACBC0",
+  "role": "Hook/隐藏",
+  "size": 621,
+  "callers": [
+   "sub_1400AF5E0(0x1400af5e0)"
+  ],
+  "callees": [
+   "sub_14009AFA0(0x14009afa0)",
+   "sub_1400AC280(0x1400ac280)",
+   "sub_1400AC970(0x1400ac970)",
+   "HV_Dispatch(0x1401536b0)"
+  ],
+  "key": [
+   "`bool __fastcall sub_1400ACBC0(unsigned int a1, int a2, __int16 a3)`",
+   "`  __int64 v3; // rbx`",
+   "`  int v5; // r8d`",
+   "`  int v6; // r10d`",
+   "`  int v7; // r11d`",
+   "`  int v9; // eax`",
+   "`  int v10; // eax`",
+   "`  int v11; // eax`",
+   "`  int v12; // ebx`",
+   "`  int v13; // r8d`",
+   "`  int v14; // eax`",
+   "`  __int64 v15; // rdx`"
+  ]
+ },
+ {
+  "ord": 1097,
+  "addr": "0x1400ace30",
+  "name": "sub_1400ACE30",
+  "role": "Hook/隐藏",
+  "size": 116,
+  "callers": [
+   "sub_1400B3CD0(0x1400b3cd0)",
+   "sub_1400B3DC0(0x1400b3dc0)",
+   "sub_1400B5EC0(0x1400b5ec0)",
+   "sub_1400F6780(0x1400f6780)",
+   "sub_1400F6B00(0x1400f6b00)",
+   "sub_1400F6E80(0x1400f6e80)",
+   "sub_1400F7210(0x1400f7210)",
+   "sub_1400F75B0(0x1400f75b0)"
+  ],
+  "callees": [
+   "sub_14009B040(0x14009b040)",
+   "sub_1400AC310(0x1400ac310)"
+  ],
+  "key": [
+   "`bool __fastcall sub_1400ACE30(int a1)`",
+   "`  return *(_BYTE *)sub_1400AC310(qword_14026E7B0, a1) != 0`",
+   "`      && ((unsigned int)(a1 - 512) > 0x99 && a1 != 4096 && a1 != 0x2000 && a1 != 0x4000 && a1 != 0x8000 && a1 != 2048`",
+   "`       || *(_BYTE *)(sub_14009B040(qword_14026E7B0, a1) + 8) == 0);`"
+  ]
+ },
+ {
+  "ord": 1098,
+  "addr": "0x1400aceb0",
+  "name": "sub_1400ACEB0",
+  "role": "Hook/隐藏",
+  "size": 71,
+  "callers": [
+   "sub_1400B3DC0(0x1400b3dc0)"
+  ],
+  "callees": [
+   "sub_1400AC310(0x1400ac310)",
+   "sub_1400AF240(0x1400af240)"
+  ],
+  "key": [
+   "`bool __fastcall sub_1400ACEB0(unsigned int a1, unsigned int a2)`",
+   "`  return *(_BYTE *)sub_1400AC310(qword_14026E7B0, a1) != 0 && (unsigned __int8)sub_1400AF240(a1, a2) != 0;`"
+  ]
+ },
+ {
+  "ord": 1168,
+  "addr": "0x1400b3cd0",
+  "name": "sub_1400B3CD0",
+  "role": "Hook/隐藏",
+  "size": 238,
+  "callers": [
+   "sub_1400F6780(0x1400f6780)",
+   "sub_1400F6B00(0x1400f6b00)",
+   "sub_1400F6E80(0x1400f6e80)",
+   "sub_1400F7210(0x1400f7210)",
+   "sub_1400F75B0(0x1400f75b0)",
+   "sub_1400F7970(0x1400f7970)",
+   "sub_1400F7D50(0x1400f7d50)",
+   "sub_1400F8350(0x1400f8350)"
+  ],
+  "callees": [
+   "sub_1400AC4F0(0x1400ac4f0)",
+   "sub_1400ACE30(0x1400ace30)"
+  ],
+  "key": [
+   "`__m128 __fastcall sub_1400B3CD0(int a1)`",
+   "`  float v1; // xmm7_4`",
+   "`  float v2; // xmm8_4`",
+   "`  bool v3; // zf`",
+   "`  int v4; // edi`",
+   "`  int v5; // ebx`",
+   "`  int v6; // eax`",
+   "`  __int128 v7; // xmm6`",
+   "`  v7 = COERCE_UNSIGNED_INT((float)(int)sub_1400AC4F0(v5, v1, v2));`",
+   "`  *(float *)&v7 = *(float *)&v7 - (float)(int)sub_1400AC4F0(v4, v1, v2);`",
+   "`  if ( *(float *)&v7 != 0.0 && sub_1400ACE30(v4) && sub_1400ACE30(v5) )`"
+  ]
+ },
+ {
+  "ord": 1169,
+  "addr": "0x1400b3dc0",
+  "name": "sub_1400B3DC0",
+  "role": "Hook/隐藏",
+  "size": 2665,
+  "callers": [
+   "sub_1400A1CF0(0x1400a1cf0)"
+  ],
+  "callees": [
+   "sub_14009B040(0x14009b040)",
+   "sub_1400AC310(0x1400ac310)",
+   "sub_1400ACE30(0x1400ace30)",
+   "sub_1400ACEB0(0x1400aceb0)",
+   "sub_1400ACF00(0x1400acf00)",
+   "sub_1400B2960(0x1400b2960)",
+   "sub_1400B3650(0x1400b3650)",
+   "sub_1400B3940(0x1400b3940)"
+  ],
+  "key": [
+   "`float *sub_1400B3DC0()`",
+   "`  __int64 v0; // rbx`",
+   "`  int v1; // r12d`",
+   "`  int v2; // eax`",
+   "`  int *v3; // rdi`",
+   "`  char v4; // bp`",
+   "`  char v5; // r13`",
+   "`  char v6; // r13`",
+   "`  __m128i *p_si128; // rsi`",
+   "`  int v8; // edi`",
+   "`  char v9; // si`",
+   "`  __int64 v10; // rdi`"
+  ]
+ },
+ {
+  "ord": 1178,
+  "addr": "0x1400b5ec0",
+  "name": "sub_1400B5EC0",
+  "role": "Hook/隐藏",
+  "size": 2461,
+  "callers": [
+   "sub_1400B3DC0(0x1400b3dc0)"
+  ],
+  "callees": [
+   "sub_14009B040(0x14009b040)",
+   "sub_1400A0D00(0x1400a0d00)",
+   "sub_1400AABC0(0x1400aabc0)",
+   "sub_1400AB5E0(0x1400ab5e0)",
+   "sub_1400ACE30(0x1400ace30)",
+   "sub_1400ACF00(0x1400acf00)",
+   "sub_1400AD0B0(0x1400ad0b0)",
+   "sub_1400AF390(0x1400af390)"
+  ],
+  "key": [
+   "`void sub_1400B5EC0()`",
+   "`  __int64 v0; // rdi`",
+   "`  int v1; // eax`",
+   "`  __int64 v2; // rdx`",
+   "`  __int64 *v3; // r8`",
+   "`  __int64 v4; // rsi`",
+   "`  bool v5; // cf`",
+   "`  float v6; // xmm1_4`",
+   "`  char *v7; // rdx`",
+   "`  unsigned int v8; // ebx`",
+   "`  unsigned __int8 v9; // r8`",
+   "`  __int64 v10; // rax`"
+  ]
+ },
+ {
+  "ord": 1568,
+  "addr": "0x1400f6780",
+  "name": "sub_1400F6780",
+  "role": "Hook/隐藏",
+  "size": 883,
+  "callers": [
+   "sub_1400E53A0(0x1400e53a0)"
+  ],
+  "callees": [
+   "sub_1400ACE30(0x1400ace30)",
+   "sub_1400B3CD0(0x1400b3cd0)",
+   "sub_1400E6A10(0x1400e6a10)",
+   "sub_1400FA8C0(0x1400fa8c0)",
+   "HV_Dispatch(0x1401536b0)",
+   "sub_1401DD760(0x1401dd760)"
+  ],
+  "key": [
+   "`char __fastcall sub_1400F6780(unsigned int a1, int *a2, float a3, int a4, int a5, _BYTE *a6)`",
+   "`  __int64 v6; // rdi`",
+   "`  bool v8; // r12`",
+   "`  float v9; // xmm7_4`",
+   "`  unsigned int v11; // r9d`",
+   "`  float v12; // xmm1_4`",
+   "`  int v13; // eax`",
+   "`  float v14; // xmm6_4`",
+   "`  float v15; // xmm1_4`",
+   "`  int v16; // esi`",
+   "`  int v17; // ecx`",
+   "`  bool v18; // bl`"
+  ]
+ },
+ {
+  "ord": 1569,
+  "addr": "0x1400f6b00",
+  "name": "sub_1400F6B00",
+  "role": "Hook/隐藏",
+  "size": 884,
+  "callers": [
+   "sub_1400E53A0(0x1400e53a0)"
+  ],
+  "callees": [
+   "sub_1400ACE30(0x1400ace30)",
+   "sub_1400B3CD0(0x1400b3cd0)",
+   "sub_1400E6A10(0x1400e6a10)",
+   "sub_1400FAF60(0x1400faf60)",
+   "HV_Dispatch(0x1401536b0)",
+   "sub_1401DD760(0x1401dd760)"
+  ],
+  "key": [
+   "`char __fastcall sub_1400F6B00(unsigned int a1, unsigned int *a2, float a3, unsigned int a4, unsigned int a5, _BYTE *a6)`",
+   "`  __int64 v6; // rdi`",
+   "`  bool v8; // r12`",
+   "`  float v9; // xmm7_4`",
+   "`  unsigned int v11; // r9d`",
+   "`  float v12; // xmm1_4`",
+   "`  int v13; // eax`",
+   "`  float v14; // xmm6_4`",
+   "`  float v15; // xmm1_4`",
+   "`  int v16; // esi`",
+   "`  int v17; // ecx`",
+   "`  bool v18; // bl`"
+  ]
+ },
+ {
+  "ord": 1570,
+  "addr": "0x1400f6e80",
+  "name": "sub_1400F6E80",
+  "role": "Hook/隐藏",
+  "size": 897,
+  "callers": [
+   "sub_1400E53A0(0x1400e53a0)"
+  ],
+  "callees": [
+   "sub_1400ACE30(0x1400ace30)",
+   "sub_1400B3CD0(0x1400b3cd0)",
+   "sub_1400E6A10(0x1400e6a10)",
+   "sub_1400FB670(0x1400fb670)",
+   "HV_Dispatch(0x1401536b0)",
+   "sub_1401DD760(0x1401dd760)"
+  ],
+  "key": [
+   "`char __fastcall sub_1400F6E80(unsigned int a1, __int64 *a2, float a3, __int64 a4, __int64 a5, _BYTE *a6)`",
+   "`  __int64 v6; // rdi`",
+   "`  bool v8; // r12`",
+   "`  float v9; // xmm7_4`",
+   "`  unsigned int v11; // r9d`",
+   "`  float v12; // xmm1_4`",
+   "`  int v13; // eax`",
+   "`  float v14; // xmm6_4`",
+   "`  float v15; // xmm1_4`",
+   "`  int v16; // esi`",
+   "`  int v17; // ecx`",
+   "`  bool v18; // bl`"
+  ]
+ },
+ {
+  "ord": 1571,
+  "addr": "0x1400f7210",
+  "name": "sub_1400F7210",
+  "role": "Hook/隐藏",
+  "size": 922,
+  "callers": [
+   "sub_1400E53A0(0x1400e53a0)"
+  ],
+  "callees": [
+   "sub_1400ACE30(0x1400ace30)",
+   "sub_1400B3CD0(0x1400b3cd0)",
+   "sub_1400E6A10(0x1400e6a10)",
+   "sub_1400FBF80(0x1400fbf80)",
+   "HV_Dispatch(0x1401536b0)",
+   "sub_1401DD760(0x1401dd760)"
+  ],
+  "key": [
+   "`char __fastcall sub_1400F7210(`",
+   "`  __int64 v6; // rdi`",
+   "`  bool v8; // r12`",
+   "`  float v9; // xmm7_4`",
+   "`  unsigned int v11; // r9d`",
+   "`  int v12; // ecx`",
+   "`  float v13; // xmm1_4`",
+   "`  unsigned __int64 v14; // rax`",
+   "`  int v15; // eax`",
+   "`  float v16; // xmm6_4`",
+   "`  float v17; // xmm1_4`",
+   "`  int v18; // esi`"
+  ]
+ },
+ {
+  "ord": 1572,
+  "addr": "0x1400f75b0",
+  "name": "sub_1400F75B0",
+  "role": "Hook/隐藏",
+  "size": 946,
+  "callers": [
+   "sub_1400E53A0(0x1400e53a0)"
+  ],
+  "callees": [
+   "sub_1400ACE30(0x1400ace30)",
+   "sub_1400B3CD0(0x1400b3cd0)",
+   "sub_1400E6A10(0x1400e6a10)",
+   "sub_1400FC5C0(0x1400fc5c0)",
+   "HV_Dispatch(0x1401536b0)",
+   "sub_1401DD760(0x1401dd760)"
+  ],
+  "key": [
+   "`char __fastcall sub_1400F75B0(unsigned int a1, float *a2, float a3, float a4, float a5, _BYTE *a6)`",
+   "`  __int64 v6; // rdi`",
+   "`  float v9; // xmm7_4`",
+   "`  bool v11; // r15`",
+   "`  bool v12; // r14`",
+   "`  int v13; // eax`",
+   "`  float v14; // xmm6_4`",
+   "`  float v15; // xmm1_4`",
+   "`  int v16; // esi`",
+   "`  int v17; // ecx`",
+   "`  bool v18; // bl`",
+   "`  int v19; // ecx`"
+  ]
+ },
+ {
+  "ord": 1573,
+  "addr": "0x1400f7970",
+  "name": "sub_1400F7970",
+  "role": "Hook/隐藏",
+  "size": 979,
+  "callers": [
+   "sub_1400E53A0(0x1400e53a0)"
+  ],
+  "callees": [
+   "sub_1400ACE30(0x1400ace30)",
+   "sub_1400B3CD0(0x1400b3cd0)",
+   "sub_1400E6A10(0x1400e6a10)",
+   "sub_1400FCCE0(0x1400fcce0)",
+   "HV_Dispatch(0x1401536b0)",
+   "sub_1401DD760(0x1401dd760)"
+  ],
+  "key": [
+   "`char __fastcall sub_1400F7970(unsigned int a1, double *a2, float a3, double a4, double a5, _BYTE *a6)`",
+   "`  __int64 v6; // rdi`",
+   "`  float v9; // xmm7_4`",
+   "`  bool v11; // r15`",
+   "`  bool v12; // r14`",
+   "`  int v13; // eax`",
+   "`  float v14; // xmm6_4`",
+   "`  float v15; // xmm1_4`",
+   "`  int v16; // esi`",
+   "`  int v17; // ecx`",
+   "`  bool v18; // bl`",
+   "`  int v19; // ecx`"
+  ]
+ },
+ {
+  "ord": 1574,
+  "addr": "0x1400f7d50",
+  "name": "sub_1400F7D50",
+  "role": "Hook/隐藏",
+  "size": 1534,
+  "callers": [
+   "sub_1400E5E70(0x1400e5e70)"
+  ],
+  "callees": [
+   "sub_1400A0D00(0x1400a0d00)",
+   "sub_1400ACE30(0x1400ace30)",
+   "sub_1400B3CD0(0x1400b3cd0)",
+   "sub_1400E6A10(0x1400e6a10)",
+   "sub_1400FA310(0x1400fa310)",
+   "sub_1400FA620(0x1400fa620)",
+   "sub_1400FA8C0(0x1400fa8c0)"
+  ],
+  "key": [
+   "`char __fastcall sub_1400F7D50(`",
+   "`  float *v10; // r13`",
+   "`  __int64 v12; // rbx`",
+   "`  unsigned int v13; // esi`",
+   "`  float v15; // xmm12_4`",
+   "`  float v16; // xmm13_4`",
+   "`  float v17; // xmm15_4`",
+   "`  int v18; // edi`",
+   "`  float v19; // xmm14_4`",
+   "`  float v20; // xmm12_4`",
+   "`  char result; // al`",
+   "`  float v22; // xmm9_4`"
+  ]
+ },
+ {
+  "ord": 1575,
+  "addr": "0x1400f8350",
+  "name": "sub_1400F8350",
+  "role": "Hook/隐藏",
+  "size": 1540,
+  "callers": [
+   "sub_1400E5E70(0x1400e5e70)"
+  ],
+  "callees": [
+   "sub_1400A0D00(0x1400a0d00)",
+   "sub_1400ACE30(0x1400ace30)",
+   "sub_1400B3CD0(0x1400b3cd0)",
+   "sub_1400E6A10(0x1400e6a10)",
+   "sub_1400FA990(0x1400fa990)",
+   "sub_1400FACB0(0x1400facb0)",
+   "sub_1400FAF60(0x1400faf60)"
+  ],
+  "key": [
+   "`char __fastcall sub_1400F8350(`",
+   "`  float *v10; // r13`",
+   "`  __int64 v12; // rbx`",
+   "`  unsigned int v13; // esi`",
+   "`  float v15; // xmm12_4`",
+   "`  float v16; // xmm13_4`",
+   "`  float v17; // xmm15_4`",
+   "`  int v18; // edi`",
+   "`  float v19; // xmm14_4`",
+   "`  float v20; // xmm12_4`",
+   "`  char result; // al`",
+   "`  float v22; // xmm9_4`"
+  ]
+ },
+ {
+  "ord": 1576,
+  "addr": "0x1400f8960",
+  "name": "sub_1400F8960",
+  "role": "Hook/隐藏",
+  "size": 1538,
+  "callers": [
+   "sub_1400E5E70(0x1400e5e70)"
+  ],
+  "callees": [
+   "sub_1400A0D00(0x1400a0d00)",
+   "sub_1400ACE30(0x1400ace30)",
+   "sub_1400B3CD0(0x1400b3cd0)",
+   "sub_1400E6A10(0x1400e6a10)",
+   "sub_1400FB030(0x1400fb030)",
+   "sub_1400FB3A0(0x1400fb3a0)",
+   "sub_1400FB670(0x1400fb670)"
+  ],
+  "key": [
+   "`char __fastcall sub_1400F8960(`",
+   "`  int v9; // r14d`",
+   "`  float *v10; // r13`",
+   "`  __int64 v12; // rbx`",
+   "`  unsigned int v13; // esi`",
+   "`  float v15; // xmm12_4`",
+   "`  float v16; // xmm13_4`",
+   "`  float v17; // xmm15_4`",
+   "`  int v18; // edi`",
+   "`  float v19; // xmm14_4`",
+   "`  float v20; // xmm12_4`",
+   "`  char result; // al`"
+  ]
+ },
+ {
+  "ord": 1577,
+  "addr": "0x1400f8f70",
+  "name": "sub_1400F8F70",
+  "role": "Hook/隐藏",
+  "size": 1576,
+  "callers": [
+   "sub_1400E5E70(0x1400e5e70)"
+  ],
+  "callees": [
+   "sub_1400A0D00(0x1400a0d00)",
+   "sub_1400ACE30(0x1400ace30)",
+   "sub_1400B3CD0(0x1400b3cd0)",
+   "sub_1400E6A10(0x1400e6a10)",
+   "sub_1400FB740(0x1400fb740)",
+   "sub_1400FBB80(0x1400fbb80)",
+   "sub_1400FBF80(0x1400fbf80)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_1400F8F70(`",
+   "`  float *v9; // rsi`",
+   "`  __int64 v11; // rbx`",
+   "`  float v13; // xmm12_4`",
+   "`  float v14; // xmm13_4`",
+   "`  float v15; // xmm15_4`",
+   "`  __int64 v16; // rdi`",
+   "`  float v17; // xmm14_4`",
+   "`  float v18; // xmm1_4`",
+   "`  float v19; // xmm12_4`",
+   "`  unsigned __int8 v20; // r12`",
+   "`  float v21; // xmm9_4`"
+  ]
+ },
+ {
+  "ord": 1578,
+  "addr": "0x1400f95a0",
+  "name": "sub_1400F95A0",
+  "role": "Hook/隐藏",
+  "size": 1580,
+  "callers": [
+   "sub_1400E5E70(0x1400e5e70)"
+  ],
+  "callees": [
+   "sub_1400A0D00(0x1400a0d00)",
+   "sub_1400ACE30(0x1400ace30)",
+   "sub_1400B3CD0(0x1400b3cd0)",
+   "sub_1400E6A10(0x1400e6a10)",
+   "sub_1400FC070(0x1400fc070)",
+   "sub_1400FC350(0x1400fc350)",
+   "sub_1400FC5C0(0x1400fc5c0)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_1400F95A0(`",
+   "`  __int64 v11; // rbx`",
+   "`  bool v14; // r15`",
+   "`  float v15; // xmm8_4`",
+   "`  float v16; // xmm9_4`",
+   "`  float v17; // xmm15_4`",
+   "`  float v18; // xmm9_4`",
+   "`  unsigned __int8 v19; // di`",
+   "`  float v20; // xmm10_4`",
+   "`  float v21; // xmm6_4`",
+   "`  int v22; // eax`",
+   "`  float v23; // xmm6_4`"
+  ]
+ },
+ {
+  "ord": 1579,
+  "addr": "0x1400f9bd0",
+  "name": "sub_1400F9BD0",
+  "role": "Hook/隐藏",
+  "size": 1582,
+  "callers": [
+   "sub_1400E5E70(0x1400e5e70)"
+  ],
+  "callees": [
+   "sub_1400A0D00(0x1400a0d00)",
+   "sub_1400ACE30(0x1400ace30)",
+   "sub_1400B3CD0(0x1400b3cd0)",
+   "sub_1400E6A10(0x1400e6a10)",
+   "sub_1400FC6B0(0x1400fc6b0)",
+   "sub_1400FCA10(0x1400fca10)",
+   "sub_1400FCCE0(0x1400fcce0)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_1400F9BD0(`",
+   "`  __int64 v11; // rbx`",
+   "`  bool v14; // r15`",
+   "`  double v15; // xmm8_8`",
+   "`  float v16; // xmm9_4`",
+   "`  float v17; // xmm15_4`",
+   "`  float v18; // xmm1_4`",
+   "`  float v19; // xmm9_4`",
+   "`  unsigned __int8 v20; // di`",
+   "`  float v21; // xmm10_4`",
+   "`  float v22; // xmm6_4`",
+   "`  int v23; // eax`"
+  ]
+ },
+ {
+  "ord": 1606,
+  "addr": "0x1400fd390",
+  "name": "Hook_OnGuestCr3Change",
+  "role": "Hook/隐藏",
+  "size": 181,
+  "callers": [
+   "Hook_InstallAll(0x1401891d0)"
+  ],
+  "callees": [
+   "sub_1400FD450(0x1400fd450)",
+   "sub_1400FF350(0x1400ff350)"
+  ],
+  "key": [
+   "`  __int64 v2; // rbx`",
+   "`  __int64 v3; // rcx`",
+   "`  __int64 v4; // rcx`",
+   "`  _BYTE v5[24]; // [rsp+20h] [rbp-18h] BYREF`",
+   "`  int v6; // [rsp+40h] [rbp+8h] BYREF`",
+   "`      v2 = a2 & 0xFFFFFFFFFF000LL;`",
+   "`      while ( _InterlockedCompareExchange64(&qword_14D292998, 1, 0) == 1 )`",
+   "`      v3 = *(_QWORD *)sub_1400FF350(1, v5, &v6);`",
+   "`      _InterlockedExchange64(&qword_14D292998, 0);`",
+   "`      sub_1400FD450();`"
+  ]
+ },
+ {
+  "ord": 1682,
+  "addr": "0x14010b530",
+  "name": "sub_14010B530",
+  "role": "EPT/NPT内存映射",
+  "size": 1478,
+  "callers": [
+   "sub_14010C900(0x14010c900)"
+  ],
+  "callees": [
+   "Lic_Smbios_SanitizeString(0x140109b10)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)",
+   "sub_1401349F0(0x1401349f0)"
+  ],
+  "key": [
+   "`bool __fastcall sub_14010B530(char *a1)`",
+   "`  unsigned __int64 v2; // rdi`",
+   "`  unsigned __int64 v3; // rcx`",
+   "`  unsigned __int64 v4; // rcx`",
+   "`  unsigned __int64 v5; // rsi`",
+   "`  unsigned int v6; // eax`",
+   "`  unsigned __int64 v7; // rbx`",
+   "`  __int64 v8; // rdx`",
+   "`  __int64 i; // rax`",
+   "`  __int128 v10; // xmm1`",
+   "`  unsigned __int64 v11; // rax`",
+   "`  __int64 v12; // rdx`"
+  ]
+ },
+ {
+  "ord": 1684,
+  "addr": "0x14010bc10",
+  "name": "sub_14010BC10",
+  "role": "EPT/NPT内存映射",
+  "size": 795,
+  "callers": [
+   "sub_14010C900(0x14010c900)"
+  ],
+  "callees": [
+   "Lic_Smbios_SanitizeString(0x140109b10)",
+   "sub_14010B340(0x14010b340)",
+   "sub_140114F60(0x140114f60)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)"
+  ],
+  "key": [
+   "`void __fastcall sub_14010BC10(`",
+   "`  int v6; // ebx`",
+   "`  unsigned __int64 v9; // rsi`",
+   "`  unsigned int v10; // edi`",
+   "`  unsigned int v11; // r15d`",
+   "`  unsigned __int8 (__fastcall *v12)(char *); // r14`",
+   "`  __int64 v13; // rdx`",
+   "`  char *v14; // rax`",
+   "`  char *v15; // rbx`",
+   "`  __int64 v16; // rdx`",
+   "`  __int64 v17; // rdx`",
+   "`  __int64 i; // rax`"
+  ]
+ },
+ {
+  "ord": 1687,
+  "addr": "0x14010d560",
+  "name": "Lic_AppendPnpDevices",
+  "role": "EPT/NPT内存映射",
+  "size": 1140,
+  "callers": [
+   "Lic_AppendHwInventory(0x14010e920)"
+  ],
+  "callees": [
+   "Util_StringAppend(0x14005db00)",
+   "sub_140114F60(0x140114f60)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)"
+  ],
+  "key": [
+   "`  unsigned __int64 v7; // r14`",
+   "`  int v8; // eax`",
+   "`  const char *v9; // r9`",
+   "`  unsigned __int64 v10; // r15`",
+   "`  __int64 result; // rax`",
+   "`  int v12; // edi`",
+   "`  unsigned __int64 v13; // r8`",
+   "`  unsigned __int64 v14; // rsi`",
+   "`  unsigned int v15; // r13d`",
+   "`  _WORD *v16; // rdi`",
+   "`  unsigned __int64 v17; // r12`",
+   "`  unsigned __int64 v18; // r14`"
+  ]
+ },
+ {
+  "ord": 1735,
+  "addr": "0x1401147a0",
+  "name": "sub_1401147A0",
+  "role": "EPT/NPT内存映射",
+  "size": 617,
+  "callers": [
+   "sub_140114A10(0x140114a10)"
+  ],
+  "callees": [
+   "sub_140114540(0x140114540)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)",
+   "HV_MemsetGuestVa(0x140152df0)"
+  ],
+  "key": [
+   "`void __fastcall sub_1401147A0(__int64 a1, int a2, _WORD *a3, __int64 a4, char a5)`",
+   "`  unsigned __int64 v7; // rbx`",
+   "`  __int64 v8; // rdx`",
+   "`  __int64 v9; // rax`",
+   "`  unsigned __int64 v10; // rax`",
+   "`  __int64 v11; // rdx`",
+   "`  __int64 v12; // rdi`",
+   "`  __int64 v13; // rdx`",
+   "`  __int64 v14; // rdx`",
+   "`  bool v15; // zf`",
+   "`  __int64 v16; // rax`",
+   "`  __int64 v17; // rcx`"
+  ]
+ },
+ {
+  "ord": 1738,
+  "addr": "0x140115220",
+  "name": "HV_LookupEptEntry",
+  "role": "EPT/NPT内存映射",
+  "size": 479,
+  "callers": [
+   "HV_EptInstallHook(0x140115980)",
+   "HV_EptRemoveHook(0x140115ac0)",
+   "HV_EptHidePages(0x140115c20)",
+   "HV_EptUnhidePages(0x140115e10)",
+   "HV_EptSplitPage_ClearXD(0x140116020)",
+   "HV_HandleGuestFaultOrExit(0x140116b70)",
+   "HV_DispatchExitHandlers_Ept(0x1401171c0)",
+   "sub_140118380(0x140118380)"
+  ],
+  "callees": [
+   "HV_EptSplitLargePage(0x140115400)"
+  ],
+  "key": [
+   "`__int64 __fastcall HV_LookupEptOrPte(__int64 a1, unsigned __int64 a2, char a3, int a4)`",
+   "`  __int64 v4; // rsi`",
+   "`  __int64 v6; // rdi`",
+   "`  __int64 v8; // r15`",
+   "`  __int64 v9; // rax`",
+   "`  __int64 v10; // rax`",
+   "`  char *v11; // rax`",
+   "`  __int64 v12; // rdx`",
+   "`  unsigned __int64 v13; // rdx`",
+   "`  v6 = (a2 >> 39) & 0x1FF;`",
+   "`    v10 = *(_QWORD *)((v9 & 0xFFFFFFFFFF000LL) + 0x7F8000000000LL + 8 * ((a2 >> 30) & 0x1FF));`",
+   "`      v11 = (char *)((v10 & 0xFFFFFFFFFF000LL) + 0x7F8000000000LL + 8 * ((a2 >> 21) & 0x1FF));`"
+  ]
+ },
+ {
+  "ord": 1739,
+  "addr": "0x140115400",
+  "name": "HV_EptSplitLargePage",
+  "role": "EPT/NPT内存映射",
+  "size": 542,
+  "callers": [
+   "HV_LookupEptEntry(0x140115220)",
+   "HV_EptEnsureSplitPage(0x140115620)"
+  ],
+  "callees": [
+   "没有直接下级函数，或者通过函数指针间接调用"
+  ],
+  "key": [
+   "`// Split 2M EPT page to 512x4K; fill PTEs with XD flag from a5; classic split-page prep for EPT hooks`",
+   "`char __fastcall HV_EptSplitLargePage(__int64 a1, unsigned __int64 a2, __int64 a3, __int64 a4, unsigned __int8 a5)`",
+   "`  __int64 v5; // rdi`",
+   "`  __int64 v6; // rax`",
+   "`  __int64 v7; // rax`",
+   "`  char *v8; // rdx`",
+   "`  __int64 v9; // rcx`",
+   "`  unsigned __int64 v10; // rax`",
+   "`  char *v11; // r9`",
+   "`  __int64 v12; // r8`",
+   "`  __int64 v13; // r10`",
+   "`  __int64 v14; // rdi`"
+  ]
+ },
+ {
+  "ord": 1740,
+  "addr": "0x140115620",
+  "name": "HV_EptEnsureSplitPage",
+  "role": "EPT/NPT内存映射",
+  "size": 413,
+  "callers": [
+   "HV_Svm_Initialize(0x1401163c0)"
+  ],
+  "callees": [
+   "HV_EptSplitLargePage(0x140115400)",
+   "sub_140156860(0x140156860)"
+  ],
+  "key": [
+   "`char __fastcall HV_EptEnsureSplitPage(__int64 *a1, __int64 a2, __int64 a3, unsigned __int8 a4)`",
+   "`  char *v5; // rsi`",
+   "`  unsigned __int64 v7; // r12`",
+   "`  unsigned __int64 *v8; // rbx`",
+   "`  __int64 v9; // rbp`",
+   "`  _QWORD *v10; // rdi`",
+   "`  __int64 v11; // rax`",
+   "`  __int64 v12; // rdi`",
+   "`  __int64 v13; // r9`",
+   "`  __int64 v14; // r8`",
+   "`  unsigned __int64 v15; // rcx`",
+   "`  __int64 v16; // r8`"
+  ]
+ },
+ {
+  "ord": 1741,
+  "addr": "0x1401157c0",
+  "name": "HV_EptMapGuestAccess",
+  "role": "EPT/NPT内存映射",
+  "size": 436,
+  "callers": [
+   "HV_HandleGuestFaultOrExit(0x140116b70)"
+  ],
+  "callees": [
+   "没有直接下级函数，或者通过函数指针间接调用"
+  ],
+  "key": [
+   "`char __fastcall HV_MapGuestPageAccess(__int64 a1, unsigned __int64 a2, __int64 a3, __int64 a4, unsigned __int8 a5)`",
+   "`  __int64 *v5; // rdi`",
+   "`  unsigned __int64 *v7; // r8`",
+   "`  unsigned __int64 v8; // rax`",
+   "`  __int64 v9; // rdx`",
+   "`  unsigned __int64 v10; // rax`",
+   "`  __int64 v11; // rcx`",
+   "`  unsigned __int64 *v12; // r8`",
+   "`  __int64 v13; // rdi`",
+   "`  unsigned __int64 v14; // rax`",
+   "`  __int64 *v15; // rdx`",
+   "`  __int64 v16; // rcx`"
+  ]
+ },
+ {
+  "ord": 1742,
+  "addr": "0x140115980",
+  "name": "HV_EptInstallHook",
+  "role": "EPT/NPT内存映射",
+  "size": 318,
+  "callers": [
+   "HV_EptSwapHookOnViolation(0x140116f90)",
+   "HV_HypercallDispatch(0x140117f20)",
+   "HV_HypercallDispatch_FromGuestFrame(0x1401239b0)"
+  ],
+  "callees": [
+   "HV_LookupEptEntry(0x140115220)",
+   "HV_Rdfsbase(0x14011fb50)"
+  ],
+  "key": [
+   "`// Install EPT hook: dual-view entries (exec vs read/write) on primary+shadow EPT roots`",
+   "`char __fastcall HV_EptInstallHook(_QWORD *a1, __int64 a2, __int64 a3)`",
+   "`  unsigned __int64 v6; // rax`",
+   "`  __int64 v7; // r9`",
+   "`  unsigned __int64 v8; // rsi`",
+   "`  __int64 v9; // rcx`",
+   "`  __int64 v10; // rbp`",
+   "`  unsigned __int64 v11; // r14`",
+   "`  _QWORD *v12; // r15`",
+   "`  int v13; // r9d`",
+   "`  _QWORD *v14; // rax`",
+   "`  v6 = HV_Rdfsbase();`"
+  ]
+ },
+ {
+  "ord": 1743,
+  "addr": "0x140115ac0",
+  "name": "HV_EptRemoveHook",
+  "role": "EPT/NPT内存映射",
+  "size": 351,
+  "callers": [
+   "HV_EptSwapHookOnViolation(0x140116f90)",
+   "HV_HypercallDispatch(0x140117f20)",
+   "HV_HypercallDispatch_FromGuestFrame(0x1401239b0)",
+   "HV_RemoveEptHook_Wrapper(0x1401da0b0)"
+  ],
+  "callees": [
+   "HV_LookupEptEntry(0x140115220)",
+   "HV_Rdfsbase(0x14011fb50)"
+  ],
+  "key": [
+   "`// Remove EPT hook: restore identity mapping, free hook list node`",
+   "`void __fastcall HV_EptRemoveHook(_QWORD *a1, __int64 a2)`",
+   "`  _QWORD *v2; // r9`",
+   "`  _QWORD *v5; // r8`",
+   "`  _QWORD *v6; // rax`",
+   "`  __int64 *v7; // rdx`",
+   "`  __int64 v8; // rcx`",
+   "`  unsigned __int64 v9; // rsi`",
+   "`  _QWORD *v10; // rax`",
+   "`  int v11; // r9d`",
+   "`  __int64 v12; // rdi`",
+   "`  _QWORD *v13; // rax`"
+  ]
+ },
+ {
+  "ord": 1744,
+  "addr": "0x140115c20",
+  "name": "HV_EptHidePages",
+  "role": "EPT/NPT内存映射",
+  "size": 482,
+  "callers": [
+   "HV_HypercallDispatch(0x140117f20)",
+   "HV_HypercallDispatch_FromGuestFrame(0x1401239b0)"
+  ],
+  "callees": [
+   "HV_LookupEptEntry(0x140115220)",
+   "HV_TranslateGuestVa_Present(0x14011c2a0)",
+   "Util_Memcpy(0x1401ea340)"
+  ],
+  "key": [
+   "`// Hide pages: remap EPT PFN via g_HvGlobalState hash table; dual-view RW vs X`",
+   "`char __fastcall HV_EptHidePages(__int64 a1, __int64 a2, unsigned __int64 a3)`",
+   "`  unsigned __int64 v3; // r15`",
+   "`  __int64 v4; // r14`",
+   "`  __int64 v8; // rbx`",
+   "`  unsigned __int64 v9; // rdi`",
+   "`  __int64 v10; // rbx`",
+   "`  unsigned __int64 v11; // rax`",
+   "`  int v12; // r9d`",
+   "`  unsigned __int64 v13; // rsi`",
+   "`  __int64 v14; // rbx`",
+   "`  _QWORD *v15; // rsi`"
+  ]
+ },
+ {
+  "ord": 1745,
+  "addr": "0x140115e10",
+  "name": "HV_EptUnhidePages",
+  "role": "EPT/NPT内存映射",
+  "size": 428,
+  "callers": [
+   "HV_HypercallDispatch(0x140117f20)",
+   "HV_HypercallDispatch_FromGuestFrame(0x1401239b0)"
+  ],
+  "callees": [
+   "HV_LookupEptEntry(0x140115220)",
+   "HV_TranslateGuestVa_Present(0x14011c2a0)",
+   "Util_Memcpy(0x1401ea340)"
+  ],
+  "key": [
+   "`char __fastcall HV_EptUnhidePages(__int64 a1, __int64 a2, unsigned __int64 a3)`",
+   "`  unsigned __int64 v3; // r15`",
+   "`  __int64 v4; // r14`",
+   "`  __int64 v8; // rbx`",
+   "`  unsigned __int64 v9; // rsi`",
+   "`  __int64 v10; // rbx`",
+   "`  unsigned __int64 v11; // rax`",
+   "`  int v12; // r9d`",
+   "`  unsigned __int64 v13; // rdi`",
+   "`  __int64 v14; // rbx`",
+   "`  unsigned __int64 v15; // rdi`",
+   "`  _QWORD *v16; // rax`"
+  ]
+ },
+ {
+  "ord": 1747,
+  "addr": "0x140116020",
+  "name": "HV_EptSplitPage_ClearXD",
+  "role": "EPT/NPT内存映射",
+  "size": 123,
+  "callers": [
+   "HV_HandleGuestFaultOrExit(0x140116b70)"
+  ],
+  "callees": [
+   "HV_LookupEptEntry(0x140115220)",
+   "HV_TranslateGuestVa_Present(0x14011c2a0)"
+  ],
+  "key": [
+   "`// EPT split-page: clear XD bit (bit63) on EPT entry for execute-from-guest`",
+   "`char __fastcall HV_ProbeGuestPage(__int64 a1, __int64 a2)`",
+   "`  __int64 v3; // rax`",
+   "`  __int64 v4; // r8`",
+   "`  __int64 *v5; // rax`",
+   "`  __int64 *v6; // rdx`",
+   "`  __int64 v7; // rax`",
+   "`  v3 = HV_TranslateGuestVa_Present(*(_QWORD *)(*(_QWORD *)(a1 + 6317688) + 25936LL), a2, 0);`",
+   "`  v5 = (__int64 *)HV_LookupEptEntry(a1 + 2109440, v3, v4);`",
+   "`      *v6 = v7 & 0x7FFFFFFFFFFFFFFFLL;`",
+   "`      *(_DWORD *)(*(_QWORD *)(a1 + 6317688) + 24768LL) &= ~0x10u;`"
+  ]
+ },
+ {
+  "ord": 1753,
+  "addr": "0x140116b70",
+  "name": "HV_HandleGuestFaultOrExit",
+  "role": "EPT/NPT内存映射",
+  "size": 542,
+  "callers": [
+   "静态图未找到；可能是入口",
+   "回调",
+   "间接调用或被保护壳隐藏"
+  ],
+  "callees": [
+   "HV_LookupEptEntry(0x140115220)",
+   "HV_EptMapGuestAccess(0x1401157c0)",
+   "HV_SwitchGuestCr3Slot(0x140115fc0)",
+   "HV_EptSplitPage_ClearXD(0x140116020)",
+   "HV_InjectGuestHypercallFrame(0x140117820)"
+  ],
+  "key": [
+   "`__int64 __fastcall HV_HandleGuestFaultOrExit(__int64 a1, __int64 a2, int a3, int a4)`",
+   "`  __int64 v4; // rbx`",
+   "`  __int64 v5; // rdi`",
+   "`  __int64 v7; // rbx`",
+   "`  __int64 v8; // rdx`",
+   "`  int v9; // r8d`",
+   "`  int v10; // r9d`",
+   "`  __int64 result; // rax`",
+   "`  _DWORD *v12; // rax`",
+   "`  __int64 v13; // r8`",
+   "`  __int64 v14; // rdx`",
+   "`  __int64 v15; // rcx`"
+  ]
+ },
+ {
+  "ord": 1754,
+  "addr": "0x140116d90",
+  "name": "HV_Svm_MsrInterceptHandler",
+  "role": "EPT/NPT内存映射",
+  "size": 259,
+  "callers": [
+   "静态图未找到；可能是入口",
+   "回调",
+   "间接调用或被保护壳隐藏"
+  ],
+  "callees": [
+   "sub_1401E03E0(0x1401e03e0)",
+   "sub_1401E03FF(0x1401e03ff)"
+  ],
+  "key": [
+   "`// SVM MSR intercept: EFER force LME-ish; reject PAT/VM_HSAVE/VM_CR; else emulate`",
+   "`__int64 __fastcall HV_Svm_MsrInterceptHandler(__int64 a1)`",
+   "`  __int64 v2; // rdi`",
+   "`  __int64 v3; // rdx`",
+   "`  __int64 v4; // rax`",
+   "`  __int64 v5; // rcx`",
+   "`  __int64 result; // rax`",
+   "`  unsigned __int64 v7; // rax`",
+   "`  unsigned __int64 v8; // rcx`",
+   "`  _BYTE v9[40]; // [rsp+20h] [rbp-28h] BYREF`",
+   "`  v2 = *(_QWORD *)(a1 + 0x621040);`",
+   "`  v3 = *(unsigned int *)(v2 + 0xD0);`"
+  ]
+ },
+ {
+  "ord": 1757,
+  "addr": "0x140116ed0",
+  "name": "HV_AfterEptViolation",
+  "role": "EPT/NPT内存映射",
+  "size": 185,
+  "callers": [
+   "HV_EptSwapHookOnViolation(0x140116f90)"
+  ],
+  "callees": [
+   "HV_CopyFromGuestVa(0x14011c6a0)",
+   "HV_Rdfsbase(0x14011fb50)"
+  ],
+  "key": [
+   "`unsigned __int64 __fastcall HV_AfterEptViolation(__int64 a1)`",
+   "`  __int64 v2; // rsi`",
+   "`  __int128 v6; // xmm0`",
+   "`  *(_DWORD *)(a1 + 24588) |= 0x440u;`",
+   "`    _RCX = *(_QWORD *)(HV_Rdfsbase() + 25936);`",
+   "`  HV_CopyFromGuestVa(_RCX, v2, a1 + 73728, 0x1000u);`",
+   "`  *(_WORD *)(a1 + 73760) = (unsigned __int16)HV_Vmmcall_IretStub;`",
+   "`  *(_WORD *)(a1 + 73766) = (unsigned int)HV_Vmmcall_IretStub >> 16;`",
+   "`  *(_DWORD *)(a1 + 73768) = (unsigned __int64)HV_Vmmcall_IretStub >> 32;`",
+   "`  *(_DWORD *)(a1 + 24768) &= ~0x80u;`",
+   "`  return (unsigned __int64)HV_Vmmcall_IretStub >> 16;`"
+  ]
+ },
+ {
+  "ord": 1758,
+  "addr": "0x140116f90",
+  "name": "HV_EptSwapHookOnViolation",
+  "role": "EPT/NPT内存映射",
+  "size": 331,
+  "callers": [
+   "静态图未找到；可能是入口",
+   "回调",
+   "间接调用或被保护壳隐藏"
+  ],
+  "callees": [
+   "HV_EptInstallHook(0x140115980)",
+   "HV_EptRemoveHook(0x140115ac0)",
+   "HV_AfterEptViolation(0x140116ed0)"
+  ],
+  "key": [
+   "`__int64 __fastcall HV_EptHookPageWrapper(__int64 a1)`",
+   "`  __int64 v1; // rdx`",
+   "`  __int64 v3; // rdx`",
+   "`  __int64 v4; // r8`",
+   "`  __int64 result; // rax`",
+   "`  unsigned __int64 v6; // r8`",
+   "`  unsigned __int64 i; // rcx`",
+   "`  unsigned __int64 v8; // rax`",
+   "`  if ( *(_BYTE *)(v1 + g_HvGlobalState + 6332536) )`",
+   "`    *(_BYTE *)(v1 + g_HvGlobalState + 6332536) = 0;`",
+   "`    HV_EptRemoveHook((_QWORD *)(a1 + 77824), *(_QWORD *)(g_HvGlobalState + 6332504));`",
+   "`    HV_EptInstallHook(`"
+  ]
+ },
+ {
+  "ord": 1766,
+  "addr": "0x140117f20",
+  "name": "HV_HypercallDispatch",
+  "role": "EPT/NPT内存映射",
+  "size": 1115,
+  "callers": [
+   "sub_140118380(0x140118380)"
+  ],
+  "callees": [
+   "HV_EptInstallHook(0x140115980)",
+   "HV_EptRemoveHook(0x140115ac0)",
+   "HV_EptHidePages(0x140115c20)",
+   "HV_EptUnhidePages(0x140115e10)",
+   "HV_ExportSharedBufferToGuest(0x140118550)",
+   "HV_TranslateGuestVa_Present(0x14011c2a0)",
+   "sub_1401E036E(0x1401e036e)",
+   "sub_1401E06D2(0x1401e06d2)"
+  ],
+  "key": [
+   "`// Hypercall cmd switch: 1=ping,2=host enter,3/4=EPT hook,5-8=hide/unhide,0xC=copy,0xD/E=translate,0xF=force exit; magic 0x69695269`",
+   "`__int64 __fastcall HV_EptHookRelated(__int64 a1, _QWORD *a2)`",
+   "`  __int64 v2; // rbp`",
+   "`  __int64 v5; // rdi`",
+   "`  unsigned __int64 v6; // rax`",
+   "`  unsigned __int64 v7; // rax`",
+   "`  __int64 v8; // rax`",
+   "`  __int64 v9; // rbx`",
+   "`  unsigned __int64 v10; // r12`",
+   "`  __int64 v11; // r13`",
+   "`  unsigned __int64 v12; // r15`",
+   "`  __int64 v13; // rcx`"
+  ]
+ },
+ {
+  "ord": 1767,
+  "addr": "0x140118380",
+  "name": "sub_140118380",
+  "role": "EPT/NPT内存映射",
+  "size": 453,
+  "callers": [
+   "静态图未找到；可能是入口",
+   "回调",
+   "间接调用或被保护壳隐藏"
+  ],
+  "callees": [
+   "HV_LookupEptEntry(0x140115220)",
+   "HV_HypercallDispatch(0x140117f20)",
+   "HV_TranslateGuestVa_Present(0x14011c2a0)",
+   "Esp_HookedRip_Dispatch(0x140123fe0)"
+  ],
+  "key": [
+   "`char __fastcall sub_140118380(__int64 a1)`",
+   "`  unsigned __int64 v2; // rcx`",
+   "`  unsigned __int64 v3; // rdi`",
+   "`  __int64 v4; // rsi`",
+   "`  _DWORD *v5; // rax`",
+   "`  __int64 v6; // rax`",
+   "`  int v7; // r9d`",
+   "`  unsigned __int64 v8; // rax`",
+   "`  __int64 v9; // rax`",
+   "`  unsigned __int64 v10; // rcx`",
+   "`  _QWORD *v11; // rdi`",
+   "`  unsigned __int64 v12; // rcx`"
+  ]
+ },
+ {
+  "ord": 1778,
+  "addr": "0x140119f40",
+  "name": "sub_140119F40",
+  "role": "EPT/NPT内存映射",
+  "size": 783,
+  "callers": [
+   "sub_1401E0420(0x1401e0420)"
+  ],
+  "callees": [
+   "sub_140119E00(0x140119e00)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_TranslateGuestVa_Present(0x14011c2a0)",
+   "HV_Rdfsbase(0x14011fb50)",
+   "HV_EptInstallHook_RealVmx(0x140124cf0)",
+   "HV_EptRemoveHook_RealVmx(0x140124db0)",
+   "sub_14012C4F0(0x14012c4f0)",
+   "sub_140152AE0(0x140152ae0)"
+  ],
+  "key": [
+   "`char __fastcall sub_140119F40(__int64 a1)`",
+   "`  unsigned __int64 v3; // rax`",
+   "`  unsigned __int64 v4; // rdi`",
+   "`  unsigned __int64 v5; // rax`",
+   "`  __int64 v6; // rdx`",
+   "`  __int64 v7; // rdx`",
+   "`  __int64 v8; // rdx`",
+   "`  unsigned __int64 v11; // rsi`",
+   "`  unsigned __int64 v12; // rax`",
+   "`  __int64 v13; // rdx`",
+   "`  unsigned __int64 v14; // rax`",
+   "`  __int64 v16; // rcx`"
+  ]
+ },
+ {
+  "ord": 1785,
+  "addr": "0x14011b560",
+  "name": "HV_InvalidateGuestTlbOrEpt",
+  "role": "EPT/NPT内存映射",
+  "size": 239,
+  "callers": [
+   "sub_14003F570(0x14003f570)",
+   "sub_1400401A0(0x1400401a0)",
+   "sub_140040530(0x140040530)",
+   "sub_1400448F0(0x1400448f0)",
+   "sub_140044E30(0x140044e30)",
+   "sub_140045190(0x140045190)",
+   "sub_140045480(0x140045480)",
+   "sub_140045720(0x140045720)"
+  ],
+  "callees": [
+   "sub_14011BD00(0x14011bd00)",
+   "sub_14011C0D0(0x14011c0d0)",
+   "HV_Rdgsbase(0x14011fb10)"
+  ],
+  "key": [
+   "`char __fastcall HV_InvalidateGuestTlbOrEpt(unsigned __int64 a1, __int64 a2, __int64 a3)`",
+   "`  __int64 v5; // rdi`",
+   "`  __int64 v6; // rcx`",
+   "`  unsigned __int64 v7; // rax`",
+   "`  if ( HV_Rdgsbase() )`",
+   "`  if ( a1 + 0x800000000000LL >= 0x1000000000000LL )`",
+   "`  if ( (a1 & 0xFFFF000000000000uLL) != 0xFFFF000000000000uLL )`",
+   "`  v5 = (a1 >> 39) & 0x1FF;`",
+   "`    a3 = sub_14011C0D0();`",
+   "`  v6 = *(_QWORD *)((a3 & 0xFFFFFFFFF000LL) + 0x7F8000000000LL + 8 * v5);`",
+   "`  if ( *(_QWORD *)((v7 & 0xFFFFFFFFF000LL) + 0x7F8000000000LL + 8 * v5) == v6 )`",
+   "`  *(_QWORD *)((v7 & 0xFFFFFFFFF000LL) + 0x7F8000000000LL + 8 * v5) = v6;`"
+  ]
+ },
+ {
+  "ord": 1818,
+  "addr": "0x14011e790",
+  "name": "HV_Api_InstallEptHook",
+  "role": "EPT/NPT内存映射",
+  "size": 81,
+  "callers": [
+   "静态图未找到；可能是入口",
+   "回调",
+   "间接调用或被保护壳隐藏"
+  ],
+  "callees": [
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_Vmmcall(0x1401e05d0)",
+   "HV_Vmcall(0x1401e0649)"
+  ],
+  "key": [
+   "`// Guest API: vmcall/vmmcall cmd=3 install EPT hook (gpa,fake_pfn)`",
+   "`unsigned __int64 __fastcall HV_Api_InstallEptHook(__int64 *a1)`",
+   "`  __int64 v1; // rbx`",
+   "`  __int64 v2; // rdi`",
+   "`  unsigned __int64 result; // rax`",
+   "`  result = HV_Rdgsbase();`",
+   "`      return HV_Vmcall(3, v2, v1);`",
+   "`      return HV_Vmmcall(3, v2, v1);`"
+  ]
+ },
+ {
+  "ord": 1819,
+  "addr": "0x14011e7f0",
+  "name": "HV_Api_RemoveEptHook",
+  "role": "EPT/NPT内存映射",
+  "size": 68,
+  "callers": [
+   "静态图未找到；可能是入口",
+   "回调",
+   "间接调用或被保护壳隐藏"
+  ],
+  "callees": [
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_Vmmcall(0x1401e05d0)",
+   "HV_Vmcall(0x1401e0649)"
+  ],
+  "key": [
+   "`unsigned __int64 __fastcall HV_Api_RemoveEptHook(__int64 *a1)`",
+   "`  __int64 v1; // rbx`",
+   "`  unsigned __int64 result; // rax`",
+   "`  result = HV_Rdgsbase();`",
+   "`      return HV_Vmcall(4, v1, 0);`",
+   "`      return HV_Vmmcall(4, v1, 0);`"
+  ]
+ },
+ {
+  "ord": 1849,
+  "addr": "0x1401237c0",
+  "name": "sub_1401237C0",
+  "role": "EPT/NPT内存映射",
+  "size": 490,
+  "callers": [
+   "Esp_HookedRip_Dispatch(0x140123fe0)"
+  ],
+  "callees": [
+   "HV_LookupEptEntry(0x140115220)",
+   "HV_TranslateGuestVa_Present(0x14011c2a0)",
+   "sub_14011C820(0x14011c820)",
+   "HV_Rdfsbase(0x14011fb50)",
+   "sub_1401220B0(0x1401220b0)",
+   "sub_1401248E0(0x1401248e0)",
+   "Util_Memcpy(0x1401ea340)"
+  ],
+  "key": [
+   "`char *__fastcall sub_1401237C0(__int64 a1, _QWORD *a2, _QWORD *a3)`",
+   "`  char v3; // r14`",
+   "`  __int64 v5; // r12`",
+   "`  char v7; // r13`",
+   "`  unsigned __int64 v10; // rax`",
+   "`  unsigned __int64 i; // rsi`",
+   "`  unsigned __int64 v12; // rax`",
+   "`  unsigned __int64 v13; // rdi`",
+   "`  unsigned __int64 v16; // rax`",
+   "`  int v17; // r9d`",
+   "`  unsigned __int64 v18; // rdx`",
+   "`  __int64 v19; // rax`"
+  ]
+ },
+ {
+  "ord": 1850,
+  "addr": "0x1401239b0",
+  "name": "HV_HypercallDispatch_FromGuestFrame",
+  "role": "EPT/NPT内存映射",
+  "size": 557,
+  "callers": [
+   "Esp_HookedRip_Dispatch(0x140123fe0)"
+  ],
+  "callees": [
+   "HV_EptInstallHook(0x140115980)",
+   "HV_EptRemoveHook(0x140115ac0)",
+   "HV_EptHidePages(0x140115c20)",
+   "HV_EptUnhidePages(0x140115e10)",
+   "HV_CopyFromGuestVa(0x14011c6a0)",
+   "HV_Rdfsbase(0x14011fb50)",
+   "HV_EptInstallHook_RealVmx(0x140124cf0)",
+   "HV_EptRemoveHook_RealVmx(0x140124db0)"
+  ],
+  "key": [
+   "`__int64 __fastcall HV_EptHookOrUnhook(__int64 a1, __int64 a2, __int64 a3)`",
+   "`  char v4; // bl`",
+   "`  __int64 (__fastcall *v6)(); // rax`",
+   "`  __int64 *v10; // rax`",
+   "`  __int64 v11; // r8`",
+   "`  __int64 v12; // rdx`",
+   "`  __int64 v13; // rdx`",
+   "`  __int64 *v14; // rax`",
+   "`  __int64 v15; // r8`",
+   "`  __int64 v16; // rdx`",
+   "`  __int64 *v17; // rax`",
+   "`  __int64 v18; // r8`"
+  ]
+ },
+ {
+  "ord": 1861,
+  "addr": "0x140124cf0",
+  "name": "HV_EptInstallHook_RealVmx",
+  "role": "EPT/NPT内存映射",
+  "size": 186,
+  "callers": [
+   "sub_140119F40(0x140119f40)",
+   "HV_HypercallDispatch_FromGuestFrame(0x1401239b0)",
+   "sub_140129050(0x140129050)",
+   "HV_ExitPath_WithHandlerChain(0x14012c5e0)"
+  ],
+  "callees": [
+   "sub_1401248E0(0x1401248e0)",
+   "sub_1401E06C6(0x1401e06c6)"
+  ],
+  "key": [
+   "`char __fastcall HV_EptInstallHook_RealVmx(__int64 a1, __int64 a2, __int64 a3)`",
+   "`  __int64 v3; // r9`",
+   "`  __int64 v4; // rbx`",
+   "`  unsigned __int64 *v5; // rax`",
+   "`  __int128 v7; // [rsp+20h] [rbp-18h] BYREF`",
+   "`  v5 = (unsigned __int64 *)sub_1401248E0(a1, a2 << 12, a3);`",
+   "`    sub_1401E06C6(2, &v7);`",
+   "`  *v5 = (v4 << 12) & 0xFFFFFFFFF000LL ^ (*v5 & 0xFFFF000000000FF8uLL | 4) | 0x100000000000000LL;`",
+   "`  sub_1401E06C6(2, &v7);`"
+  ]
+ },
+ {
+  "ord": 1862,
+  "addr": "0x140124db0",
+  "name": "HV_EptRemoveHook_RealVmx",
+  "role": "EPT/NPT内存映射",
+  "size": 232,
+  "callers": [
+   "sub_140119F40(0x140119f40)",
+   "HV_HypercallDispatch_FromGuestFrame(0x1401239b0)",
+   "sub_140129050(0x140129050)",
+   "HV_ExitPath_WithHandlerChain(0x14012c5e0)",
+   "HV_RemoveEptHook_Wrapper(0x1401da0b0)"
+  ],
+  "callees": [
+   "sub_1401248E0(0x1401248e0)",
+   "sub_1401E06C6(0x1401e06c6)"
+  ],
+  "key": [
+   "`void __fastcall HV_EptRemoveHook_RealVmx(__int64 a1, __int64 a2)`",
+   "`  _QWORD *v2; // r9`",
+   "`  _QWORD *v5; // r8`",
+   "`  _QWORD *v6; // rax`",
+   "`  __int64 *v7; // rdx`",
+   "`  __int64 v8; // rcx`",
+   "`  unsigned __int64 *v9; // rax`",
+   "`  __int128 v10; // [rsp+20h] [rbp-18h] BYREF`",
+   "`      v9 = (unsigned __int64 *)sub_1401248E0(a1, a2 << 12, 0);`",
+   "`        *v9 = (a2 << 12) & 0xFFFFFFFFF000LL ^ (*v9 & 0xFEFF000000000FF8uLL | 7);`",
+   "`        sub_1401E06C6(2, &v10);`"
+  ]
+ },
+ {
+  "ord": 1863,
+  "addr": "0x140124ea0",
+  "name": "HV_EptHidePages_RealVmx",
+  "role": "EPT/NPT内存映射",
+  "size": 508,
+  "callers": [
+   "HV_HypercallDispatch_FromGuestFrame(0x1401239b0)",
+   "sub_140129050(0x140129050)"
+  ],
+  "callees": [
+   "HV_TranslateGuestVa_Present(0x14011c2a0)",
+   "HV_Rdfsbase(0x14011fb50)",
+   "sub_1401248E0(0x1401248e0)",
+   "sub_1401E06C6(0x1401e06c6)",
+   "Util_Memcpy(0x1401ea340)"
+  ],
+  "key": [
+   "`char __fastcall HV_EptHidePages_RealVmx(__int64 a1, __int64 a2, unsigned __int64 a3)`",
+   "`  unsigned __int64 v6; // r14`",
+   "`  unsigned __int64 i; // rdi`",
+   "`  unsigned __int64 v10; // rax`",
+   "`  __int64 v11; // r8`",
+   "`  unsigned __int64 v12; // rsi`",
+   "`  __int64 v13; // rbx`",
+   "`  unsigned __int64 *v14; // rsi`",
+   "`  __int64 v15; // r8`",
+   "`  unsigned __int64 *v16; // r10`",
+   "`  __int64 v17; // rcx`",
+   "`  unsigned __int64 v18; // r9`"
+  ]
+ },
+ {
+  "ord": 1864,
+  "addr": "0x1401250a0",
+  "name": "HV_EptUnhidePages_RealVmx",
+  "role": "EPT/NPT内存映射",
+  "size": 438,
+  "callers": [
+   "HV_HypercallDispatch_FromGuestFrame(0x1401239b0)",
+   "sub_140129050(0x140129050)"
+  ],
+  "callees": [
+   "HV_TranslateGuestVa_Present(0x14011c2a0)",
+   "HV_Rdfsbase(0x14011fb50)",
+   "sub_1401248E0(0x1401248e0)",
+   "sub_1401E06C6(0x1401e06c6)",
+   "Util_Memcpy(0x1401ea340)"
+  ],
+  "key": [
+   "`char __fastcall HV_EptUnhidePages_RealVmx(__int64 a1, __int64 a2, unsigned __int64 a3)`",
+   "`  unsigned __int64 v6; // r14`",
+   "`  unsigned __int64 i; // rsi`",
+   "`  unsigned __int64 v10; // rax`",
+   "`  unsigned __int64 v11; // rdi`",
+   "`  __int64 v12; // rbx`",
+   "`  unsigned __int64 *v13; // rax`",
+   "`  __int64 v14; // rdx`",
+   "`  __int64 v15; // rbx`",
+   "`  unsigned __int64 *v16; // rax`",
+   "`  _OWORD v18[4]; // [rsp+20h] [rbp-48h] BYREF`",
+   "`  unsigned __int64 v19; // [rsp+80h] [rbp+18h] BYREF`"
+  ]
+ },
+ {
+  "ord": 1866,
+  "addr": "0x140125440",
+  "name": "HV_EptOpA_RealVmx",
+  "role": "EPT/NPT内存映射",
+  "size": 619,
+  "callers": [
+   "HV_HypercallDispatch_FromGuestFrame(0x1401239b0)",
+   "sub_140129050(0x140129050)"
+  ],
+  "callees": [
+   "HV_TranslateGuestVa_Present(0x14011c2a0)",
+   "HV_Rdfsbase(0x14011fb50)",
+   "sub_1401248E0(0x1401248e0)",
+   "sub_1401E06C6(0x1401e06c6)",
+   "Util_Memcpy(0x1401ea340)"
+  ],
+  "key": [
+   "`char __fastcall HV_EptOpA_RealVmx(__int64 a1, __int64 a2, unsigned __int64 a3, char a4)`",
+   "`  int v4; // r13d`",
+   "`  int v5; // r15d`",
+   "`  unsigned __int64 v8; // r14`",
+   "`  unsigned __int64 i; // rdi`",
+   "`  unsigned __int64 v12; // rax`",
+   "`  __int64 v13; // r8`",
+   "`  unsigned __int64 v14; // rsi`",
+   "`  unsigned __int64 *v15; // r9`",
+   "`  __int64 v16; // rdx`",
+   "`  __int64 v17; // r8`",
+   "`  __int64 v18; // rcx`"
+  ]
+ },
+ {
+  "ord": 1867,
+  "addr": "0x1401256b0",
+  "name": "HV_EptOpB_RealVmx",
+  "role": "EPT/NPT内存映射",
+  "size": 365,
+  "callers": [
+   "HV_HypercallDispatch_FromGuestFrame(0x1401239b0)",
+   "sub_140129050(0x140129050)"
+  ],
+  "callees": [
+   "HV_TranslateGuestVa_Present(0x14011c2a0)",
+   "HV_Rdfsbase(0x14011fb50)",
+   "sub_1401248E0(0x1401248e0)",
+   "sub_1401E06C6(0x1401e06c6)",
+   "Util_Memcpy(0x1401ea340)"
+  ],
+  "key": [
+   "`char __fastcall HV_EptOpB_RealVmx(__int64 a1, __int64 a2, unsigned __int64 a3)`",
+   "`  unsigned __int64 v6; // r14`",
+   "`  unsigned __int64 i; // rsi`",
+   "`  unsigned __int64 v10; // rax`",
+   "`  unsigned __int64 v11; // rdi`",
+   "`  unsigned __int64 *v12; // rax`",
+   "`  _OWORD v14[4]; // [rsp+20h] [rbp-48h] BYREF`",
+   "`  unsigned __int64 v15; // [rsp+80h] [rbp+18h] BYREF`",
+   "`  __int64 v16; // [rsp+88h] [rbp+20h] BYREF`",
+   "`        _RBX = *(_QWORD *)(HV_Rdfsbase() + 25936);`",
+   "`        v10 = HV_TranslateGuestVa_Present(_RBX, i + a2, &v15);`",
+   "`        if ( v10 > 0x8000000000LL )`"
+  ]
+ },
+ {
+  "ord": 1872,
+  "addr": "0x140125f40",
+  "name": "HV_ClearPendingExceptionState",
+  "role": "EPT/NPT内存映射",
+  "size": 219,
+  "callers": [
+   "HV_TryFastExitPath(0x140126020)",
+   "sub_140128680(0x140128680)",
+   "sub_14012B0C0(0x14012b0c0)"
+  ],
+  "callees": [
+   "HV_HandlePendingEvent(0x140127b80)",
+   "sub_1401E06C6(0x1401e06c6)"
+  ],
+  "key": [
+   "`__int64 __fastcall HV_ClearPendingExceptionState(__int64 a1)`",
+   "`  _QWORD *v2; // rdx`",
+   "`  _QWORD *v3; // rax`",
+   "`  __int64 *v4; // rcx`",
+   "`  __int128 v6; // [rsp+20h] [rbp-18h] BYREF`",
+   "`    return HV_HandlePendingEvent(*(_QWORD *)(a1 + 6512648));`",
+   "`      *(_QWORD *)v3[6] = *(_QWORD *)v3[6] & 0xFFFF000000000FFFuLL | ((unsigned __int64)*((unsigned int *)v4 + 3) << 12);`",
+   "`  HV_HandlePendingEvent(*(_QWORD *)(a1 + 6512648));`",
+   "`  return sub_1401E06C6(2, &v6);`"
+  ]
+ },
+ {
+  "ord": 1873,
+  "addr": "0x140126020",
+  "name": "HV_TryFastExitPath",
+  "role": "EPT/NPT内存映射",
+  "size": 1094,
+  "callers": [
+   "HV_HandleVmExit_Primary(0x140126c20)"
+  ],
+  "callees": [
+   "HV_ClearPendingExceptionState(0x140125f40)",
+   "HV_HandlePendingEvent(0x140127b80)",
+   "HV_IsCanonicalVa(0x1401288a0)"
+  ],
+  "key": [
+   "`bool __fastcall HV_TryFastExitPath(__int64 a1)`",
+   "`  bool v2; // di`",
+   "`  __int64 v3; // rax`",
+   "`  __int64 v4; // r10`",
+   "`  unsigned __int64 v5; // rcx`",
+   "`  int v6; // r9d`",
+   "`  __int64 v7; // rax`",
+   "`  __int64 v8; // rcx`",
+   "`  int v9; // edx`",
+   "`  __int64 v10; // rcx`",
+   "`  int *v11; // rcx`",
+   "`  int v13; // eax`"
+  ]
+ },
+ {
+  "ord": 1875,
+  "addr": "0x1401266e0",
+  "name": "HV_ValidateEptExitState",
+  "role": "EPT/NPT内存映射",
+  "size": 420,
+  "callers": [
+   "HV_HandleVmExit_Primary(0x140126c20)"
+  ],
+  "callees": [
+   "没有直接下级函数，或者通过函数指针间接调用"
+  ],
+  "key": [
+   "`__int64 __fastcall HV_ValidateEptExitState(__int64 a1)`",
+   "`  int v2; // ecx`",
+   "`  __int64 v3; // r9`",
+   "`  __int64 v4; // rdx`",
+   "`  int v5; // r10d`",
+   "`  bool v6; // zf`",
+   "`  unsigned __int64 v7; // rdx`",
+   "`  unsigned int v8; // ecx`",
+   "`  bool v9; // cl`",
+   "`  v2 = *(_DWORD *)(a1 + 6509068) & 0x80;`",
+   "`    && (v2 || (v3 & 0x80000001) != 0x80000000LL) )`",
+   "`      if ( (v5 & 4) == 0 || (*(_QWORD *)(a1 + 6510576) & 0xFFFFFFFFFFFF203CuLL) == 0 )`"
+  ]
+ },
+ {
+  "ord": 1890,
+  "addr": "0x140128680",
+  "name": "sub_140128680",
+  "role": "EPT/NPT内存映射",
+  "size": 249,
+  "callers": [
+   "静态图未找到；可能是入口",
+   "回调",
+   "间接调用或被保护壳隐藏"
+  ],
+  "callees": [
+   "HV_ClearPendingExceptionState(0x140125f40)",
+   "sub_140127C20(0x140127c20)"
+  ],
+  "key": [
+   "`char __fastcall sub_140128680(__int64 a1)`",
+   "`  _QWORD *v4; // r8`",
+   "`  unsigned __int64 v5; // r9`",
+   "`  __int64 *v6; // rcx`",
+   "`  __int64 v7; // rax`",
+   "`  __int64 v8; // rcx`",
+   "`                  & (0x366000002E329LL`",
+   "`                    ^ (0x100000001B3LL`",
+   "`                     * ((0x100000001B3LL`",
+   "`                        ^ (0x100000001B3LL`",
+   "`                          ^ (0x100000001B3LL`",
+   "`                            ^ (0x100000001B3LL`"
+  ]
+ },
+ {
+  "ord": 1902,
+  "addr": "0x140129050",
+  "name": "sub_140129050",
+  "role": "EPT/NPT内存映射",
+  "size": 890,
+  "callers": [
+   "sub_1401293D0(0x1401293d0)"
+  ],
+  "callees": [
+   "HV_TranslateGuestVa_Present(0x14011c2a0)",
+   "sub_14011C650(0x14011c650)",
+   "HV_Rdfsbase(0x14011fb50)",
+   "HV_EptInstallHook_RealVmx(0x140124cf0)",
+   "HV_EptRemoveHook_RealVmx(0x140124db0)",
+   "HV_EptHidePages_RealVmx(0x140124ea0)",
+   "HV_EptUnhidePages_RealVmx(0x1401250a0)",
+   "sub_140125260(0x140125260)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140129050(__int64 a1, __int64 a2)`",
+   "`  __int64 v2; // rdi`",
+   "`  __int64 v4; // rbp`",
+   "`  unsigned __int64 v5; // rsi`",
+   "`  __int64 v6; // rbx`",
+   "`  __int64 v7; // r13`",
+   "`  unsigned __int64 v8; // r15`",
+   "`  __int64 v11; // rax`",
+   "`  __int64 v12; // rbp`",
+   "`  __int64 v13; // rax`",
+   "`  __int64 v14; // r8`",
+   "`  unsigned __int64 v15; // r14`"
+  ]
+ },
+ {
+  "ord": 1923,
+  "addr": "0x14012b0c0",
+  "name": "sub_14012B0C0",
+  "role": "EPT/NPT内存映射",
+  "size": 170,
+  "callers": [
+   "静态图未找到；可能是入口",
+   "回调",
+   "间接调用或被保护壳隐藏"
+  ],
+  "callees": [
+   "HV_ClearPendingExceptionState(0x140125f40)",
+   "HV_CheckGuestCplAndReady(0x14012a120)",
+   "sub_14012B020(0x14012b020)",
+   "HV_VmresumeFromExit(0x14012d9f0)"
+  ],
+  "key": [
+   "`char __fastcall sub_14012B0C0(__int64 a1)`",
+   "`  char result; // al`",
+   "`  __int64 v3; // rax`",
+   "`  result = HV_CheckGuestCplAndReady(a1);`",
+   "`      __writemsr(0xC0000102, *(_QWORD *)(_RBX + 6512720));`",
+   "`    HV_ClearPendingExceptionState(_RBX);`",
+   "`    sub_14012B020(_RBX);`",
+   "`    v3 = g_HvGlobalState;`",
+   "`    *(_QWORD *)(_RBX + 6516752) &= 0xFFFFFFFFFFFFF72AuLL;`",
+   "`    return HV_VmresumeFromExit(_RBX);`"
+  ]
+ },
+ {
+  "ord": 1953,
+  "addr": "0x14012f1f0",
+  "name": "sub_14012F1F0",
+  "role": "Hook/隐藏",
+  "size": 1039,
+  "callers": [
+   "sub_140062650(0x140062650)"
+  ],
+  "callees": [
+   "sub_1401334B0(0x1401334b0)",
+   "HV_Dispatch(0x1401536b0)",
+   "Sys_CreateObjectByName(0x140154780)",
+   "sub_1401563C0(0x1401563c0)",
+   "Ob_RegisterCallbackOrNotify(0x1401d9bc0)"
+  ],
+  "key": [
+   "`__int64 *__fastcall sub_14012F1F0(unsigned __int64 a1)`",
+   "`  __int64 v1; // rcx`",
+   "`  __int64 v2; // rax`",
+   "`  __int64 *v3; // rax`",
+   "`  unsigned __int64 v4; // rcx`",
+   "`  unsigned __int64 v5; // rcx`",
+   "`  __int64 v6; // rcx`",
+   "`  unsigned __int64 ObjectByName; // rcx`",
+   "`  unsigned __int64 v8; // rcx`",
+   "`  __int64 v9; // rax`",
+   "`  __int64 *result; // rax`",
+   "`  __int64 v11; // [rsp+38h] [rbp-41h] BYREF`"
+  ]
+ },
+ {
+  "ord": 1962,
+  "addr": "0x1401339c0",
+  "name": "Mem_PoolAlloc",
+  "role": "EPT/NPT内存映射",
+  "size": 507,
+  "callers": [
+   "Util_Utf8OrWideConvert(0x14003ebb0)",
+   "sub_1400401A0(0x1400401a0)",
+   "sub_140040530(0x140040530)",
+   "sub_140040C10(0x140040c10)",
+   "sub_140041000(0x140041000)",
+   "sub_140041C90(0x140041c90)",
+   "sub_1400448F0(0x1400448f0)",
+   "sub_140044E30(0x140044e30)"
+  ],
+  "callees": [
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_TrackAllocation(0x140133560)",
+   "Mem_PoolTagOrFlags(0x140133880)",
+   "HV_MemsetGuestVa(0x140152df0)",
+   "HV_Dispatch(0x1401536b0)",
+   "Util_Memset(0x1401ea040)"
+  ],
+  "key": [
+   "`// Pool alloc via g_Enc_PoolAllocTrampoline dual-path; OOM HV_Dispatch(0x367836); memset+track`",
+   "`__int64 __fastcall Mem_PoolAlloc(__int64 a2, unsigned __int8 dl0, char a3, void *a4)`",
+   "`  int v6; // ebp`",
+   "`  __int64 v8; // rdx`",
+   "`  unsigned int v9; // r10d`",
+   "`  __int64 v10; // rax`",
+   "`  __int64 v11; // rax`",
+   "`  __int64 v12; // rax`",
+   "`  __int64 (__fastcall *v13)(_QWORD, __int64, __int64); // r14`",
+   "`  __int64 v14; // r8`",
+   "`  unsigned int v15; // r10d`",
+   "`  __int64 v16; // rbx`"
+  ]
+ },
+ {
+  "ord": 1963,
+  "addr": "0x140133bc0",
+  "name": "Mem_HeapFreeTracked",
+  "role": "EPT/NPT内存映射",
+  "size": 585,
+  "callers": [
+   "Mem_HeapFree(0x1400029f0)",
+   "Util_StringCtorOrCopy(0x140002b30)",
+   "sub_1400030C0(0x1400030c0)",
+   "sub_14003D950(0x14003d950)",
+   "Util_Utf8OrWideConvert(0x14003ebb0)",
+   "sub_14003ED00(0x14003ed00)",
+   "sub_14003EE30(0x14003ee30)",
+   "sub_14003F570(0x14003f570)"
+  ],
+  "callees": [
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)",
+   "HV_MemsetGuestVa(0x140152df0)",
+   "Util_Memset(0x1401ea040)"
+  ],
+  "key": [
+   "`void **__fastcall Mem_HeapFreeTracked(unsigned __int64 a1, __int64 a2)`",
+   "`  void **result; // rax`",
+   "`  __int64 v4; // rdx`",
+   "`  __int64 i; // rax`",
+   "`  unsigned __int64 v6; // rax`",
+   "`  __int64 v7; // rdx`",
+   "`  __int64 v8; // rdx`",
+   "`  bool v9; // zf`",
+   "`  __int64 v10; // rax`",
+   "`  __int64 v11; // rcx`",
+   "`  __int128 v12; // [rsp+80h] [rbp-28h]`",
+   "`  void *retaddr; // [rsp+A8h] [rbp+0h] BYREF`"
+  ]
+ },
+ {
+  "ord": 1976,
+  "addr": "0x140135c70",
+  "name": "sub_140135C70",
+  "role": "EPT/NPT内存映射",
+  "size": 1184,
+  "callers": [
+   "sub_14003D950(0x14003d950)",
+   "sub_1401D9520(0x1401d9520)",
+   "sub_14E7FD27D(0x14e7fd27d)"
+  ],
+  "callees": [
+   "sub_14003E7E0(0x14003e7e0)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140135C70(char *a1)`",
+   "`  unsigned __int64 v2; // rsi`",
+   "`  char *v3; // rbx`",
+   "`  bool v4; // zf`",
+   "`  __int64 v5; // rax`",
+   "`  int v6; // esi`",
+   "`  unsigned __int64 v7; // rbx`",
+   "`  __int64 v8; // rdx`",
+   "`  __int64 i; // rax`",
+   "`  __int64 **v10; // rax`",
+   "`  __int64 v11; // rdx`",
+   "`  __int64 v12; // rdi`"
+  ]
+ },
+ {
+  "ord": 1998,
+  "addr": "0x140138f20",
+  "name": "sub_140138F20",
+  "role": "EPT/NPT内存映射",
+  "size": 2697,
+  "callers": [
+   "sub_1400620A0(0x1400620a0)",
+   "Esp_GetOrCreateFrameState(0x1400967d0)",
+   "sub_14011AB30(0x14011ab30)",
+   "sub_14011CFA0(0x14011cfa0)",
+   "sub_14011E970(0x14011e970)",
+   "sub_1401523C0(0x1401523c0)",
+   "Ob_RegisterCallbackOrNotify(0x1401d9bc0)"
+  ],
+  "callees": [
+   "sub_14003E7E0(0x14003e7e0)",
+   "sub_14003E9E0(0x14003e9e0)",
+   "sub_140051FA0(0x140051fa0)",
+   "ProcessDecryptedPacket(0x14005d800)",
+   "sub_1401034C0(0x1401034c0)",
+   "sub_140103520(0x140103520)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)"
+  ],
+  "key": [
+   "`unsigned __int64 __fastcall sub_140138F20(unsigned __int64 a2, __int16 dx0)`",
+   "`  unsigned int v2; // r12d`",
+   "`  unsigned __int64 v4; // rbx`",
+   "`  __int64 IndependentPages; // rax`",
+   "`  __int64 v6; // rax`",
+   "`  __int64 v7; // rdx`",
+   "`  __int64 v8; // rdx`",
+   "`  unsigned __int64 v9; // rsi`",
+   "`  bool v10; // zf`",
+   "`  __int64 v11; // rax`",
+   "`  __int64 v12; // rax`",
+   "`  __int64 v13; // rax`"
+  ]
+ },
+ {
+  "ord": 2044,
+  "addr": "0x140140c20",
+  "name": "sub_140140C20",
+  "role": "EPT/NPT内存映射",
+  "size": 684,
+  "callers": [
+   "sub_1401523C0(0x1401523c0)"
+  ],
+  "callees": [
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_GetGuestGsBase(0x14011cc30)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "HV_MemsetGuestVa(0x140152df0)",
+   "HV_Dispatch(0x1401536b0)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140140C20(struct _KTHREAD *a1, __int64 a2, __int64 a3, __int64 a4)`",
+   "`  struct _KTHREAD *CurrentThread; // rdi`",
+   "`  unsigned __int64 GuestGsBase; // rdi`",
+   "`  __int64 v6; // rcx`",
+   "`  __int64 v7; // rdx`",
+   "`  __int64 v8; // rbx`",
+   "`  unsigned int v9; // eax`",
+   "`  __int64 v10; // r8`",
+   "`  __int64 v11; // r9`",
+   "`  __int64 v12; // rcx`",
+   "`  __int64 v13; // rsi`",
+   "`  __int64 v14; // rdx`"
+  ]
+ },
+ {
+  "ord": 2177,
+  "addr": "0x140157040",
+  "name": "sub_140157040",
+  "role": "EPT/NPT内存映射",
+  "size": 1370,
+  "callers": [
+   "sub_140047080(0x140047080)",
+   "sub_14004EDD0(0x14004edd0)",
+   "sub_140067C00(0x140067c00)"
+  ],
+  "callees": [
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)",
+   "sub_1401349F0(0x1401349f0)"
+  ],
+  "key": [
+   "`void **__fastcall sub_140157040(__int64 a1)`",
+   "`  void **result; // rax`",
+   "`  char *v3; // rsi`",
+   "`  unsigned __int64 v4; // rcx`",
+   "`  char *v5; // rcx`",
+   "`  bool v6; // zf`",
+   "`  __int64 v7; // rdx`",
+   "`  __int16 v8; // ax`",
+   "`  char *v9; // rcx`",
+   "`  char *v10; // r8`",
+   "`  __int64 v11; // rdx`",
+   "`  __int16 v12; // ax`"
+  ]
+ },
+ {
+  "ord": 2190,
+  "addr": "0x140159830",
+  "name": "sub_140159830",
+  "role": "EPT/NPT内存映射",
+  "size": 516,
+  "callers": [
+   "sub_14008A8E0(0x14008a8e0)",
+   "sub_140159C30(0x140159c30)"
+  ],
+  "callees": [
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "sub_14011B930(0x14011b930)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "sub_140154A80(0x140154a80)",
+   "sub_140156860(0x140156860)",
+   "sub_140158350(0x140158350)",
+   "sub_140159200(0x140159200)",
+   "sub_1401DFFC0(0x1401dffc0)"
+  ],
+  "key": [
+   "`__int16 __fastcall sub_140159830(__int64 a1, unsigned int a2)`",
+   "`  __int64 v4; // rcx`",
+   "`  __int64 v5; // rdx`",
+   "`  __int64 v6; // rcx`",
+   "`  __int64 v7; // r8`",
+   "`  __int64 v8; // r9`",
+   "`  __int64 v9; // rdx`",
+   "`  __int64 v10; // rdx`",
+   "`  unsigned __int64 v11; // rcx`",
+   "`  __int64 v12; // rsi`",
+   "`  __int64 v13; // r8`",
+   "`  __int64 v14; // rbx`"
+  ]
+ },
+ {
+  "ord": 2195,
+  "addr": "0x14015aef0",
+  "name": "sub_14015AEF0",
+  "role": "Hook/隐藏",
+  "size": 836,
+  "callers": [
+   "sub_14015B240(0x14015b240)"
+  ],
+  "callees": [
+   "sub_1401E4360(0x1401e4360)",
+   "sub_1401E8450(0x1401e8450)"
+  ],
+  "key": [
+   "`char __fastcall sub_14015AEF0(float *a1, __int64 a2, float *a3, _QWORD *a4, float a5)`",
+   "`  float v7; // xmm13_4`",
+   "`  float v8; // xmm14_4`",
+   "`  float v9; // xmm7_4`",
+   "`  float v10; // xmm9_4`",
+   "`  float v11; // xmm11_4`",
+   "`  float v12; // xmm10_4`",
+   "`  double v13; // xmm0_8`",
+   "`  float v14; // xmm8_4`",
+   "`  float v15; // xmm0_4`",
+   "`  float v16; // xmm10_4`",
+   "`  float v17; // xmm2_4`"
+  ]
+ },
+ {
+  "ord": 2196,
+  "addr": "0x14015b240",
+  "name": "sub_14015B240",
+  "role": "Hook/隐藏",
+  "size": 597,
+  "callers": [
+   "sub_14015C420(0x14015c420)",
+   "sub_14015C740(0x14015c740)"
+  ],
+  "callees": [
+   "sub_14015AEF0(0x14015aef0)",
+   "sub_1401E4360(0x1401e4360)",
+   "sub_1401E8450(0x1401e8450)"
+  ],
+  "key": [
+   "`char __fastcall sub_14015B240(float *a1, __int64 a2, float *a3, _QWORD *a4, float a5)`",
+   "`  __int64 v5; // rdx`",
+   "`  float v9; // xmm4_4`",
+   "`  float v10; // xmm5_4`",
+   "`  __m128 v11; // xmm1`",
+   "`  __m128 v12; // xmm0`",
+   "`  float v13; // xmm0_4`",
+   "`  __m128 v14; // xmm7`",
+   "`  __m128 v15; // xmm0`",
+   "`  __m128 v16; // xmm1`",
+   "`  __m128 v17; // xmm0`",
+   "`  __m128 v18; // xmm0`"
+  ]
+ },
+ {
+  "ord": 2198,
+  "addr": "0x14015b960",
+  "name": "sub_14015B960",
+  "role": "Hook/隐藏",
+  "size": 893,
+  "callers": [
+   "Hook_InstallAll(0x1401891d0)"
+  ],
+  "callees": [
+   "sub_14014C400(0x14014c400)",
+   "Util_FreeWideOrHeap(0x14014c450)",
+   "sub_14015B4A0(0x14015b4a0)",
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "sub_14015D2D0(0x14015d2d0)",
+   "Hv_WriteGuestPtr(0x14015d480)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_1401755B0(0x1401755b0)"
+  ],
+  "key": [
+   "`void __fastcall sub_14015B960(unsigned __int64 a1)`",
+   "`  __int64 GuestU32; // r15`",
+   "`  unsigned __int64 v3; // r14`",
+   "`  int v4; // ebx`",
+   "`  __int64 v5; // r13`",
+   "`  unsigned __int64 v6; // r12`",
+   "`  __int64 v7; // rbp`",
+   "`  int v8; // ecx`",
+   "`  int v9; // edi`",
+   "`  __int64 v10; // rsi`",
+   "`  __int64 v11; // rbx`",
+   "`  __int64 v12; // r14`"
+  ]
+ },
+ {
+  "ord": 2199,
+  "addr": "0x14015bce0",
+  "name": "sub_14015BCE0",
+  "role": "Hook/隐藏",
+  "size": 1489,
+  "callers": [
+   "Hook_InstallAll(0x1401891d0)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU8(0x14015cdc0)",
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "sub_14015D2D0(0x14015d2d0)",
+   "sub_14015D6D0(0x14015d6d0)",
+   "Hv_ReadGuestBytes(0x14015d900)",
+   "sub_14015DB10(0x14015db10)",
+   "sub_14015DCF0(0x14015dcf0)"
+  ],
+  "key": [
+   "`char sub_14015BCE0()`",
+   "`  __int64 *v0; // rax`",
+   "`  __int128 v1; // xmm0`",
+   "`  __int128 v2; // xmm1`",
+   "`  __int128 v3; // xmm1`",
+   "`  __int64 v4; // rax`",
+   "`  __int64 GuestBytes; // rax`",
+   "`  __int64 v6; // rax`",
+   "`  double v7; // xmm0_8`",
+   "`  double v8; // xmm0_8`",
+   "`  double v9; // xmm0_8`",
+   "`  __int64 v10; // rax`"
+  ]
+ },
+ {
+  "ord": 2222,
+  "addr": "0x14015eae0",
+  "name": "sub_14015EAE0",
+  "role": "Hook/隐藏",
+  "size": 1636,
+  "callers": [
+   "sub_14015F150(0x14015f150)"
+  ],
+  "callees": [
+   "sub_140052310(0x140052310)",
+   "sub_1401777E0(0x1401777e0)",
+   "Util_Memcpy(0x1401ea340)"
+  ],
+  "key": [
+   "`__m128 *__fastcall sub_14015EAE0(_QWORD *a1, __int64 a2)`",
+   "`  __int64 v4; // rcx`",
+   "`  unsigned __int64 v5; // r12`",
+   "`  char *v6; // rdx`",
+   "`  __int64 v7; // rcx`",
+   "`  __int64 v8; // rcx`",
+   "`  bool v9; // si`",
+   "`  _QWORD *v10; // r15`",
+   "`  char v11; // cl`",
+   "`  char v12; // r8`",
+   "`  char v13; // cl`",
+   "`  char v14; // r8`"
+  ]
+ },
+ {
+  "ord": 2260,
+  "addr": "0x140163720",
+  "name": "sub_140163720",
+  "role": "Hook/隐藏",
+  "size": 183,
+  "callers": [
+   "sub_140165F30(0x140165f30)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_140176310(0x140176310)"
+  ],
+  "key": [
+   "`char __fastcall sub_140163720(__int64 a1, __int64 a2)`",
+   "`  __int64 GuestU64; // rbx`",
+   "`  int v4; // edi`",
+   "`  if ( (unsigned __int64)(a1 - 0xFFFF) <= 0x7FFFFFFF0000LL )`",
+   "`    GuestU64 = Hv_ReadGuestU64(g_Hook_GuestCr3OrCtx, a1 + *(unsigned int *)(g_Hook_OffsetTable + 68));`",
+   "`    if ( (unsigned __int64)(GuestU64 - 0xFFFF) <= 0x7FFFFFFF0000LL )`",
+   "`      while ( (unsigned __int64)(GuestU64 - 0xFFFF) <= 0x7FFFFFFF0000LL )`",
+   "`        if ( sub_140176310(GuestU64) == a2 )`",
+   "`        GuestU64 = Hv_ReadGuestU64(g_Hook_GuestCr3OrCtx, GuestU64 + *(unsigned int *)(g_Hook_OffsetTable + 60));`"
+  ]
+ },
+ {
+  "ord": 2261,
+  "addr": "0x1401637e0",
+  "name": "sub_1401637E0",
+  "role": "Hook/隐藏",
+  "size": 802,
+  "callers": [
+   "sub_140165F30(0x140165f30)",
+   "sub_140166200(0x140166200)"
+  ],
+  "callees": [
+   "sub_140166AF0(0x140166af0)",
+   "sub_1401753D0(0x1401753d0)"
+  ],
+  "key": [
+   "`char __fastcall sub_1401637E0(__int64 a1, __m128 *a2)`",
+   "`  __int32 v4; // xmm0_4`",
+   "`  float v5; // xmm3_4`",
+   "`  int v6; // xmm4_4`",
+   "`  int v7; // xmm2_4`",
+   "`  float v8; // xmm3_4`",
+   "`  __m128 v9; // xmm2`",
+   "`  __m128 v10; // xmm1`",
+   "`  float v11; // xmm0_4`",
+   "`  float v12; // xmm3_4`",
+   "`  float v13; // xmm0_4`",
+   "`  __m128 v14; // xmm3`"
+  ]
+ },
+ {
+  "ord": 2264,
+  "addr": "0x140163ef0",
+  "name": "sub_140163EF0",
+  "role": "Hook/隐藏",
+  "size": 1315,
+  "callers": [
+   "sub_140166690(0x140166690)"
+  ],
+  "callees": [
+   "sub_140067180(0x140067180)",
+   "sub_140163360(0x140163360)",
+   "sub_1401636C0(0x1401636c0)",
+   "sub_140163B10(0x140163b10)",
+   "sub_140167700(0x140167700)",
+   "sub_140167780(0x140167780)"
+  ],
+  "key": [
+   "`char __fastcall sub_140163EF0(__int64 a1, __int64 a2)`",
+   "`  __int64 v3; // r8`",
+   "`  __int64 v4; // rdx`",
+   "`  float *v5; // r8`",
+   "`  __m128 *v6; // r9`",
+   "`  unsigned int v7; // ebx`",
+   "`  __m128 v8; // xmm3`",
+   "`  __m128 v9; // xmm4`",
+   "`  float v10; // xmm3_4`",
+   "`  float v11; // xmm9_4`",
+   "`  float v12; // xmm10_4`",
+   "`  float v13; // xmm11_4`"
+  ]
+ },
+ {
+  "ord": 2268,
+  "addr": "0x140164f60",
+  "name": "sub_140164F60",
+  "role": "Hook/隐藏",
+  "size": 2348,
+  "callers": [
+   "sub_140165F30(0x140165f30)"
+  ],
+  "callees": [
+   "sub_14015D2D0(0x14015d2d0)",
+   "Hv_ReadGuestBytes(0x14015d900)",
+   "sub_1401634D0(0x1401634d0)",
+   "sub_140164650(0x140164650)",
+   "sub_140164950(0x140164950)",
+   "sub_140166D10(0x140166d10)",
+   "sub_140166EB0(0x140166eb0)",
+   "sub_1401670D0(0x1401670d0)"
+  ],
+  "key": [
+   "`char __fastcall sub_140164F60(__int64 a1, int a2, int a3, __int64 a4)`",
+   "`  char v6; // r12`",
+   "`  __int64 v7; // rbx`",
+   "`  __int64 v8; // r8`",
+   "`  int v9; // r14d`",
+   "`  __m128 si128; // xmm6`",
+   "`  int v11; // r15d`",
+   "`  unsigned int v12; // esi`",
+   "`  __m128i v13; // xmm8`",
+   "`  __int64 v14; // rbx`",
+   "`  double v15; // xmm0_8`",
+   "`  __int64 v16; // r8`"
+  ]
+ },
+ {
+  "ord": 2269,
+  "addr": "0x140165890",
+  "name": "sub_140165890",
+  "role": "Hook/隐藏",
+  "size": 591,
+  "callers": [
+   "sub_140165F30(0x140165f30)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_140163330(0x140163330)",
+   "sub_140163360(0x140163360)",
+   "sub_140167340(0x140167340)"
+  ],
+  "key": [
+   "`bool __fastcall sub_140165890(__int64 a1, float *a2, _DWORD *a3)`",
+   "`  __int64 GuestU64; // rax`",
+   "`  float v6; // xmm4_4`",
+   "`  float v7; // xmm2_4`",
+   "`  float v8; // xmm3_4`",
+   "`  __m128 v9; // xmm1`",
+   "`  __m128i v10; // xmm6`",
+   "`  __m128i v11; // xmm8`",
+   "`  __m128i v12; // xmm7`",
+   "`  __int32 v13; // xmm1_4`",
+   "`  bool result; // al`",
+   "`  float v15; // [rsp+30h] [rbp-58h] BYREF`"
+  ]
+ },
+ {
+  "ord": 2270,
+  "addr": "0x140165ae0",
+  "name": "sub_140165AE0",
+  "role": "Hook/隐藏",
+  "size": 267,
+  "callers": [
+   "sub_140165D30(0x140165d30)"
+  ],
+  "callees": [
+   "Rtl_AtExitListPush(0x1400ff200)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_140166D10(0x140166d10)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140165AE0(unsigned __int64 *a1, __int64 a2)`",
+   "`  __int64 v3; // rdx`",
+   "`  __int64 result; // rax`",
+   "`  int v5; // ebx`",
+   "`  _QWORD *v6; // r8`",
+   "`  _QWORD *v7; // rcx`",
+   "`  __int64 v8; // [rsp+20h] [rbp-18h] BYREF`",
+   "`  int v9; // [rsp+28h] [rbp-10h]`",
+   "`  int v10; // [rsp+2Ch] [rbp-Ch]`",
+   "`  __int64 v11; // [rsp+58h] [rbp+20h] BYREF`",
+   "`  sub_140166D10(g_Hook_GuestCr3OrCtx, &v8, a2);`",
+   "`  result = v8 - 0xFFFF;`"
+  ]
+ },
+ {
+  "ord": 2271,
+  "addr": "0x140165bf0",
+  "name": "sub_140165BF0",
+  "role": "Hook/隐藏",
+  "size": 311,
+  "callers": [
+   "sub_140165BF0(0x140165bf0)",
+   "sub_140165D30(0x140165d30)"
+  ],
+  "callees": [
+   "Rtl_AtExitListPush(0x1400ff200)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_140166D10(0x140166d10)"
+  ],
+  "key": [
+   "`unsigned __int64 __fastcall sub_140165BF0(unsigned __int64 *a1, __int64 a2, int a3)`",
+   "`  unsigned __int64 result; // rax`",
+   "`  _QWORD *v7; // r9`",
+   "`  _QWORD *v8; // rcx`",
+   "`  __int64 v9; // rdx`",
+   "`  int v10; // edi`",
+   "`  __int64 GuestU64; // rax`",
+   "`  __int64 v12; // [rsp+20h] [rbp-18h] BYREF`",
+   "`  int v13; // [rsp+28h] [rbp-10h]`",
+   "`  int v14; // [rsp+2Ch] [rbp-Ch]`",
+   "`  __int64 v15; // [rsp+48h] [rbp+10h] BYREF`",
+   "`  result = a2 - 0xFFFF;`"
+  ]
+ },
+ {
+  "ord": 2272,
+  "addr": "0x140165d30",
+  "name": "sub_140165D30",
+  "role": "Hook/隐藏",
+  "size": 501,
+  "callers": [
+   "sub_140166200(0x140166200)"
+  ],
+  "callees": [
+   "Rtl_AtExitListPush(0x1400ff200)",
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_140165AE0(0x140165ae0)",
+   "sub_140165BF0(0x140165bf0)",
+   "sub_140166D10(0x140166d10)",
+   "sub_140184D90(0x140184d90)"
+  ],
+  "key": [
+   "`unsigned __int64 __fastcall sub_140165D30(__int64 a1, __int64 a2, unsigned __int64 *a3)`",
+   "`  unsigned __int64 result; // rax`",
+   "`  __int64 v7; // r8`",
+   "`  __int64 v8; // r8`",
+   "`  int v9; // esi`",
+   "`  int v10; // ebp`",
+   "`  unsigned int GuestU32; // edi`",
+   "`  __int64 GuestU64; // rax`",
+   "`  __int64 v13; // rax`",
+   "`  _QWORD *v14; // rdx`",
+   "`  __int64 v15; // r8`",
+   "`  _QWORD *v16; // rax`"
+  ]
+ },
+ {
+  "ord": 2273,
+  "addr": "0x140165f30",
+  "name": "sub_140165F30",
+  "role": "Hook/隐藏",
+  "size": 714,
+  "callers": [
+   "sub_140166200(0x140166200)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_140163720(0x140163720)",
+   "sub_1401637E0(0x1401637e0)",
+   "sub_140164650(0x140164650)",
+   "sub_140164F60(0x140164f60)",
+   "sub_140165890(0x140165890)"
+  ],
+  "key": [
+   "`char __fastcall sub_140165F30(__int64 a1, int a2, __int64 a3)`",
+   "`  char v6; // r14`",
+   "`  char v7; // al`",
+   "`  char v8; // r15`",
+   "`  char v9; // si`",
+   "`  __int64 GuestU64; // rax`",
+   "`  __int64 v11; // rax`",
+   "`  unsigned int v12; // xmm6_4`",
+   "`  float v13; // xmm4_4`",
+   "`  unsigned int v14; // xmm5_4`",
+   "`  __int64 v15; // rax`",
+   "`  __m128i v17; // [rsp+30h] [rbp-49h] BYREF`"
+  ]
+ },
+ {
+  "ord": 2274,
+  "addr": "0x140166200",
+  "name": "sub_140166200",
+  "role": "Hook/隐藏",
+  "size": 1154,
+  "callers": [
+   "sub_140166690(0x140166690)"
+  ],
+  "callees": [
+   "Mem_HeapFree(0x1400029f0)",
+   "Mem_HeapAlloc(0x140133e10)",
+   "HV_Dispatch(0x1401536b0)",
+   "sub_1401637E0(0x1401637e0)",
+   "sub_140163B10(0x140163b10)",
+   "sub_140165D30(0x140165d30)",
+   "sub_140165F30(0x140165f30)",
+   "sub_1401755B0(0x1401755b0)"
+  ],
+  "key": [
+   "`char __fastcall sub_140166200(__int64 a1, __int64 a2)`",
+   "`  __int64 v4; // rax`",
+   "`  __int64 v5; // r15`",
+   "`  __m128i v6; // xmm6`",
+   "`  char *v7; // rax`",
+   "`  char *v8; // rbx`",
+   "`  __int64 *v9; // rbx`",
+   "`  __int64 *v10; // rsi`",
+   "`  __m128i v11; // xmm7`",
+   "`  float v12; // xmm1_4`",
+   "`  __m128i v13; // xmm10`",
+   "`  float v14; // xmm0_4`"
+  ]
+ },
+ {
+  "ord": 2275,
+  "addr": "0x140166690",
+  "name": "sub_140166690",
+  "role": "Hook/隐藏",
+  "size": 1106,
+  "callers": [
+   "Hook_InstallAll(0x1401891d0)"
+  ],
+  "callees": [
+   "sub_140066ED0(0x140066ed0)",
+   "sub_140067020(0x140067020)",
+   "sub_140067200(0x140067200)",
+   "sub_14014E4F0(0x14014e4f0)",
+   "sub_14015D2D0(0x14015d2d0)",
+   "sub_140163EF0(0x140163ef0)",
+   "sub_140166200(0x140166200)",
+   "sub_140167780(0x140167780)"
+  ],
+  "key": [
+   "`void __fastcall sub_140166690(__int64 a1)`",
+   "`  __int64 *v1; // rbx`",
+   "`  __m128i si128; // xmm11`",
+   "`  __int64 v3; // rdx`",
+   "`  float v4; // xmm8_4`",
+   "`  float v5; // xmm7_4`",
+   "`  __int64 v6; // rax`",
+   "`  __int64 v7; // rdi`",
+   "`  double v8; // xmm0_8`",
+   "`  double v9; // xmm0_8`",
+   "`  __int64 v10; // rcx`",
+   "`  float *v11; // rsi`"
+  ]
+ },
+ {
+  "ord": 2283,
+  "addr": "0x140167780",
+  "name": "sub_140167780",
+  "role": "Hook/隐藏",
+  "size": 400,
+  "callers": [
+   "sub_140163EF0(0x140163ef0)",
+   "sub_140166690(0x140166690)",
+   "sub_140169C10(0x140169c10)",
+   "sub_140169CD0(0x140169cd0)",
+   "sub_14016A980(0x14016a980)",
+   "sub_14016DD70(0x14016dd70)",
+   "sub_140171E10(0x140171e10)",
+   "sub_140186D90(0x140186d90)"
+  ],
+  "callees": [
+   "sub_1401E9260(0x1401e9260)"
+  ],
+  "key": [
+   "`float *__fastcall sub_140167780(float *a1, float *a2)`",
+   "`  float v3; // xmm3_4`",
+   "`  float v4; // xmm6_4`",
+   "`  float v5; // xmm4_4`",
+   "`  float v6; // xmm8_4`",
+   "`  float v7; // xmm9_4`",
+   "`  float v8; // xmm1_4`",
+   "`  float v9; // xmm10_4`",
+   "`  float v10; // xmm7_4`",
+   "`  float v11; // xmm0_4`",
+   "`  v3 = *a2 - COERCE_FLOAT(*(_QWORD *)(g_Hook_NtosOffsetsCtx + 1600));`",
+   "`  v4 = (float)*(int *)(g_Hook_NtosOffsetsCtx + 1556);`"
+  ]
+ },
+ {
+  "ord": 2285,
+  "addr": "0x140167a10",
+  "name": "Hook_SeedFromTickCount",
+  "role": "Hook/隐藏",
+  "size": 1093,
+  "callers": [
+   "Hook_InstallAll(0x1401891d0)"
+  ],
+  "callees": [
+   "sub_140065C80(0x140065c80)",
+   "sub_1400661D0(0x1400661d0)",
+   "sub_140066580(0x140066580)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)"
+  ],
+  "key": [
+   "`  unsigned __int64 result; // rax`",
+   "`  unsigned __int64 v3; // rcx`",
+   "`  unsigned __int64 v4; // rsi`",
+   "`  __int64 v5; // r8`",
+   "`  unsigned __int64 v6; // rax`",
+   "`  unsigned __int64 v7; // rdx`",
+   "`  __int64 *v8; // r9`",
+   "`  __int64 v9; // rcx`",
+   "`  unsigned __int64 v10; // rbx`",
+   "`  __int64 v11; // rcx`",
+   "`  unsigned __int64 v12; // r8`",
+   "`  __int64 v13; // rdx`"
+  ]
+ },
+ {
+  "ord": 2286,
+  "addr": "0x140167e60",
+  "name": "sub_140167E60",
+  "role": "Hook/隐藏",
+  "size": 468,
+  "callers": [
+   "sub_14016A130(0x14016a130)"
+  ],
+  "callees": [
+   "sub_140167910(0x140167910)"
+  ],
+  "key": [
+   "`char __fastcall sub_140167E60(unsigned __int64 a1, float *a2, float *a3, __int64 a4, __int64 a5, _BYTE *a6)`",
+   "`  __int64 v7; // rax`",
+   "`  __int64 *v9; // rcx`",
+   "`  __int64 v10; // rax`",
+   "`  __int64 v11; // rcx`",
+   "`  __int64 v12; // r11`",
+   "`  __int64 v13; // r11`",
+   "`  __int64 v14; // rax`",
+   "`    v7 = g_Hook_NtosOffsetsCtx;`",
+   "`    ++*(_QWORD *)(g_Hook_NtosOffsetsCtx + 2168);`",
+   "`                  & (0x100000001B3LL`",
+   "`                    ^ (0x100000001B3LL`"
+  ]
+ },
+ {
+  "ord": 2287,
+  "addr": "0x140168040",
+  "name": "sub_140168040",
+  "role": "Hook/隐藏",
+  "size": 995,
+  "callers": [
+   "sub_14016DD70(0x14016dd70)"
+  ],
+  "callees": [
+   "sub_140167910(0x140167910)"
+  ],
+  "key": [
+   "`char __fastcall sub_140168040(unsigned __int64 a1, float *a2, float *a3, __int64 a4, __int64 a5)`",
+   "`  __int64 v6; // rax`",
+   "`  __int64 *v8; // rcx`",
+   "`  __int64 v9; // rax`",
+   "`  __int64 v10; // rcx`",
+   "`  __int64 v11; // r11`",
+   "`  __int64 v12; // r11`",
+   "`  __int64 v13; // r8`",
+   "`  __int64 v14; // r9`",
+   "`  int v15; // eax`",
+   "`  unsigned __int8 v16; // cl`",
+   "`  __int64 v17; // rcx`"
+  ]
+ },
+ {
+  "ord": 2289,
+  "addr": "0x1401686a0",
+  "name": "sub_1401686A0",
+  "role": "Hook/隐藏",
+  "size": 104,
+  "callers": [
+   "sub_14016DD70(0x14016dd70)"
+  ],
+  "callees": [
+   "sub_14015D2D0(0x14015d2d0)"
+  ],
+  "key": [
+   "`bool __fastcall sub_1401686A0(__int64 a1, unsigned int a2, float a3, float a4)`",
+   "`  double v6; // xmm0_8`",
+   "`  v6 = sub_14015D2D0(g_Hook_GuestCr3OrCtx, a1 + a2);`"
+  ]
+ },
+ {
+  "ord": 2292,
+  "addr": "0x140168a70",
+  "name": "sub_140168A70",
+  "role": "Hook/隐藏",
+  "size": 1542,
+  "callers": [
+   "Hook_NtApi_VmExitHandler(0x1401906e0)"
+  ],
+  "callees": [
+   "Hv_WriteGuestU64(0x14015d100)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "Hv_ReadGuestBytes(0x14015d900)",
+   "sub_140166D10(0x140166d10)",
+   "sub_1401687E0(0x1401687e0)",
+   "sub_14016B1C0(0x14016b1c0)",
+   "sub_14016B300(0x14016b300)",
+   "sub_14016B410(0x14016b410)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140168A70(_QWORD *a1)`",
+   "`  __int64 result; // rax`",
+   "`  __int64 GuestU64; // r12`",
+   "`  unsigned __int64 v4; // rdx`",
+   "`  int v5; // esi`",
+   "`  unsigned int v6; // r15d`",
+   "`  bool v7; // cl`",
+   "`  bool v8; // r13`",
+   "`  __int64 v9; // r8`",
+   "`  float v10; // xmm2_4`",
+   "`  __int64 v11; // rcx`",
+   "`  __int64 v12; // rdx`"
+  ]
+ },
+ {
+  "ord": 2297,
+  "addr": "0x140169cd0",
+  "name": "sub_140169CD0",
+  "role": "Hook/隐藏",
+  "size": 1120,
+  "callers": [
+   "sub_14016A130(0x14016a130)",
+   "sub_14016DD70(0x14016dd70)"
+  ],
+  "callees": [
+   "sub_140167780(0x140167780)",
+   "sub_140169080(0x140169080)",
+   "sub_1401696C0(0x1401696c0)",
+   "sub_1401944D0(0x1401944d0)",
+   "sub_1401E9260(0x1401e9260)"
+  ],
+  "key": [
+   "`float *__fastcall sub_140169CD0(int a1, __int64 a2, float *a3, float a4, float a5, int a6)`",
+   "`  float *result; // rax`",
+   "`  float v11; // xmm6_4`",
+   "`  float v12; // xmm7_4`",
+   "`  float v13; // xmm7_4`",
+   "`  int v14; // edx`",
+   "`  __int64 v15; // rax`",
+   "`  __int64 v16; // xmm0_8`",
+   "`  float v17; // esi`",
+   "`  __int64 v18; // xmm7_8`",
+   "`  float v19; // xmm3_4`",
+   "`  __m128 v20; // xmm0`"
+  ]
+ },
+ {
+  "ord": 2298,
+  "addr": "0x14016a130",
+  "name": "sub_14016A130",
+  "role": "Hook/隐藏",
+  "size": 504,
+  "callers": [
+   "sub_140166690(0x140166690)",
+   "sub_140186D90(0x140186d90)"
+  ],
+  "callees": [
+   "sub_140167E60(0x140167e60)",
+   "sub_140169C10(0x140169c10)",
+   "sub_140169CD0(0x140169cd0)",
+   "sub_14016B8D0(0x14016b8d0)",
+   "DnsPrint_ParsedMessage(0x140185840)"
+  ],
+  "key": [
+   "`void __fastcall sub_14016A130(unsigned __int64 a1, __int64 a2, float a3, int a4, __int64 a5, __int64 a6)`",
+   "`  bool v10; // zf`",
+   "`  _QWORD *v11; // rdi`",
+   "`  __int64 v12; // xmm0_8`",
+   "`  __int64 v13; // r9`",
+   "`  __int64 v14; // rax`",
+   "`  __int64 v15; // rcx`",
+   "`  __int64 v16; // rdi`",
+   "`  __int64 v17; // r14`",
+   "`  __int64 v18; // rcx`",
+   "`  unsigned __int64 v19; // kr00_8`",
+   "`  char v20; // al`"
+  ]
+ },
+ {
+  "ord": 2299,
+  "addr": "0x14016a330",
+  "name": "sub_14016A330",
+  "role": "Hook/隐藏",
+  "size": 983,
+  "callers": [
+   "sub_14016A980(0x14016a980)"
+  ],
+  "callees": [
+   "没有直接下级函数，或者通过函数指针间接调用"
+  ],
+  "key": [
+   "`float *__fastcall sub_14016A330(float *a1, __int64 a2)`",
+   "`  float v3; // xmm9_4`",
+   "`  int v4; // ecx`",
+   "`  float v5; // xmm0_4`",
+   "`  float v6; // xmm10_4`",
+   "`  float v7; // xmm3_4`",
+   "`  float v8; // xmm2_4`",
+   "`  float v9; // xmm8_4`",
+   "`  float v10; // xmm6_4`",
+   "`  float v11; // xmm7_4`",
+   "`  float v12; // xmm4_4`",
+   "`  float v13; // xmm5_4`"
+  ]
+ },
+ {
+  "ord": 2300,
+  "addr": "0x14016a710",
+  "name": "sub_14016A710",
+  "role": "Hook/隐藏",
+  "size": 154,
+  "callers": [
+   "sub_14016A7B0(0x14016a7b0)",
+   "sub_14016A980(0x14016a980)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_14016B540(0x14016b540)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_14016A710(char a1)`",
+   "`  __int64 result; // rax`",
+   "`  unsigned int v3; // edx`",
+   "`             g_Hook_GuestCr3OrCtx,`",
+   "`             *(_QWORD *)(g_Hook_NtosOffsetsCtx + 1832) + *(unsigned int *)(g_Hook_OffsetTable + 548));`",
+   "`    result = Hv_ReadGuestU64(g_Hook_GuestCr3OrCtx, result + *(unsigned int *)(g_Hook_OffsetTable + 824));`",
+   "`        v3 = *(_DWORD *)(g_Hook_OffsetTable + 140);`",
+   "`        v3 = *(_DWORD *)(g_Hook_OffsetTable + 144);`",
+   "`      return sub_14016B540(*(_QWORD *)(g_Hook_NtosOffsetsCtx + 1592) + v3, result, 0);`"
+  ]
+ },
+ {
+  "ord": 2301,
+  "addr": "0x14016a7b0",
+  "name": "sub_14016A7B0",
+  "role": "Hook/隐藏",
+  "size": 462,
+  "callers": [
+   "sub_14016A980(0x14016a980)"
+  ],
+  "callees": [
+   "sub_14015D2D0(0x14015d2d0)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_14016A710(0x14016a710)",
+   "sub_14016B540(0x14016b540)",
+   "sub_1401755B0(0x1401755b0)"
+  ],
+  "key": [
+   "`void __fastcall sub_14016A7B0(char a1)`",
+   "`  __int64 v1; // rax`",
+   "`  double v2; // xmm0_8`",
+   "`  __int64 GuestU64; // rax`",
+   "`  __int64 v4; // rax`",
+   "`  __int64 v5; // rax`",
+   "`  __int64 v6; // rax`",
+   "`    v1 = sub_1401755B0(*(_QWORD *)(g_Hook_NtosOffsetsCtx + 1920) + *(unsigned int *)(g_Hook_OffsetTable + 1056));`",
+   "`      || (v2 = sub_14015D2D0(g_Hook_GuestCr3OrCtx, v1 + *(unsigned int *)(g_Hook_OffsetTable + 1060)),`",
+   "`      if ( MEMORY[0x14DD921E4] == 0 )`",
+   "`        sub_14016A710(1);`",
+   "`        MEMORY[0x14DD921E4] = 1;`"
+  ]
+ },
+ {
+  "ord": 2316,
+  "addr": "0x14016ca70",
+  "name": "Hook_InitEnv",
+  "role": "Hook/隐藏",
+  "size": 673,
+  "callers": [
+   "Hook_InstallAll(0x1401891d0)"
+  ],
+  "callees": [
+   "Rtl_AbortStringTooLong(0x140002870)",
+   "Mem_HeapAllocAligned(0x140002aa0)",
+   "sub_140082760(0x140082760)",
+   "sub_14011BDD0(0x14011bdd0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_1401712A0(0x1401712a0)",
+   "sub_1401E98C0(0x1401e98c0)"
+  ],
+  "key": [
+   "`  _BYTE *result; // rax`",
+   "`  __int64 v1; // rcx`",
+   "`  unsigned __int64 v2; // r8`",
+   "`  char *v3; // rsi`",
+   "`  unsigned __int64 v4; // r9`",
+   "`  unsigned __int64 v5; // rdx`",
+   "`  __int64 v6; // rbp`",
+   "`  unsigned __int64 v7; // rdi`",
+   "`  int v8; // ebx`",
+   "`  unsigned __int64 v9; // r8`",
+   "`  __int128 v10; // [rsp+30h] [rbp-48h] BYREF`",
+   "`  __m128i si128; // [rsp+40h] [rbp-38h]`"
+  ]
+ },
+ {
+  "ord": 2318,
+  "addr": "0x14016cdc0",
+  "name": "sub_14016CDC0",
+  "role": "Hook/隐藏",
+  "size": 514,
+  "callers": [
+   "sub_140186D90(0x140186d90)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_140171410(0x140171410)",
+   "sub_140171580(0x140171580)",
+   "sub_140171800(0x140171800)",
+   "sub_1401755B0(0x1401755b0)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_14016CDC0(__int64 a1)`",
+   "`  __int64 v1; // rbx`",
+   "`  __int64 result; // rax`",
+   "`  unsigned __int64 GuestU64; // rdi`",
+   "`  __int64 v4; // rcx`",
+   "`  __int64 *v5; // rcx`",
+   "`  __int64 v6; // rcx`",
+   "`  __int64 v7; // rcx`",
+   "`  __int64 v8; // rbx`",
+   "`  __int64 v9; // rcx`",
+   "`  _BYTE v10[24]; // [rsp+20h] [rbp-18h] BYREF`",
+   "`  __int64 v11; // [rsp+40h] [rbp+8h] BYREF`"
+  ]
+ },
+ {
+  "ord": 2320,
+  "addr": "0x14016d230",
+  "name": "sub_14016D230",
+  "role": "Hook/隐藏",
+  "size": 1409,
+  "callers": [
+   "sub_14016DD70(0x14016dd70)",
+   "sub_1401703F0(0x1401703f0)",
+   "Hook_InstallAll(0x1401891d0)"
+  ],
+  "callees": [
+   "Mem_HeapFree(0x1400029f0)",
+   "sub_140053A20(0x140053a20)",
+   "Hv_ReadGuestU8(0x14015cdc0)",
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_140166D10(0x140166d10)",
+   "sub_14016CD20(0x14016cd20)",
+   "sub_140170E00(0x140170e00)"
+  ],
+  "key": [
+   "`void __fastcall sub_14016D230(unsigned __int64 a1, char a2, char a3)`",
+   "`  __int64 v5; // rdi`",
+   "`  char *v6; // r15`",
+   "`  __int64 v7; // rax`",
+   "`  __int64 v8; // rax`",
+   "`  __int64 v9; // r13`",
+   "`  unsigned __int64 v10; // r14`",
+   "`  int v11; // ebx`",
+   "`  int v12; // eax`",
+   "`  __int64 *v13; // rcx`",
+   "`  __int64 v14; // rax`",
+   "`  __int64 v15; // rcx`"
+  ]
+ },
+ {
+  "ord": 2321,
+  "addr": "0x14016d7c0",
+  "name": "sub_14016D7C0",
+  "role": "Hook/隐藏",
+  "size": 1019,
+  "callers": [
+   "sub_14016DBC0(0x14016dbc0)",
+   "sub_14016DD70(0x14016dd70)",
+   "sub_1401703F0(0x1401703f0)",
+   "sub_140186D90(0x140186d90)"
+  ],
+  "callees": [
+   "sub_140066ED0(0x140066ed0)",
+   "sub_140067180(0x140067180)",
+   "sub_1400CB720(0x1400cb720)",
+   "HV_Dispatch(0x1401536b0)",
+   "sub_140167700(0x140167700)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_14016D7C0(__int64 a1, __int64 a2, unsigned int a3, __int64 a4, _BYTE *a5)`",
+   "`  __m128 v7; // xmm7`",
+   "`  __m128 v8; // xmm6`",
+   "`  unsigned __int64 v9; // xmm11_8`",
+   "`  __m128 v10; // xmm14`",
+   "`  __m128 v11; // xmm15`",
+   "`  float v12; // xmm4_4`",
+   "`  float v13; // xmm3_4`",
+   "`  float v14; // xmm0_4`",
+   "`  float v15; // xmm1_4`",
+   "`  float v16; // xmm0_4`",
+   "`  float v17; // xmm1_4`"
+  ]
+ },
+ {
+  "ord": 2322,
+  "addr": "0x14016dbc0",
+  "name": "sub_14016DBC0",
+  "role": "Hook/隐藏",
+  "size": 430,
+  "callers": [
+   "sub_14016DD70(0x14016dd70)",
+   "sub_1401703F0(0x1401703f0)"
+  ],
+  "callees": [
+   "sub_140138660(0x140138660)",
+   "sub_14014E4F0(0x14014e4f0)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_14016D7C0(0x14016d7c0)",
+   "sub_1401755B0(0x1401755b0)",
+   "sub_1401939D0(0x1401939d0)",
+   "sub_140193AA0(0x140193aa0)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_14016DBC0(__int64 a1, __int64 a2, float *a3, __int64 a4, unsigned __int8 a5)`",
+   "`  double v8; // xmm0_8`",
+   "`  float v9; // xmm9_4`",
+   "`  __int64 v10; // rdx`",
+   "`  __int64 v11; // r8`",
+   "`  double v12; // xmm0_8`",
+   "`  __int32 v13; // xmm1_4`",
+   "`  __int64 result; // rax`",
+   "`  __int64 *v15; // rax`",
+   "`  __int64 *v16; // rbx`",
+   "`  __int64 *v17; // rdi`",
+   "`  __int64 v18; // rcx`"
+  ]
+ },
+ {
+  "ord": 2324,
+  "addr": "0x140170330",
+  "name": "sub_140170330",
+  "role": "Hook/隐藏",
+  "size": 191,
+  "callers": [
+   "sub_14016DD70(0x14016dd70)",
+   "sub_1401703F0(0x1401703f0)"
+  ],
+  "callees": [
+   "Hv_ReadGuestBytes(0x14015d900)",
+   "sub_1401755B0(0x1401755b0)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140170330(__int64 a1, __int64 a2)`",
+   "`  __int64 v4; // rsi`",
+   "`  __int64 v5; // rax`",
+   "`  unsigned __int64 v6; // r8`",
+   "`  __int64 v7; // rcx`",
+   "`  __int64 *v8; // rax`",
+   "`  __int64 v9; // xmm0_8`",
+   "`  __int64 v11; // [rsp+20h] [rbp-18h] BYREF`",
+   "`  int v12; // [rsp+28h] [rbp-10h]`",
+   "`    v5 = sub_1401755B0(**(_QWORD **)(a1 + 16) + *(unsigned int *)(g_Hook_OffsetTable + 516));`",
+   "`      v6 = v5 + *(unsigned int *)(g_Hook_OffsetTable + 520);`",
+   "`      v6 = v4 + *(unsigned int *)(g_Hook_OffsetTable + 632) - 16LL;`"
+  ]
+ },
+ {
+  "ord": 2325,
+  "addr": "0x1401703f0",
+  "name": "sub_1401703F0",
+  "role": "Hook/隐藏",
+  "size": 2415,
+  "callers": [
+   "sub_140186D90(0x140186d90)"
+  ],
+  "callees": [
+   "sub_14014E4F0(0x14014e4f0)",
+   "sub_14015C2C0(0x14015c2c0)",
+   "sub_14015C420(0x14015c420)",
+   "sub_14015C5A0(0x14015c5a0)",
+   "sub_14015C740(0x14015c740)",
+   "Hv_ReadGuestU8(0x14015cdc0)",
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "sub_14015D2D0(0x14015d2d0)"
+  ],
+  "key": [
+   "`void sub_1401703F0(__int64 a1, __int64 a2, ...)`",
+   "`  __int64 v3; // r8`",
+   "`  __int64 v4; // rax`",
+   "`  __int64 v5; // rax`",
+   "`  __int64 v6; // rbx`",
+   "`  double v7; // xmm0_8`",
+   "`  float v8; // xmm7_4`",
+   "`  bool v9; // al`",
+   "`  __int64 v10; // r14`",
+   "`  double v11; // xmm0_8`",
+   "`  float v12; // xmm6_4`",
+   "`  double v13; // xmm0_8`"
+  ]
+ },
+ {
+  "ord": 2326,
+  "addr": "0x140170d60",
+  "name": "sub_140170D60",
+  "role": "Hook/隐藏",
+  "size": 151,
+  "callers": [
+   "sub_1401703F0(0x1401703f0)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_1401755B0(0x1401755b0)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140170D60(__int64 a1)`",
+   "`  _QWORD **v2; // rsi`",
+   "`  _QWORD *v3; // rax`",
+   "`    *v3 = sub_1401755B0(*v2[1] + *(unsigned int *)(g_Hook_OffsetTable + 532));`",
+   "`  **(_QWORD **)(a1 + 8) = Hv_ReadGuestU64(g_Hook_GuestCr3OrCtx, **v2 + *(unsigned int *)(g_Hook_OffsetTable + 724));`"
+  ]
+ },
+ {
+  "ord": 2342,
+  "addr": "0x140172be0",
+  "name": "sub_140172BE0",
+  "role": "Hook/隐藏",
+  "size": 622,
+  "callers": [
+   "sub_140186D90(0x140186d90)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_1401616B0(0x1401616b0)",
+   "sub_1401619E0(0x1401619e0)",
+   "sub_140166D10(0x140166d10)",
+   "sub_140171090(0x140171090)",
+   "sub_140172AB0(0x140172ab0)",
+   "sub_140172E50(0x140172e50)"
+  ],
+  "key": [
+   "`char __fastcall sub_140172BE0(__int64 a1, __int64 a2, __int64 a3, __int64 a4, float a5)`",
+   "`  char result; // al`",
+   "`  int v9; // r10d`",
+   "`  char v10; // si`",
+   "`  float v11; // xmm6_4`",
+   "`  char v12; // di`",
+   "`  bool v13; // zf`",
+   "`  __int64 v14; // r8`",
+   "`  __int64 v15; // rbx`",
+   "`  unsigned __int64 GuestU64; // rax`",
+   "`  __int64 v17; // rdx`",
+   "`  __int64 v18; // r9`"
+  ]
+ },
+ {
+  "ord": 2343,
+  "addr": "0x140172e50",
+  "name": "sub_140172E50",
+  "role": "Hook/隐藏",
+  "size": 144,
+  "callers": [
+   "sub_140172BE0(0x140172be0)",
+   "sub_140172EE0(0x140172ee0)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "sub_1401755B0(0x1401755b0)",
+   "sub_140176310(0x140176310)",
+   "sub_1401D2EF0(0x1401d2ef0)"
+  ],
+  "key": [
+   "`bool __fastcall sub_140172E50(__int64 a1)`",
+   "`  bool result; // al`",
+   "`  __int64 v3; // rax`",
+   "`  __int64 v4; // rax`",
+   "`  _DWORD *v5; // rax`",
+   "`  if ( (unsigned int)Hv_ReadGuestU32(g_Hook_GuestCr3OrCtx, a1 + *(unsigned int *)(g_Hook_OffsetTable + 872)) == *(_DWORD *)(g_Hook_NtosOffsetsCtx + 1900) )`",
+   "`  v3 = sub_1401755B0(a1 + *(unsigned int *)(g_Hook_OffsetTable + 868));`",
+   "`  result = (unsigned __int64)(v3 - 0xFFFF) <= 0x7FFFFFFF0000LL`",
+   "`        && (v4 = sub_140176310(v3), (v5 = (_DWORD *)sub_1401D2EF0(v4)) != nullptr)`"
+  ]
+ },
+ {
+  "ord": 2344,
+  "addr": "0x140172ee0",
+  "name": "sub_140172EE0",
+  "role": "Hook/隐藏",
+  "size": 1529,
+  "callers": [
+   "sub_140186D90(0x140186d90)"
+  ],
+  "callees": [
+   "sub_140066ED0(0x140066ed0)",
+   "sub_140067020(0x140067020)",
+   "sub_1400673C0(0x1400673c0)",
+   "sub_14009CE00(0x14009ce00)",
+   "sub_14014E4F0(0x14014e4f0)",
+   "Hv_ReadGuestU8(0x14015cdc0)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_1401616B0(0x1401616b0)"
+  ],
+  "key": [
+   "`char __fastcall sub_140172EE0(__int64 a1, int *a2, __int64 a3, float *a4, __int64 a5, float a6)`",
+   "`  int v6; // r13d`",
+   "`  char result; // al`",
+   "`  char v11; // bp`",
+   "`  char v12; // r15`",
+   "`  __int64 GuestU64; // rax`",
+   "`  __int64 v14; // rax`",
+   "`  __int64 v15; // r14`",
+   "`  int v16; // ebx`",
+   "`  __int64 v17; // rdx`",
+   "`  int v18; // eax`",
+   "`  unsigned int v19; // eax`"
+  ]
+ },
+ {
+  "ord": 2347,
+  "addr": "0x1401739e0",
+  "name": "sub_1401739E0",
+  "role": "Hook/隐藏",
+  "size": 360,
+  "callers": [
+   "sub_140186D90(0x140186d90)"
+  ],
+  "callees": [
+   "sub_140066ED0(0x140066ed0)",
+   "sub_140067200(0x140067200)",
+   "sub_14014E4F0(0x14014e4f0)",
+   "sub_14015D2D0(0x14015d2d0)",
+   "sub_140171E10(0x140171e10)"
+  ],
+  "key": [
+   "`void __fastcall sub_1401739E0(__int64 a1, __int64 a2, __int64 a3, float *a4, __int64 a5, float a6)`",
+   "`  double v9; // xmm0_8`",
+   "`  float v10; // xmm6_4`",
+   "`  int v11; // edx`",
+   "`  int v12; // ecx`",
+   "`  int v13; // r8d`",
+   "`  int v14; // r9d`",
+   "`  double v15; // xmm0_8`",
+   "`  __int64 v16; // r9`",
+   "`      sub_14014E4F0(0x14E3B1B70LL, \"%s %dM\", *(_QWORD *)(a2 + 8), (unsigned int)(int)a6);`",
+   "`    v9 = sub_14015D2D0(g_Hook_GuestCr3OrCtx, a1 + *(unsigned int *)(g_Hook_OffsetTable + 1024));`",
+   "`    v10 = *(float *)&v9 - *(float *)(g_Hook_NtosOffsetsCtx + 1788);`"
+  ]
+ },
+ {
+  "ord": 2362,
+  "addr": "0x1401750b0",
+  "name": "sub_1401750B0",
+  "role": "Hook/隐藏",
+  "size": 170,
+  "callers": [
+   "Hook_InstallAll(0x1401891d0)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU8(0x14015cdc0)",
+   "Hv_WriteGuestU64(0x14015d100)",
+   "sub_14015D240(0x14015d240)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_1401750B0(__int64 a1)`",
+   "`  __int64 v2; // rbx`",
+   "`  __int64 v3; // rdx`",
+   "`  if ( (unsigned int)Hv_WriteGuestU64((int *)g_Hook_GuestCr3OrCtx, qword_1402707C0, qword_1402707C0) != 0`",
+   "`    && (v2 = *(_QWORD *)(g_Hook_NtosOffsetsCtx + 1592) + *(unsigned int *)(g_Hook_OffsetTable + 84),`",
+   "`        Hv_ReadGuestU8(g_Hook_GuestCr3OrCtx, v2 + 88) == -61)`",
+   "`    && (unsigned int)Hv_WriteGuestU64((int *)g_Hook_GuestCr3OrCtx, qword_1402707C0 + 96, v2 + 88) != 0 )`",
+   "`    return sub_14015D240(*(_QWORD *)(g_Hook_NtosOffsetsCtx + 1592) + *(unsigned int *)(g_Hook_OffsetTable + 84), v3, a1);`"
+  ]
+ },
+ {
+  "ord": 2370,
+  "addr": "0x140176080",
+  "name": "sub_140176080",
+  "role": "Hook/隐藏",
+  "size": 144,
+  "callers": [
+   "sub_140172840(0x140172840)",
+   "sub_140176110(0x140176110)",
+   "sub_140176160(0x140176160)",
+   "sub_140176310(0x140176310)"
+  ],
+  "callees": [
+   "sub_14014FEE0(0x14014fee0)",
+   "sub_140175D20(0x140175d20)",
+   "sub_140176810(0x140176810)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140176080(unsigned int a1)`",
+   "`  __int64 v2; // rdx`",
+   "`  __int64 v3; // rax`",
+   "`  __int64 result; // rax`",
+   "`  char v5; // [rsp+30h] [rbp+8h] BYREF`",
+   "`  unsigned __int16 v6; // [rsp+38h] [rbp+10h] BYREF`",
+   "`  v2 = *(unsigned int *)(g_Hook_OffsetTable + 16);`",
+   "`  v3 = sub_140176810(`",
+   "`         g_Hook_GuestCr3OrCtx,`",
+   "`         *(_QWORD *)(g_Hook_NtosOffsetsCtx + 1592) + v2 + 8 * ((unsigned __int64)a1 >> 18) + 8);`",
+   "`  result = sub_140175D20(v3 + 2 * (a1 & 0x3FFFF), &v5, &v6);`",
+   "`    sub_14014FEE0(result, v6, 0x14DD92210LL, 4096);`"
+  ]
+ },
+ {
+  "ord": 2372,
+  "addr": "0x140176160",
+  "name": "sub_140176160",
+  "role": "Hook/隐藏",
+  "size": 100,
+  "callers": [
+   "sub_140184AD0(0x140184ad0)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "sub_140176080(0x140176080)",
+   "sub_1401E9D70(0x1401e9d70)"
+  ],
+  "key": [
+   "`const char *__fastcall sub_140176160(__int64 a1)`",
+   "`  unsigned int GuestU32; // eax`",
+   "`  __int64 v3; // rbx`",
+   "`  __int64 v4; // rax`",
+   "`  GuestU32 = Hv_ReadGuestU32(g_Hook_GuestCr3OrCtx, a1 + *(unsigned int *)(g_Hook_OffsetTable + 268));`",
+   "`  v3 = sub_140176080(GuestU32);`",
+   "`  v4 = sub_1401E9D70(v3, qword_1401F1A30);`"
+  ]
+ },
+ {
+  "ord": 2373,
+  "addr": "0x1401761d0",
+  "name": "sub_1401761D0",
+  "role": "Hook/隐藏",
+  "size": 305,
+  "callers": [
+   "sub_14015B960(0x14015b960)"
+  ],
+  "callees": [
+   "sub_1400FD010(0x1400fd010)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_14015DF90(0x14015df90)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_1401761D0(__int64 a1)`",
+   "`  __int64 v1; // rbp`",
+   "`  __int64 result; // rax`",
+   "`  int i; // esi`",
+   "`  _DWORD *v4; // rdi`",
+   "`  unsigned __int64 v5; // rbx`",
+   "`  _DWORD v6[6]; // [rsp+20h] [rbp-78h] BYREF`",
+   "`  __int64 v7; // [rsp+38h] [rbp-60h]`",
+   "`  unsigned __int64 v8; // [rsp+40h] [rbp-58h]`",
+   "`  __int64 *v9; // [rsp+48h] [rbp-50h]`",
+   "`  __int64 v10; // [rsp+A0h] [rbp+8h] BYREF`",
+   "`  v1 = sub_14015DF90(g_Hook_GuestCr3OrCtx, a1 + *(unsigned int *)(g_Hook_OffsetTable + 68));`"
+  ]
+ },
+ {
+  "ord": 2374,
+  "addr": "0x140176310",
+  "name": "sub_140176310",
+  "role": "Hook/隐藏",
+  "size": 474,
+  "callers": [
+   "sub_14015B960(0x14015b960)",
+   "sub_140163720(0x140163720)",
+   "sub_14016DD70(0x14016dd70)",
+   "sub_140172E50(0x140172e50)",
+   "sub_140186D90(0x140186d90)",
+   "Hook_InstallAll(0x1401891d0)",
+   "Hook_NtApi_VmExitHandler(0x1401906e0)"
+  ],
+  "callees": [
+   "Mem_HeapAlloc(0x140133e10)",
+   "HV_Dispatch(0x1401536b0)",
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "sub_1401625B0(0x1401625b0)",
+   "sub_140176080(0x140176080)",
+   "sub_140176B60(0x140176b60)",
+   "sub_1401E9D70(0x1401e9d70)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140176310(__int64 a1)`",
+   "`  _OWORD *v2; // rax`",
+   "`  unsigned int GuestU32; // eax`",
+   "`  unsigned int v4; // r8d`",
+   "`  __int64 v6; // rbx`",
+   "`  __int64 v7; // rcx`",
+   "`  __int64 v8; // rdx`",
+   "`  __int64 *v9; // r9`",
+   "`  __int64 v10; // rax`",
+   "`  const char *v11; // rdi`",
+   "`  __int64 v12; // rax`",
+   "`  unsigned __int8 i; // al`"
+  ]
+ },
+ {
+  "ord": 2394,
+  "addr": "0x1401788e0",
+  "name": "sub_1401788E0",
+  "role": "Hook/隐藏",
+  "size": 492,
+  "callers": [
+   "sub_140178AD0(0x140178ad0)"
+  ],
+  "callees": [
+   "sub_1401852D0(0x1401852d0)"
+  ],
+  "key": [
+   "`__int64 sub_1401788E0()`",
+   "`  __int64 v0; // rcx`",
+   "`  __int64 v1; // rdx`",
+   "`  __int64 v3; // rcx`",
+   "`  unsigned __int64 i; // rdx`",
+   "`  __int64 v5; // rax`",
+   "`  _QWORD v6[13]; // [rsp+28h] [rbp-11h] BYREF`",
+   "`  v0 = g_Hook_NtosOffsetsCtx;`",
+   "`  v1 = *(_QWORD *)(g_Hook_NtosOffsetsCtx + 1592);`",
+   "`  if ( (unsigned __int64)(*(_QWORD *)(g_Hook_NtosOffsetsCtx + 2088) - 0xFFFFLL) > 0x7FFFFFFF0000LL )`",
+   "`    v3 = v1 + *(unsigned int *)(g_Hook_OffsetTable + 20);`",
+   "`    v6[0] = 0x7A0F440CDE87CD83LL;`"
+  ]
+ },
+ {
+  "ord": 2395,
+  "addr": "0x140178ad0",
+  "name": "sub_140178AD0",
+  "role": "Hook/隐藏",
+  "size": 216,
+  "callers": [
+   "sub_1401790B0(0x1401790b0)",
+   "sub_14017BDB0(0x14017bdb0)",
+   "sub_14017BFA0(0x14017bfa0)"
+  ],
+  "callees": [
+   "sub_14016B540(0x14016b540)",
+   "sub_1401788E0(0x1401788e0)",
+   "sub_1401D6C10(0x1401d6c10)"
+  ],
+  "key": [
+   "`bool __fastcall sub_140178AD0(__int64 *a1)`",
+   "`  __int64 v2; // rdi`",
+   "`  __int64 v3; // r9`",
+   "`  __int64 v4; // r8`",
+   "`  bool result; // al`",
+   "`  __int64 v6; // [rsp+40h] [rbp-18h] BYREF`",
+   "`  int v7; // [rsp+48h] [rbp-10h]`",
+   "`  int v8; // [rsp+4Ch] [rbp-Ch]`",
+   "`  v2 = sub_1401788E0();`",
+   "`            (unsigned int)sub_1401D6C10(g_Hook_GuestCr3OrCtx, (int)qword_1402707C0 + 16, v4, (int)v3 - (int)v4, 0) != 0)`",
+   "`        && (unsigned int)sub_1401D6C10(g_Hook_GuestCr3OrCtx, qword_1402707C0, (unsigned int)&v6, 16, 0) != 0`",
+   "`        && sub_14016B540(`"
+  ]
+ },
+ {
+  "ord": 2399,
+  "addr": "0x1401790b0",
+  "name": "sub_1401790B0",
+  "role": "Hook/隐藏",
+  "size": 650,
+  "callers": [
+   "sub_14017EFC0(0x14017efc0)"
+  ],
+  "callees": [
+   "Mem_HeapFree(0x1400029f0)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_1401777E0(0x1401777e0)",
+   "sub_1401778F0(0x1401778f0)",
+   "sub_1401779D0(0x1401779d0)",
+   "sub_140177B90(0x140177b90)"
+  ],
+  "key": [
+   "`void __fastcall sub_1401790B0(__int64 a1)`",
+   "`  unsigned int v2; // edi`",
+   "`  __int64 v3; // rcx`",
+   "`  unsigned __int64 v4; // rcx`",
+   "`  bool v5; // bl`",
+   "`  bool v6; // al`",
+   "`  __int128 v7; // [rsp+30h] [rbp-59h] BYREF`",
+   "`  __int64 v8; // [rsp+40h] [rbp-49h]`",
+   "`  unsigned __int64 v9; // [rsp+48h] [rbp-41h] BYREF`",
+   "`  __int128 v10; // [rsp+50h] [rbp-39h]`",
+   "`  __int64 v11[4]; // [rsp+60h] [rbp-29h] BYREF`",
+   "`  _QWORD v12[10]; // [rsp+80h] [rbp-9h] BYREF`"
+  ]
+ },
+ {
+  "ord": 2400,
+  "addr": "0x140179340",
+  "name": "sub_140179340",
+  "role": "Hook/隐藏",
+  "size": 498,
+  "callers": [
+   "sub_140179540(0x140179540)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_140176810(0x140176810)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140179340(__int64 a1, __int64 a2)`",
+   "`  __int64 v4; // rsi`",
+   "`  int GuestU32; // eax`",
+   "`  __int64 v6; // rcx`",
+   "`  int v7; // eax`",
+   "`  __int64 v8; // rcx`",
+   "`  int GuestU64; // eax`",
+   "`  __int64 v10; // rcx`",
+   "`  int v11; // eax`",
+   "`  __int64 v12; // rcx`",
+   "`  int v13; // eax`",
+   "`  __int64 v14; // rcx`"
+  ]
+ },
+ {
+  "ord": 2401,
+  "addr": "0x140179540",
+  "name": "sub_140179540",
+  "role": "Hook/隐藏",
+  "size": 587,
+  "callers": [
+   "Hook_NtApi_VmExitHandler(0x1401906e0)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "Hv_WriteGuestU64(0x14015d100)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_140178FB0(0x140178fb0)",
+   "sub_140179340(0x140179340)",
+   "sub_140180A80(0x140180a80)",
+   "sub_140181890(0x140181890)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140179540(__int64 *a1)`",
+   "`  __int64 GuestU64; // rax`",
+   "`  unsigned int GuestU32; // eax`",
+   "`  __int64 v4; // rcx`",
+   "`  __int64 v5; // rsi`",
+   "`  __int128 v6; // xmm1`",
+   "`  __int128 v7; // xmm0`",
+   "`  __int128 v8; // xmm1`",
+   "`  __int128 v9; // xmm0`",
+   "`  __int64 v10; // rcx`",
+   "`  __int64 *v11; // rax`",
+   "`  __int128 v12; // xmm1`"
+  ]
+ },
+ {
+  "ord": 2402,
+  "addr": "0x140179790",
+  "name": "sub_140179790",
+  "role": "Hook/隐藏",
+  "size": 760,
+  "callers": [
+   "Hook_NtApi_VmExitHandler(0x1401906e0)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "Hv_WriteGuestU64(0x14015d100)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_140178FB0(0x140178fb0)",
+   "sub_140180A80(0x140180a80)",
+   "sub_140181890(0x140181890)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140179790(_QWORD *a1)`",
+   "`  __int64 GuestU64; // rax`",
+   "`  unsigned int GuestU32; // eax`",
+   "`  __int64 v4; // rax`",
+   "`  __int64 v5; // rsi`",
+   "`  __int64 v6; // rbp`",
+   "`  __int64 v7; // rcx`",
+   "`  __int64 v8; // rcx`",
+   "`  __int64 result; // rax`",
+   "`  __int128 v10; // [rsp+20h] [rbp-138h]`",
+   "`  __int128 v11; // [rsp+30h] [rbp-128h]`",
+   "`  __int128 v12; // [rsp+40h] [rbp-118h]`"
+  ]
+ },
+ {
+  "ord": 2404,
+  "addr": "0x140179af0",
+  "name": "sub_140179AF0",
+  "role": "Hook/隐藏",
+  "size": 431,
+  "callers": [
+   "静态图未找到；可能是入口",
+   "回调",
+   "间接调用或被保护壳隐藏"
+  ],
+  "callees": [
+   "sub_14014E4F0(0x14014e4f0)"
+  ],
+  "key": [
+   "`const char *__fastcall sub_140179AF0(int a1, __int64 a2, __int64 a3, __int64 a4)`",
+   "`  const char *result; // rax`",
+   "`      sub_14014E4F0(0x14E3B1B50LL, qword_1401F1C70, a1, a4);`",
+   "`      return (const char *)0x14E3B1B50LL;`"
+  ]
+ },
+ {
+  "ord": 2411,
+  "addr": "0x14017abc0",
+  "name": "Hook_LookupByPid",
+  "role": "Hook/隐藏",
+  "size": 435,
+  "callers": [
+   "sub_14017BAF0(0x14017baf0)",
+   "Hook_NtApi_VmExitHandler(0x1401906e0)"
+  ],
+  "callees": [
+   "sub_1400FF650(0x1400ff650)"
+  ],
+  "key": [
+   "`// FNV-1a hash lookup of ListHook by PID; remove node if found`",
+   "`  __int64 *v6; // rcx`",
+   "`  __int64 v7; // rax`",
+   "`  __int64 v8; // rcx`",
+   "`  __int64 v9; // rdx`",
+   "`  __int64 *v10; // r8`",
+   "`  __int64 v11; // rax`",
+   "`  __int64 v12; // rax`",
+   "`  while ( _InterlockedCompareExchange64(&qword_14DB95CB0, 1, 0) == 1 )`",
+   "`  v6 = (__int64 *)(g_Hook_ListBuckets`",
+   "`                 * (g_Hook_ListMask`",
+   "`                  & (0x100000001B3LL`"
+  ]
+ },
+ {
+  "ord": 2412,
+  "addr": "0x14017ad80",
+  "name": "sub_14017AD80",
+  "role": "Hook/隐藏",
+  "size": 278,
+  "callers": [
+   "sub_14017BDB0(0x14017bdb0)",
+   "sub_14017BFA0(0x14017bfa0)"
+  ],
+  "callees": [
+   "sub_1400FF650(0x1400ff650)"
+  ],
+  "key": [
+   "`void __fastcall sub_14017AD80(int a1)`",
+   "`  __int64 v2; // rcx`",
+   "`  __int64 *v3; // r9`",
+   "`  unsigned __int64 v4; // r10`",
+   "`  unsigned __int64 v5; // rdx`",
+   "`  __int64 v6; // rax`",
+   "`  while ( _InterlockedCompareExchange64(&qword_14DB95CB0, 1, 0) == 1 )`",
+   "`  v2 = g_Hook_ListSentinel;`",
+   "`  v3 = (__int64 *)(g_Hook_ListBuckets`",
+   "`                 * (g_Hook_ListMask`",
+   "`                  & (0x100000001B3LL`",
+   "`                    ^ (0x100000001B3LL`"
+  ]
+ },
+ {
+  "ord": 2413,
+  "addr": "0x14017aea0",
+  "name": "Hook_LogListEntry",
+  "role": "Hook/隐藏",
+  "size": 395,
+  "callers": [
+   "sub_14017BAF0(0x14017baf0)",
+   "Hook_NtApi_VmExitHandler(0x1401906e0)"
+  ],
+  "callees": [
+   "HV_FlushOrSyncAfterRegister(0x14003e1e0)",
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "Hv_ReadGuestU64(0x14015d5c0)"
+  ],
+  "key": [
+   "`  __int64 v4; // r9`",
+   "`  __int64 v5; // rbx`",
+   "`  while ( _InterlockedCompareExchange64(&qword_14DB95CB0, 1, 0) == 1 )`",
+   "`  _InterlockedExchange64(&qword_14DB95CB0, 0);`",
+   "`  if ( (_DWORD)qword_14DD8A2C0 || (a2 & 0xF0000000) == 0xA0000000 )`",
+   "`    v4 = _InterlockedIncrement64(&qword_14DB95CD0);`",
+   "`      if ( a3 && (v5 = *(_QWORD *)(a3 + 128), (unsigned __int64)(v5 - 0xFFFF) <= 0x7FFFFFFF0000LL) )`",
+   "`        Hv_ReadGuestU32(g_Hook_GuestCr3OrCtx, v5 + 40);`",
+   "`        HV_FlushOrSyncAfterRegister();`",
+   "`      Hv_ReadGuestU64(g_Hook_GuestCr3OrCtx, *(_QWORD *)(a3 + 160) - *(unsigned int *)(g_Hook_OffsetTable + 252));`"
+  ]
+ },
+ {
+  "ord": 2415,
+  "addr": "0x14017b160",
+  "name": "sub_14017B160",
+  "role": "Hook/隐藏",
+  "size": 1182,
+  "callers": [
+   "Hv_ReadProcessListFromGuest(0x14017b970)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU8(0x14015cdc0)",
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_140176810(0x140176810)",
+   "sub_14017B030(0x14017b030)"
+  ],
+  "key": [
+   "`void __fastcall sub_14017B160(__int64 a1, __int64 a2)`",
+   "`  __int64 v2; // rsi`",
+   "`  __int64 v5; // rcx`",
+   "`  unsigned __int64 GuestU64; // rax`",
+   "`  __int64 v7; // rax`",
+   "`  __int64 v8; // rbp`",
+   "`  int GuestU32; // eax`",
+   "`  __int64 v10; // rcx`",
+   "`  int v11; // eax`",
+   "`  __int64 v12; // rcx`",
+   "`  int v13; // eax`",
+   "`  __int64 v14; // rcx`"
+  ]
+ },
+ {
+  "ord": 2416,
+  "addr": "0x14017b600",
+  "name": "sub_14017B600",
+  "role": "Hook/隐藏",
+  "size": 872,
+  "callers": [
+   "sub_14017BAF0(0x14017baf0)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU8(0x14015cdc0)",
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_140176810(0x140176810)",
+   "sub_14017B030(0x14017b030)",
+   "Util_Memset(0x1401ea040)"
+  ],
+  "key": [
+   "`void __fastcall sub_14017B600(__int64 a1, __int64 a2)`",
+   "`  __int64 v4; // rcx`",
+   "`  __int128 v5; // xmm1`",
+   "`  __int128 v6; // xmm0`",
+   "`  __int128 v7; // xmm1`",
+   "`  __int128 v8; // xmm0`",
+   "`  __int128 v9; // xmm1`",
+   "`  __int128 v10; // xmm0`",
+   "`  __int128 v11; // xmm1`",
+   "`  __int128 v12; // xmm0`",
+   "`  __int128 v13; // xmm1`",
+   "`  __int64 v14; // rax`"
+  ]
+ },
+ {
+  "ord": 2417,
+  "addr": "0x14017b970",
+  "name": "Hv_ReadProcessListFromGuest",
+  "role": "Hook/隐藏",
+  "size": 381,
+  "callers": [
+   "Hook_NtApi_VmExitHandler(0x1401906e0)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU8(0x14015cdc0)",
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_14017B160(0x14017b160)"
+  ],
+  "key": [
+   "`  int v2; // esi`",
+   "`  __int64 v5; // rcx`",
+   "`  int v6; // eax`",
+   "`  __int64 v7; // rcx`",
+   "`  int v8; // eax`",
+   "`  __int64 v9; // rcx`",
+   "`  char v10; // al`",
+   "`  int v11; // ebx`",
+   "`  __int64 v12; // rdx`",
+   "`  __int64 v13; // rax`",
+   "`  __int64 v14; // rbp`",
+   "`  unsigned __int64 v15; // r14`"
+  ]
+ },
+ {
+  "ord": 2418,
+  "addr": "0x14017baf0",
+  "name": "sub_14017BAF0",
+  "role": "Hook/隐藏",
+  "size": 703,
+  "callers": [
+   "Hook_NtApi_VmExitHandler(0x1401906e0)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU8(0x14015cdc0)",
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "Hv_WriteGuestU64(0x14015d100)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "Hook_LookupByPid(0x14017abc0)",
+   "Hook_LogListEntry(0x14017aea0)",
+   "sub_14017B600(0x14017b600)",
+   "sub_140180D20(0x140180d20)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_14017BAF0(_QWORD *a1)`",
+   "`  __int64 GuestU64; // rax`",
+   "`  __int64 v3; // r8`",
+   "`  __int64 v4; // r9`",
+   "`  int GuestU32; // ebx`",
+   "`  __int64 v6; // rax`",
+   "`  __int64 v7; // rdx`",
+   "`  int v8; // eax`",
+   "`  __int64 v9; // rdi`",
+   "`  __int64 v10; // rsi`",
+   "`  __int64 v11; // rcx`",
+   "`  int v12; // eax`"
+  ]
+ },
+ {
+  "ord": 2419,
+  "addr": "0x14017bdb0",
+  "name": "sub_14017BDB0",
+  "role": "Hook/隐藏",
+  "size": 488,
+  "callers": [
+   "sub_14017DDB0(0x14017ddb0)",
+   "sub_14017EFC0(0x14017efc0)"
+  ],
+  "callees": [
+   "Mem_HeapFree(0x1400029f0)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "sub_140178440(0x140178440)",
+   "sub_140178AD0(0x140178ad0)",
+   "Hook_InstallNtApi_Set2(0x140178bb0)",
+   "sub_14017AB20(0x14017ab20)",
+   "sub_14017AD80(0x14017ad80)",
+   "sub_140180D20(0x140180d20)"
+  ],
+  "key": [
+   "`void __fastcall sub_14017BDB0(__int64 a1)`",
+   "`  __int64 v1; // rcx`",
+   "`  __int64 v2; // rsi`",
+   "`  __int64 v3; // rcx`",
+   "`  unsigned int v4; // edi`",
+   "`  bool v5; // si`",
+   "`  int v6; // [rsp+20h] [rbp-38h] BYREF`",
+   "`  __int64 v7; // [rsp+28h] [rbp-30h]`",
+   "`  int v8; // [rsp+30h] [rbp-28h]`",
+   "`  __int64 v9[3]; // [rsp+38h] [rbp-20h] BYREF`",
+   "`  __int64 v10; // [rsp+60h] [rbp+8h] BYREF`",
+   "`  while ( _InterlockedCompareExchange64(&qword_14DB95CC0, 1, 0) == 1 )`"
+  ]
+ },
+ {
+  "ord": 2420,
+  "addr": "0x14017bfa0",
+  "name": "sub_14017BFA0",
+  "role": "Hook/隐藏",
+  "size": 814,
+  "callers": [
+   "sub_14017DDB0(0x14017ddb0)"
+  ],
+  "callees": [
+   "Mem_HeapFree(0x1400029f0)",
+   "HV_FlushOrSyncAfterRegister(0x14003e1e0)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "Util_Snprintf(0x14014e6b0)",
+   "sub_1401786F0(0x1401786f0)",
+   "sub_140178AD0(0x140178ad0)",
+   "Hook_InstallNtApi_Set2(0x140178bb0)",
+   "sub_14017AB20(0x14017ab20)"
+  ],
+  "key": [
+   "`void __fastcall sub_14017BFA0(__int64 a1, unsigned int a2)`",
+   "`  __int64 v2; // rdi`",
+   "`  __int64 v3; // rax`",
+   "`  _BYTE *v4; // rdx`",
+   "`  int v5; // eax`",
+   "`  _BYTE *v6; // rbx`",
+   "`  __int128 v7; // xmm1`",
+   "`  __int128 v8; // xmm0`",
+   "`  __int64 v9; // r15`",
+   "`  __int64 v10; // rcx`",
+   "`  bool v11; // bl`",
+   "`  unsigned int v12; // r14d`"
+  ]
+ },
+ {
+  "ord": 2433,
+  "addr": "0x14017efc0",
+  "name": "sub_14017EFC0",
+  "role": "Hook/隐藏",
+  "size": 5055,
+  "callers": [
+   "sub_14E8116D1(0x14e8116d1)"
+  ],
+  "callees": [
+   "Mem_HeapFree(0x1400029f0)",
+   "sub_140053A20(0x140053a20)",
+   "sub_14009C2D0(0x14009c2d0)",
+   "sub_1400A0EA0(0x1400a0ea0)",
+   "sub_1400A7FD0(0x1400a7fd0)",
+   "sub_1400AA4B0(0x1400aa4b0)",
+   "sub_1400AB4C0(0x1400ab4c0)",
+   "sub_1400AB560(0x1400ab560)"
+  ],
+  "key": [
+   "`void sub_14017EFC0()`",
+   "`  __int64 *v0; // rsi`",
+   "`  __int64 v1; // rbx`",
+   "`  int v2; // xmm6_4`",
+   "`  char v3; // al`",
+   "`  __int64 v4; // r8`",
+   "`  __int64 v5; // rax`",
+   "`  int v6; // eax`",
+   "`  __int64 v7; // rdi`",
+   "`  __int64 v8; // r8`",
+   "`  __int64 *i; // rbx`",
+   "`  __int64 v10; // r8`"
+  ]
+ },
+ {
+  "ord": 2444,
+  "addr": "0x140181310",
+  "name": "sub_140181310",
+  "role": "Hook/隐藏",
+  "size": 752,
+  "callers": [
+   "sub_14017AB20(0x14017ab20)"
+  ],
+  "callees": [
+   "nullsub_3(0x140002790)",
+   "Mem_HeapAlloc(0x140133e10)",
+   "HV_Dispatch(0x1401536b0)",
+   "sub_140183F30(0x140183f30)",
+   "sub_1401E9C60(0x1401e9c60)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140181310(__int64 a1, __int64 a2, unsigned __int8 *a3)`",
+   "`  __int64 v3; // rsi`",
+   "`  unsigned __int64 v6; // rbp`",
+   "`  __int64 v7; // rax`",
+   "`  __int64 result; // rax`",
+   "`  _OWORD *v9; // rax`",
+   "`  _OWORD *v10; // rbx`",
+   "`  __int64 v11; // rdx`",
+   "`  unsigned __int64 v12; // rcx`",
+   "`  float v13; // xmm0_4`",
+   "`  unsigned __int64 v14; // rdi`",
+   "`  float v15; // xmm2_4`"
+  ]
+ },
+ {
+  "ord": 2462,
+  "addr": "0x140183f30",
+  "name": "sub_140183F30",
+  "role": "Hook/隐藏",
+  "size": 446,
+  "callers": [
+   "sub_140181310(0x140181310)"
+  ],
+  "callees": [
+   "nullsub_3(0x140002790)",
+   "sub_140066620(0x140066620)"
+  ],
+  "key": [
+   "`unsigned __int64 __fastcall sub_140183F30(__int64 a1, unsigned __int64 a2)`",
+   "`  unsigned __int64 v2; // rcx`",
+   "`  __int64 v3; // rdi`",
+   "`  unsigned __int64 v4; // rcx`",
+   "`  __int64 v5; // rbx`",
+   "`  unsigned __int64 result; // rax`",
+   "`  __int64 v7; // r9`",
+   "`  _QWORD *v8; // rcx`",
+   "`  _QWORD *v9; // rdx`",
+   "`  __int64 *v10; // r11`",
+   "`  __int64 v11; // r10`",
+   "`  int v12; // r8d`"
+  ]
+ },
+ {
+  "ord": 2470,
+  "addr": "0x140184d90",
+  "name": "sub_140184D90",
+  "role": "Hook/隐藏",
+  "size": 95,
+  "callers": [
+   "sub_140165D30(0x140165d30)",
+   "sub_1401881D0(0x1401881d0)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_140176810(0x140176810)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140184D90(__int64 a1, __int64 a2, unsigned int a3)`",
+   "`  __int64 result; // rax`",
+   "`  result = Hv_ReadGuestU64(g_Hook_GuestCr3OrCtx, a2 + 8LL * (a3 / *(_DWORD *)(g_Hook_OffsetTable + 32)));`",
+   "`    return sub_140176810(`",
+   "`             g_Hook_GuestCr3OrCtx,`",
+   "`             result + *(_DWORD *)(g_Hook_OffsetTable + 36) * (a3 % *(_DWORD *)(g_Hook_OffsetTable + 32)));`"
+  ]
+ },
+ {
+  "ord": 2471,
+  "addr": "0x140184df0",
+  "name": "sub_140184DF0",
+  "role": "Hook/隐藏",
+  "size": 1247,
+  "callers": [
+   "sub_1401852D0(0x1401852d0)"
+  ],
+  "callees": [
+   "Mem_HeapFree(0x1400029f0)",
+   "Util_StringAppend(0x14005db00)",
+   "sub_14007C270(0x14007c270)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140176810(0x140176810)",
+   "sub_140184AD0(0x140184ad0)",
+   "sub_1401E98C0(0x1401e98c0)"
+  ],
+  "key": [
+   "`unsigned __int64 *__fastcall sub_140184DF0(__int64 a1, unsigned __int64 *a2)`",
+   "`  __int64 v3; // rax`",
+   "`  unsigned __int64 v5; // r15`",
+   "`  __int64 v6; // rax`",
+   "`  __m128i si128; // xmm8`",
+   "`  unsigned __int64 v8; // r14`",
+   "`  __int64 v9; // rbx`",
+   "`  __int64 *v10; // rax`",
+   "`  unsigned __int64 v11; // r8`",
+   "`  __int64 *v12; // rax`",
+   "`  __int64 v13; // rdx`",
+   "`  __int64 *v14; // rax`"
+  ]
+ },
+ {
+  "ord": 2472,
+  "addr": "0x1401852d0",
+  "name": "sub_1401852D0",
+  "role": "Hook/隐藏",
+  "size": 493,
+  "callers": [
+   "sub_1401788E0(0x1401788e0)",
+   "sub_140189000(0x140189000)",
+   "Hook_InstallAll(0x1401891d0)"
+  ],
+  "callees": [
+   "Mem_HeapFree(0x1400029f0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_140176810(0x140176810)",
+   "sub_140184DF0(0x140184df0)",
+   "sub_1401E98C0(0x1401e98c0)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_1401852D0(unsigned __int64 a1, _BYTE *a2)`",
+   "`  unsigned int GuestU32; // r15d`",
+   "`  unsigned int v5; // esi`",
+   "`  __int64 GuestU64; // r12`",
+   "`  __int64 v7; // r8`",
+   "`  __int64 v8; // rax`",
+   "`  __int64 v9; // r14`",
+   "`  __int64 v10; // rdx`",
+   "`  unsigned __int64 v11; // rdi`",
+   "`  void **v12; // rcx`",
+   "`  __int64 *v13; // rbx`",
+   "`  __int64 *v14; // rcx`"
+  ]
+ },
+ {
+  "ord": 2477,
+  "addr": "0x140185b50",
+  "name": "Hook_RegisterSoftBp",
+  "role": "Hook/隐藏",
+  "size": 541,
+  "callers": [
+   "Hook_InstallNtApi_Set1(0x140168710)",
+   "Hook_InstallNtApi_Set2(0x140178bb0)",
+   "Hook_InstallAll(0x1401891d0)",
+   "sub_14018D350(0x14018d350)"
+  ],
+  "callees": [
+   "sub_1401097A0(0x1401097a0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140186110(0x140186110)",
+   "sub_1401861E0(0x1401861e0)",
+   "sub_140186680(0x140186680)",
+   "sub_1401E98C0(0x1401e98c0)"
+  ],
+  "key": [
+   "`// Register soft-BP style hook entry (a2 often 0xCC) into ACE hook table`",
+   "`  __int64 v5; // rdx`",
+   "`  __int64 v6; // rcx`",
+   "`  unsigned __int64 v7; // rdi`",
+   "`  __int64 v8; // rbx`",
+   "`  __int64 v9; // rcx`",
+   "`  _QWORD *v10; // r9`",
+   "`  __int64 v11; // rdi`",
+   "`  __int64 v12; // rcx`",
+   "`  unsigned __int64 v13; // rbx`",
+   "`  __int64 v14; // rdx`",
+   "`  __int64 v15; // rax`"
+  ]
+ },
+ {
+  "ord": 2488,
+  "addr": "0x140186cb0",
+  "name": "sub_140186CB0",
+  "role": "Hook/隐藏",
+  "size": 223,
+  "callers": [
+   "sub_140186D90(0x140186d90)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "sub_1401755B0(0x1401755b0)"
+  ],
+  "key": [
+   "`bool __fastcall sub_140186CB0(__int64 a1)`",
+   "`  __int64 v1; // rax`",
+   "`  __int64 v2; // rax`",
+   "`  __int64 v3; // rbx`",
+   "`  int GuestU32; // eax`",
+   "`  int v6; // eax`",
+   "`  v1 = sub_1401755B0(a1 + *(unsigned int *)(g_Hook_OffsetTable + 780) + *(unsigned int *)(g_Hook_OffsetTable + 776));`",
+   "`  v2 = sub_1401755B0(v1 + *(unsigned int *)(g_Hook_OffsetTable + 536));`",
+   "`  GuestU32 = Hv_ReadGuestU32(g_Hook_GuestCr3OrCtx, v2 + *(unsigned int *)(g_Hook_OffsetTable + 540));`",
+   "`  if ( *(_BYTE *)(g_Sys_ConfigFlags + 377) != 0 && GuestU32 == *(_DWORD *)(g_Hook_NtosOffsetsCtx + 1896) )`",
+   "`  v6 = Hv_ReadGuestU32(g_Hook_GuestCr3OrCtx, v3 + *(unsigned int *)(g_Hook_OffsetTable + 544));`",
+   "`  return *(_BYTE *)(g_Sys_ConfigFlags + 378) != 0 && v6 == *(_DWORD *)(g_Hook_NtosOffsetsCtx + 1900);`"
+  ]
+ },
+ {
+  "ord": 2490,
+  "addr": "0x140187b90",
+  "name": "sub_140187B90",
+  "role": "Hook/隐藏",
+  "size": 709,
+  "callers": [
+   "Hook_NtApi_VmExitHandler(0x1401906e0)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "sub_14015D2D0(0x14015d2d0)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_1401755B0(0x1401755b0)",
+   "sub_14018CC80(0x14018cc80)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140187B90(__int64 a1)`",
+   "`  unsigned __int64 v2; // rdx`",
+   "`  __int64 GuestU64; // rax`",
+   "`  __int64 v4; // rbp`",
+   "`  __int64 v5; // rbx`",
+   "`  bool v6; // di`",
+   "`  __int64 v7; // r14`",
+   "`  __int64 v8; // rcx`",
+   "`  int v9; // ebx`",
+   "`  int v10; // ebx`",
+   "`  __int64 v11; // rax`",
+   "`  __int64 v12; // rax`"
+  ]
+ },
+ {
+  "ord": 2491,
+  "addr": "0x140187e60",
+  "name": "sub_140187E60",
+  "role": "Hook/隐藏",
+  "size": 870,
+  "callers": [
+   "Hook_NtApi_VmExitHandler(0x1401906e0)"
+  ],
+  "callees": [
+   "HV_FlushOrSyncAfterRegister(0x14003e1e0)",
+   "HV_HandlePendingEvent(0x140127b80)",
+   "Hv_WriteGuestU64(0x14015d100)",
+   "Hv_WriteGuestPtr(0x14015d480)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "Hv_ReadGuestBytes(0x14015d900)",
+   "sub_140176110(0x140176110)",
+   "sub_140176FD0(0x140176fd0)"
+  ],
+  "key": [
+   "`void __fastcall sub_140187E60(_QWORD *a1)`",
+   "`  unsigned __int64 v2; // rdx`",
+   "`  __int64 v3; // rcx`",
+   "`  __int64 GuestU64; // r8`",
+   "`  char v5; // r12`",
+   "`  char v6; // r14`",
+   "`  bool v7; // si`",
+   "`  int v8; // edx`",
+   "`  int v9; // ebx`",
+   "`  const char *v10; // rdi`",
+   "`  __int64 v11; // rcx`",
+   "`  unsigned __int64 v12; // rax`"
+  ]
+ },
+ {
+  "ord": 2492,
+  "addr": "0x1401881d0",
+  "name": "sub_1401881D0",
+  "role": "Hook/隐藏",
+  "size": 682,
+  "callers": [
+   "Hook_NtApi_VmExitHandler(0x1401906e0)"
+  ],
+  "callees": [
+   "Hv_ReadGuestU8(0x14015cdc0)",
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "sub_14016B410(0x14016b410)",
+   "sub_140184D90(0x140184d90)",
+   "sub_14018C6B0(0x14018c6b0)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_1401881D0(_QWORD *a1)`",
+   "`  __int64 v2; // rsi`",
+   "`  __int64 v3; // rdi`",
+   "`  unsigned int GuestU32; // ebp`",
+   "`  __int64 v5; // rdx`",
+   "`  __int64 GuestU64; // rax`",
+   "`  __int64 v7; // rax`",
+   "`  __int64 v8; // rax`",
+   "`  __int64 v9; // rcx`",
+   "`  __int64 v10; // xmm6_8`",
+   "`  int v11; // ebp`",
+   "`  __int64 result; // rax`"
+  ]
+ },
+ {
+  "ord": 2493,
+  "addr": "0x140188480",
+  "name": "sub_140188480",
+  "role": "Hook/隐藏",
+  "size": 893,
+  "callers": [
+   "Hook_InstallAll(0x1401891d0)"
+  ],
+  "callees": [
+   "sub_14015D2D0(0x14015d2d0)",
+   "Hv_ReadGuestU64(0x14015d5c0)"
+  ],
+  "key": [
+   "`void __fastcall sub_140188480(__int64 a1)`",
+   "`  __int64 GuestU64; // rax`",
+   "`  float v3; // xmm0_4`",
+   "`  __int64 v4; // rcx`",
+   "`  double v5; // xmm0_8`",
+   "`  __int64 v6; // rcx`",
+   "`  double v7; // xmm0_8`",
+   "`  __int64 v8; // rdx`",
+   "`  unsigned __int64 v9; // rax`",
+   "`  int v10; // xmm0_4`",
+   "`  int v11; // xmm1_4`",
+   "`  int v12; // xmm2_4`"
+  ]
+ },
+ {
+  "ord": 2495,
+  "addr": "0x140188dd0",
+  "name": "sub_140188DD0",
+  "role": "Hook/隐藏",
+  "size": 553,
+  "callers": [
+   "sub_140189000(0x140189000)"
+  ],
+  "callees": [
+   "sub_14014C400(0x14014c400)",
+   "Util_FreeWideOrHeap(0x14014c450)",
+   "Hv_ReadGuestU32(0x14015cf60)",
+   "Hv_ReadGuestU64(0x14015d5c0)",
+   "Util_Memset(0x1401ea040)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_140188DD0(unsigned __int64 a1, __int64 a2)`",
+   "`  int GuestU32; // eax`",
+   "`  int v4; // r14d`",
+   "`  unsigned __int64 v5; // r13`",
+   "`  int v6; // esi`",
+   "`  int v7; // r15d`",
+   "`  __int64 v8; // r12`",
+   "`  __int64 v9; // rax`",
+   "`  unsigned __int64 v10; // rdi`",
+   "`  __int64 v11; // rbp`",
+   "`  int v12; // eax`",
+   "`  int v13; // esi`"
+  ]
+ },
+ {
+  "ord": 2496,
+  "addr": "0x140189000",
+  "name": "sub_140189000",
+  "role": "Hook/隐藏",
+  "size": 453,
+  "callers": [
+   "Hook_InstallAll(0x1401891d0)"
+  ],
+  "callees": [
+   "sub_1401852D0(0x1401852d0)",
+   "sub_140188DD0(0x140188dd0)"
+  ],
+  "key": [
+   "`__int64 sub_140189000()`",
+   "`  _QWORD *v0; // rcx`",
+   "`  __int64 v1; // rax`",
+   "`  unsigned __int64 v2; // r8`",
+   "`  unsigned __int64 i; // rdx`",
+   "`  __int64 v4; // rax`",
+   "`  __int64 v5; // r8`",
+   "`  __int64 v6; // r9`",
+   "`  __int64 v7; // rax`",
+   "`  _QWORD v9[6]; // [rsp+28h] [rbp-30h] BYREF`",
+   "`  v0 = (_QWORD *)g_Hook_NtosOffsetsCtx;`",
+   "`  if ( *(_QWORD *)(g_Hook_NtosOffsetsCtx + 2104) == 0 && *(_BYTE *)(g_Hook_NtosOffsetsCtx + 2096) == 0 )`"
+  ]
+ },
+ {
+  "ord": 2497,
+  "addr": "0x1401891d0",
+  "name": "Hook_InstallAll",
+  "role": "EPT/NPT内存映射",
+  "size": 9699,
+  "callers": [
+   "sub_14E8116D1(0x14e8116d1)"
+  ],
+  "callees": [
+   "sub_140065C80(0x140065c80)",
+   "sub_140065D10(0x140065d10)",
+   "sub_1400661D0(0x1400661d0)",
+   "sub_140066580(0x140066580)",
+   "sub_140066ED0(0x140066ed0)",
+   "sub_1400675C0(0x1400675c0)",
+   "ImGui_GrowPtrVector(0x140091d30)",
+   "ImGui_GetDrawList(0x1400a1580)"
+  ],
+  "key": [
+   "`// [CHEAT/HOOK] Install all soft-BP / NT hooks used by the HV cheat for stealth intercept.`",
+   "`  __int64 v2; // r8`",
+   "`  int i; // r14d`",
+   "`  __int64 v4; // rax`",
+   "`  __int64 v5; // rbx`",
+   "`  __int64 v6; // rcx`",
+   "`  __int64 v7; // r8`",
+   "`  __int64 v8; // rax`",
+   "`  __int64 v9; // r8`",
+   "`  __int64 v11; // rbx`",
+   "`  __int64 v12; // rdi`",
+   "`  __int64 v13; // rbx`"
+  ]
+ },
+ {
+  "ord": 2522,
+  "addr": "0x14018f3a0",
+  "name": "sub_14018F3A0",
+  "role": "Hook/隐藏",
+  "size": 2256,
+  "callers": [
+   "静态图未找到；可能是入口",
+   "回调",
+   "间接调用或被保护壳隐藏"
+  ],
+  "callees": [
+   "sub_140061AD0(0x140061ad0)",
+   "sub_140078940(0x140078940)",
+   "sub_14007D1A0(0x14007d1a0)",
+   "sub_14007DC90(0x14007dc90)",
+   "sub_14007E010(0x14007e010)",
+   "sub_14007F300(0x14007f300)",
+   "sub_1400DF750(0x1400df750)",
+   "sub_14011E1D0(0x14011e1d0)"
+  ],
+  "key": [
+   "`char sub_14018F3A0()`",
+   "`  __int64 v0; // r8`",
+   "`  __int64 v1; // rax`",
+   "`  unsigned __int64 v2; // rcx`",
+   "`  void *v3; // rax`",
+   "`  int v4; // edi`",
+   "`  unsigned __int64 v5; // rcx`",
+   "`  unsigned __int64 v6; // rcx`",
+   "`  unsigned __int64 v7; // rcx`",
+   "`  unsigned __int64 v8; // rcx`",
+   "`  __int64 v9; // rax`",
+   "`  float v10; // xmm0_4`"
+  ]
+ },
+ {
+  "ord": 2524,
+  "addr": "0x14018fd70",
+  "name": "sub_14018FD70",
+  "role": "Hook/隐藏",
+  "size": 782,
+  "callers": [
+   "Esp_PeriodicTick(0x1401905a0)",
+   "sub_14E813ABB(0x14e813abb)",
+   "sub_14E8142E8(0x14e8142e8)"
+  ],
+  "callees": [
+   "sub_1400ACE30(0x1400ace30)",
+   "sub_1400ACF00(0x1400acf00)",
+   "sub_14018D230(0x14018d230)"
+  ],
+  "key": [
+   "`char sub_14018FD70()`",
+   "`  bool v0; // al`",
+   "`  __int64 v1; // rcx`",
+   "`  bool v2; // zf`",
+   "`  bool v3; // al`",
+   "`  __int64 v4; // rcx`",
+   "`  unsigned __int64 v5; // rax`",
+   "`  if ( (unsigned __int8)sub_1400ACF00(522, 0, 1) != 0 && byte_14828F3D7 != 0 )`",
+   "`  if ( (unsigned __int8)sub_1400ACF00(*(unsigned int *)(g_Sys_ConfigFlags + 372), 0, 1) != 0 )`",
+   "`    sub_14018D230();`",
+   "`    && (unsigned __int8)sub_1400ACE30(*(unsigned int *)(g_Sys_ConfigFlags + 936)) != 0;`",
+   "`  if ( !v2 && (unsigned __int8)sub_1400ACF00(*(unsigned int *)(v1 + 636), 0, 0) != 0 )`"
+  ]
+ },
+ {
+  "ord": 2538,
+  "addr": "0x1401931e0",
+  "name": "sub_1401931E0",
+  "role": "EPT/NPT内存映射",
+  "size": 1490,
+  "callers": [
+   "sub_14E813ABB(0x14e813abb)"
+  ],
+  "callees": [
+   "sub_1400841F0(0x1400841f0)",
+   "sub_140084CF0(0x140084cf0)",
+   "sub_140087AD0(0x140087ad0)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_1401931E0(unsigned __int64 a1)`",
+   "`  char *v1; // rdi`",
+   "`  __int64 v2; // rcx`",
+   "`  __int64 v3; // rdx`",
+   "`  __int64 result; // rax`",
+   "`  _QWORD *v5; // rax`",
+   "`  unsigned __int64 v6; // rbx`",
+   "`  int v7; // esi`",
+   "`  __int64 v8; // rdx`",
+   "`  __int64 v9; // rdx`",
+   "`  unsigned int v10; // ebx`",
+   "`  char *v11; // rax`"
+  ]
+ },
+ {
+  "ord": 3241,
+  "addr": "0x1401d2e30",
+  "name": "sub_1401D2E30",
+  "role": "Hook/隐藏",
+  "size": 11,
+  "callers": [
+   "sub_1401948F0(0x1401948f0)"
+  ],
+  "callees": [
+   "没有直接下级函数，或者通过函数指针间接调用"
+  ],
+  "key": [
+   "`__int64 sub_1401D2E30()`",
+   "`  return 0x5BACEDBFF2FE8A3BLL;`"
+  ]
+ },
+ {
+  "ord": 3258,
+  "addr": "0x1401d4110",
+  "name": "sub_1401D4110",
+  "role": "Hook/隐藏",
+  "size": 2384,
+  "callers": [
+   "sub_14E813345(0x14e813345)"
+  ],
+  "callees": [
+   "没有直接下级函数，或者通过函数指针间接调用"
+  ],
+  "key": [
+   "`__int64 sub_1401D4110()`",
+   "`  __int64 result; // rax`",
+   "`  result = g_Hook_OffsetTable;`",
+   "`  *(_DWORD *)g_Hook_OffsetTable = 0;`",
+   "`  *(_DWORD *)(result + 32) = 0x10000;`"
+  ]
+ },
+ {
+  "ord": 3262,
+  "addr": "0x1401d6bb0",
+  "name": "sub_1401D6BB0",
+  "role": "Hook/隐藏",
+  "size": 85,
+  "callers": [
+   "sub_14E811E71(0x14e811e71)"
+  ],
+  "callees": [
+   "sub_1400FD010(0x1400fd010)"
+  ],
+  "key": [
+   "`__int64 sub_1401D6BB0()`",
+   "`  __int64 v0; // rbx`",
+   "`  __int128 v2; // [rsp+20h] [rbp-58h] BYREF`",
+   "`  __int128 v3; // [rsp+30h] [rbp-48h]`",
+   "`  __int128 v4; // [rsp+40h] [rbp-38h]`",
+   "`  __int128 v5; // [rsp+50h] [rbp-28h]`",
+   "`  __int64 v6; // [rsp+60h] [rbp-18h]`",
+   "`  v0 = g_Hook_GuestCr3OrCtx;`",
+   "`  DWORD2(v2) = *(_DWORD *)g_Hook_GuestCr3OrCtx;`",
+   "`  sub_1400FD010(&v2);`"
+  ]
+ },
+ {
+  "ord": 3277,
+  "addr": "0x1401da0b0",
+  "name": "HV_RemoveEptHook_Wrapper",
+  "role": "EPT/NPT内存映射",
+  "size": 520,
+  "callers": [
+   "sub_1401DA2C0(0x1401da2c0)",
+   "Ob_UnregisterCallbackOrClose(0x1401dada0)",
+   "sub_1401DB170(0x1401db170)"
+  ],
+  "callees": [
+   "HV_FlushOrSyncAfterRegister(0x14003e1e0)",
+   "HV_EptRemoveHook(0x140115ac0)",
+   "sub_14011DFB0(0x14011dfb0)",
+   "sub_1401243E0(0x1401243e0)",
+   "HV_EptRemoveHook_RealVmx(0x140124db0)",
+   "Util_FreeWideOrHeap(0x14014c450)",
+   "sub_1401580C0(0x1401580c0)",
+   "sub_140158290(0x140158290)"
+  ],
+  "key": [
+   "`void __fastcall HV_RemoveEptHook_Wrapper(__int64 *a1, char a2)`",
+   "`  __int64 v4; // r14`",
+   "`  _QWORD *v5; // rdi`",
+   "`  _QWORD *v6; // rbx`",
+   "`  __int64 v7; // rdi`",
+   "`  __int64 v8; // rcx`",
+   "`  unsigned int i; // ebx`",
+   "`  __int64 v10; // rcx`",
+   "`  __int64 v11; // rcx`",
+   "`  __int64 v12; // rbx`",
+   "`  unsigned __int16 v13; // ax`",
+   "`  unsigned __int16 v14; // dx`"
+  ]
+ },
+ {
+  "ord": 3278,
+  "addr": "0x1401da2c0",
+  "name": "sub_1401DA2C0",
+  "role": "EPT/NPT内存映射",
+  "size": 674,
+  "callers": [
+   "Mem_WritePhysicalOrProbe(0x1401da570)",
+   "Ob_UnregisterCallbackOrClose(0x1401dada0)"
+  ],
+  "callees": [
+   "Mem_HeapFree(0x1400029f0)",
+   "Rtl_AtExitListPush(0x1400ff200)",
+   "sub_140139ED0(0x140139ed0)",
+   "Util_FreeWideOrHeap(0x14014c450)",
+   "sub_1401D9E00(0x1401d9e00)",
+   "sub_1401D9F20(0x1401d9f20)",
+   "HV_RemoveEptHook_Wrapper(0x1401da0b0)",
+   "Util_Memcpy(0x1401ea340)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_1401DA2C0(__int64 a1)`",
+   "`  unsigned __int8 v1; // r13`",
+   "`  __int64 *v3; // rbx`",
+   "`  __int64 v4; // rsi`",
+   "`  char v5; // al`",
+   "`  _QWORD *v6; // rdi`",
+   "`  _QWORD *v7; // r14`",
+   "`  __int64 *v8; // rax`",
+   "`  __int64 v9; // rcx`",
+   "`  __int16 v10; // dx`",
+   "`  __int64 v11; // rsi`",
+   "`  char *i; // rdi`"
+  ]
+ },
+ {
+  "ord": 3280,
+  "addr": "0x1401dada0",
+  "name": "Ob_UnregisterCallbackOrClose",
+  "role": "EPT/NPT内存映射",
+  "size": 974,
+  "callers": [
+   "Esp_GetBuffer_SoftBpFsm(0x14008d6b0)",
+   "HV_UnregisterExitHandler(0x140118870)",
+   "HV_RegisterExitHandler(0x140118970)",
+   "sub_14011E1D0(0x14011e1d0)",
+   "sub_140185E80(0x140185e80)",
+   "Esp_AttachToDwmProcess(0x14e7ea666)",
+   "sub_14E7FB5B8(0x14e7fb5b8)"
+  ],
+  "callees": [
+   "sub_14011C0D0(0x14011c0d0)",
+   "sub_14011CC00(0x14011cc00)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "sub_140134490(0x140134490)",
+   "sub_140140A80(0x140140a80)",
+   "sub_1401566F0(0x1401566f0)",
+   "HV_RemoveEptHook_Wrapper(0x1401da0b0)",
+   "sub_1401DA2C0(0x1401da2c0)"
+  ],
+  "key": [
+   "`  signed __int64 v3; // rax`",
+   "`  __int64 *v4; // rbx`",
+   "`  __int64 **v5; // rcx`",
+   "`  __int64 *ii; // rax`",
+   "`  __int64 *jj; // rcx`",
+   "`  __int64 v8; // rdi`",
+   "`  _QWORD *v9; // rbx`",
+   "`  __int64 v10; // rdi`",
+   "`  _QWORD *v11; // rbx`",
+   "`  __int64 *v12; // rax`",
+   "`  _QWORD *v13; // rdx`",
+   "`  __int64 **v14; // rdx`"
+  ]
+ },
+ {
+  "ord": 3281,
+  "addr": "0x1401db170",
+  "name": "sub_1401DB170",
+  "role": "EPT/NPT内存映射",
+  "size": 845,
+  "callers": [
+   "Esp_HookedRip_Dispatch(0x140123fe0)",
+   "sub_1401D9B40(0x1401d9b40)"
+  ],
+  "callees": [
+   "Mem_HeapFree(0x1400029f0)",
+   "Rtl_AtExitListPush(0x1400ff200)",
+   "sub_140139ED0(0x140139ed0)",
+   "Util_FreeWideOrHeap(0x14014c450)",
+   "sub_1401D9E00(0x1401d9e00)",
+   "sub_1401D9F20(0x1401d9f20)",
+   "HV_RemoveEptHook_Wrapper(0x1401da0b0)",
+   "Util_Memcpy(0x1401ea340)"
+  ],
+  "key": [
+   "`void __fastcall sub_1401DB170(unsigned __int64 a1, __int64 a2, char a3)`",
+   "`  __int64 *v5; // rcx`",
+   "`  __int64 *i; // rax`",
+   "`  __int64 *v7; // rbx`",
+   "`  __int64 v8; // r14`",
+   "`  char v9; // al`",
+   "`  unsigned __int64 v10; // rdi`",
+   "`  unsigned __int64 *v11; // rsi`",
+   "`  __int64 *v12; // rax`",
+   "`  __int64 v13; // rcx`",
+   "`  __int16 v14; // dx`",
+   "`  __int64 v15; // rsi`"
+  ]
+ },
+ {
+  "ord": 3364,
+  "addr": "0x1401e06c6",
+  "name": "sub_1401E06C6",
+  "role": "EPT/NPT内存映射",
+  "size": 6,
+  "callers": [
+   "HV_EptInstallHook_RealVmx(0x140124cf0)",
+   "HV_EptRemoveHook_RealVmx(0x140124db0)",
+   "HV_EptHidePages_RealVmx(0x140124ea0)",
+   "HV_EptUnhidePages_RealVmx(0x1401250a0)",
+   "sub_140125260(0x140125260)",
+   "HV_EptOpA_RealVmx(0x140125440)",
+   "HV_EptOpB_RealVmx(0x1401256b0)",
+   "HV_ClearPendingExceptionState(0x140125f40)"
+  ],
+  "callees": [
+   "没有直接下级函数，或者通过函数指针间接调用"
+  ],
+  "key": [
+   "`void __fastcall sub_1401E06C6(int _ECX, __int64 _RDX)`"
+  ]
+ },
+ {
+  "ord": 15680,
+  "addr": "0x1401e4360",
+  "name": "sub_1401E4360",
+  "role": "Hook/隐藏",
+  "size": 1279,
+  "callers": [
+   "sub_14009A070(0x14009a070)",
+   "sub_1400A1CF0(0x1400a1cf0)",
+   "sub_1400C4FB0(0x1400c4fb0)",
+   "sub_1400EE000(0x1400ee000)",
+   "sub_14015ABE0(0x14015abe0)",
+   "sub_14015AEF0(0x14015aef0)",
+   "sub_14015B240(0x14015b240)",
+   "sub_1401634D0(0x1401634d0)"
+  ],
+  "callees": [
+   "sub_140138D20(0x140138d20)",
+   "__remainder_piby2d2f_forAsm(0x1401e7690)",
+   "__remainder_piby2_fma3(0x1401e7cc0)",
+   "__remainder_piby2_fma3_bdl(0x1401e7eb0)"
+  ],
+  "key": [
+   "`double __fastcall sub_1401E4360(__int64 a1)`",
+   "`  unsigned __int64 v2; // r10`",
+   "`  char v3; // al`",
+   "`  double v4; // xmm2_8`",
+   "`  double v5; // xmm4_8`",
+   "`  double v6; // xmm2_8`",
+   "`  double v7; // xmm2_8`",
+   "`    if ( (_mm_cvtsi128_si32(_XMM0) & 0x7F800000) != 0x7F800000 )`",
+   "`      v2 = _XMM0.m128i_i64[0] & 0x7FFFFFFFFFFFFFFFLL;`",
+   "`      if ( (_XMM0.m128i_i64[0] & 0x7FFFFFFFFFFFFFFFuLL) > 0x3FE921FB54442D18LL )`",
+   "`        if ( v2 >= 0x411E848000000000LL )`",
+   "`          if ( (unsigned __int64)(2 * COERCE__INT64(v5 - 6.077100506506192e-11 * v4)) >> 53 < 0x3F2 )`"
+  ]
+ },
+ {
+  "ord": 15696,
+  "addr": "0x1401e8450",
+  "name": "sub_1401E8450",
+  "role": "Hook/隐藏",
+  "size": 1734,
+  "callers": [
+   "sub_14009A070(0x14009a070)",
+   "sub_1400C4FB0(0x1400c4fb0)",
+   "sub_1400EE000(0x1400ee000)",
+   "sub_14015ABE0(0x14015abe0)",
+   "sub_14015AEF0(0x14015aef0)",
+   "sub_14015B240(0x14015b240)",
+   "sub_1401634D0(0x1401634d0)",
+   "sub_1401693A0(0x1401693a0)"
+  ],
+  "callees": [
+   "sub_140138D20(0x140138d20)",
+   "__remainder_piby2d2f_forC(0x1401e77e0)"
+  ],
+  "key": [
+   "`// local variable allocation has failed, the output may be wrong!`",
+   "`double __fastcall sub_1401E8450(double _XMM0_8)`",
+   "`  __m128d v1; // xmm2`",
+   "`  double v2; // r10`",
+   "`  char v3; // r11`",
+   "`  double v4; // xmm4_8`",
+   "`  double v5; // xmm2_8`",
+   "`  double v6; // xmm4_8`",
+   "`  unsigned int v7; // eax`",
+   "`  double v8; // xmm2_8`",
+   "`  double v9; // xmm2_8`",
+   "`  unsigned __int64 v41; // rcx`"
+  ]
+ },
+ {
+  "ord": 15701,
+  "addr": "0x1401e98c0",
+  "name": "sub_1401E98C0",
+  "role": "EPT/NPT内存映射",
+  "size": 10,
+  "callers": [
+   "sub_140002750(0x140002750)",
+   "Mem_HeapFree(0x1400029f0)",
+   "Mem_HeapAllocAligned(0x140002aa0)",
+   "Util_StringCtorOrCopy(0x140002b30)",
+   "sub_1400030C0(0x1400030c0)",
+   "sub_14003ED00(0x14003ed00)",
+   "sub_140040C10(0x140040c10)",
+   "sub_140041000(0x140041000)"
+  ],
+  "callees": [
+   "j_HV_RaiseException_C0000450(0x1401e9b70)"
+  ],
+  "key": [
+   "`void __noreturn sub_1401E98C0()`",
+   "`  j_HV_RaiseException_C0000450();`",
+   "`  JUMPOUT(0x1401E98C9LL);`"
+  ]
+ },
+ {
+  "ord": 15754,
+  "addr": "0x1402162f0",
+  "name": "sub_1402162F0",
+  "role": "Hook/隐藏",
+  "size": 73,
+  "callers": [
+   "静态图未找到；可能是入口",
+   "回调",
+   "间接调用或被保护壳隐藏"
+  ],
+  "callees": [
+   "Mem_HeapFree(0x1400029f0)",
+   "sub_140065920(0x140065920)"
+  ],
+  "key": [
+   "`void sub_1402162F0()`",
+   "`  if ( g_Hook_ListBuckets != 0 )`",
+   "`    Mem_HeapFree(g_Hook_ListBuckets, (*((_QWORD *)&xmmword_14DD8A2D0 + 1) - g_Hook_ListBuckets) & 0xFFFFFFFFFFFFFFF8uLL);`",
+   "`    g_Hook_ListBuckets = 0;`",
+   "`  sub_140065920(&g_Hook_ListSentinel);`"
+  ]
+ },
+ {
+  "ord": 16943,
+  "addr": "0x14e4face1",
+  "name": "sub_14E4FACE1",
+  "role": "Hook/隐藏",
+  "size": 451,
+  "callers": [
+   "sub_14E5F7BFF(0x14e5f7bff)",
+   "sub_14E603FD7(0x14e603fd7)"
+  ],
+  "callees": [
+   "sub_14E4B8AD9(0x14e4b8ad9)",
+   "sub_14E59A3DA(0x14e59a3da)",
+   "sub_14E664A3F(0x14e664a3f)",
+   "sub_14E6E9A28(0x14e6e9a28)",
+   "sub_14E72128E(0x14e72128e)"
+  ],
+  "key": [
+   "`jnp     sub_14E72128E`",
+   "`call    sub_14E6E9A28`",
+   "`call    sub_14E59A3DA`",
+   "`call    sub_14E4B8AD9`"
+  ]
+ },
+ {
+  "ord": 18026,
+  "addr": "0x14e53aceb",
+  "name": "sub_14E53ACEB",
+  "role": "Hook/隐藏",
+  "size": 53,
+  "callers": [
+   "sub_14E711BA8(0x14e711ba8)"
+  ],
+  "callees": [
+   "没有直接下级函数，或者通过函数指针间接调用"
+  ],
+  "key": []
+ },
+ {
+  "ord": 20656,
+  "addr": "0x14e5d46b8",
+  "name": "sub_14E5D46B8",
+  "role": "Hook/隐藏",
+  "size": 120,
+  "callers": [
+   "sub_14E4D64AC(0x14e4d64ac)"
+  ],
+  "callees": [
+   "sub_14E55A99A(0x14e55a99a)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_14E5D46B8(__int64 a1, __int64 a2, __int64 a3)`",
+   "`  __int64 v3; // rax`",
+   "`  __int64 v4; // rsi`",
+   "`  __int64 v5; // r11`",
+   "`  unsigned __int64 v6; // rbp`",
+   "`  bool v7; // zf`",
+   "`  __int64 v8; // rax`",
+   "`  __int64 v9; // r8`",
+   "`  __int128 v10; // rax`",
+   "`  _DWORD v12[39]; // [rsp+0h] [rbp-9Ch]`",
+   "`  _UNKNOWN *retaddr; // [rsp+9Ch] [rbp+0h]`",
+   "`  char v14; // [rsp+A4h] [rbp+8h] BYREF`"
+  ]
+ },
+ {
+  "ord": 20772,
+  "addr": "0x14e5dace3",
+  "name": "sub_14E5DACE3",
+  "role": "Hook/隐藏",
+  "size": 242,
+  "callers": [
+   "sub_14E4E1B78(0x14e4e1b78)"
+  ],
+  "callees": [
+   "sub_14E4E29F4(0x14e4e29f4)",
+   "sub_14E4EB5C3(0x14e4eb5c3)",
+   "sub_14E5894E3(0x14e5894e3)"
+  ],
+  "key": [
+   "`call    sub_14E4E29F4`",
+   "`jp      sub_14E4EB5C3`"
+  ]
+ },
+ {
+  "ord": 21061,
+  "addr": "0x14e5eace0",
+  "name": "sub_14E5EACE0",
+  "role": "Hook/隐藏",
+  "size": 103,
+  "callers": [
+   "静态图未找到；可能是入口",
+   "回调",
+   "间接调用或被保护壳隐藏"
+  ],
+  "callees": [
+   "sub_14E64E68D(0x14e64e68d)",
+   "sub_14E6D3B25(0x14e6d3b25)"
+  ],
+  "key": [
+   "`call    sub_14E64E68D`"
+  ]
+ },
+ {
+  "ord": 21612,
+  "addr": "0x14e60c974",
+  "name": "sub_14E60C974",
+  "role": "Hook/隐藏",
+  "size": 291,
+  "callers": [
+   "sub_14E4C0901(0x14e4c0901)"
+  ],
+  "callees": [
+   "sub_14E4D079D(0x14e4d079d)",
+   "sub_14E685666(0x14e685666)",
+   "sub_14E687BE4(0x14e687be4)"
+  ],
+  "key": [
+   "`// positive sp value has been detected, the output may be wrong!`",
+   "`void __fastcall sub_14E60C974(__int64 a1, unsigned int a2, __int64 a3, __int64 a4)`",
+   "`  __int64 v4; // rax`",
+   "`  int v5; // ebp`",
+   "`  __int64 v6; // rsi`",
+   "`  __int64 v7; // r10`",
+   "`  int v8; // r11d`",
+   "`  unsigned int v9; // r11d`",
+   "`  __int64 v10; // rdi`",
+   "`  __int64 v11; // rdi`",
+   "`  __int64 v12; // rax`",
+   "`  __int64 v13; // rdi`"
+  ]
+ },
+ {
+  "ord": 22140,
+  "addr": "0x14e62ace1",
+  "name": "sub_14E62ACE1",
+  "role": "Hook/隐藏",
+  "size": 187,
+  "callers": [
+   "sub_14E4FB6E4(0x14e4fb6e4)",
+   "sub_14E62ABA8(0x14e62aba8)"
+  ],
+  "callees": [
+   "sub_14E50562F(0x14e50562f)",
+   "sub_14E60018B(0x14e60018b)",
+   "sub_14E6CA04A(0x14e6ca04a)",
+   "sub_14E6CBF9C(0x14e6cbf9c)",
+   "sub_14E7D3538(0x14e7d3538)"
+  ],
+  "key": [
+   "`call    sub_14E7D3538`"
+  ]
+ },
+ {
+  "ord": 23048,
+  "addr": "0x14e65eace",
+  "name": "sub_14E65EACE",
+  "role": "Hook/隐藏",
+  "size": 14,
+  "callers": [
+   "sub_14E570A38(0x14e570a38)",
+   "sub_14E6B6A8C(0x14e6b6a8c)"
+  ],
+  "callees": [
+   "没有直接下级函数，或者通过函数指针间接调用"
+  ],
+  "key": [
+   "`void __fastcall sub_14E65EACE(__int64 a1, __int64 a2, __int64 a3, int a4, __int64 a5, __int64 a6)`",
+   "`  __int64 v6; // rsi`",
+   "`  _QWORD v7[24]; // [rsp+1h] [rbp-C3h]`"
+  ]
+ },
+ {
+  "ord": 23265,
+  "addr": "0x14e66ace7",
+  "name": "sub_14E66ACE7",
+  "role": "Hook/隐藏",
+  "size": 231,
+  "callers": [
+   "静态图未找到；可能是入口",
+   "回调",
+   "间接调用或被保护壳隐藏"
+  ],
+  "callees": [
+   "sub_14E6B3DD1(0x14e6b3dd1)",
+   "sub_14E798883(0x14e798883)"
+  ],
+  "key": [
+   "`call    sub_14E6B3DD1`"
+  ]
+ },
+ {
+  "ord": 23831,
+  "addr": "0x14e68aace",
+  "name": "sub_14E68AACE",
+  "role": "Hook/隐藏",
+  "size": 15,
+  "callers": [
+   "sub_14E51B997(0x14e51b997)",
+   "sub_14E786F6A(0x14e786f6a)"
+  ],
+  "callees": [
+   "sub_14E556E8B(0x14e556e8b)"
+  ],
+  "key": [
+   "`// positive sp value has been detected, the output may be wrong!`",
+   "`void __fastcall sub_14E68AACE(__int64 a1, __int64 a2, __int64 a3, __int64 a4, __int64 a5, __int64 a6)`",
+   "`  JUMPOUT(0x14E556EA4LL);`"
+  ]
+ },
+ {
+  "ord": 24450,
+  "addr": "0x14e6ace99",
+  "name": "sub_14E6ACE99",
+  "role": "Hook/隐藏",
+  "size": 128,
+  "callers": [
+   "sub_14E4DB6E1(0x14e4db6e1)"
+  ],
+  "callees": [
+   "没有直接下级函数，或者通过函数指针间接调用"
+  ],
+  "key": []
+ },
+ {
+  "ord": 27512,
+  "addr": "0x14e759ace",
+  "name": "sub_14E759ACE",
+  "role": "Hook/隐藏",
+  "size": 14,
+  "callers": [
+   "sub_14E664A3F(0x14e664a3f)",
+   "sub_14E72E636(0x14e72e636)"
+  ],
+  "callees": [
+   "没有直接下级函数，或者通过函数指针间接调用"
+  ],
+  "key": [
+   "`void __fastcall sub_14E759ACE(__int64 a1, __int64 a2, __int64 a3, __int64 a4, __int64 a5, __int64 a6)`",
+   "`  __int64 v6; // rbx`",
+   "`  _QWORD v7[8063]; // [rsp+1h] [rbp-FBFDh]`"
+  ]
+ },
+ {
+  "ord": 28197,
+  "addr": "0x14e7827e6",
+  "name": "sub_14E7827E6",
+  "role": "Hook/隐藏",
+  "size": 243,
+  "callers": [
+   "sub_14E4B77E3(0x14e4b77e3)",
+   "sub_14E4B83C0(0x14e4b83c0)",
+   "sub_14E4BCC3A(0x14e4bcc3a)",
+   "sub_14E4C17EF(0x14e4c17ef)",
+   "sub_14E4C81A4(0x14e4c81a4)",
+   "sub_14E4C896E(0x14e4c896e)",
+   "sub_14E4C8E6B(0x14e4c8e6b)",
+   "sub_14E4C93EF(0x14e4c93ef)"
+  ],
+  "callees": [
+   "sub_14E630ABD(0x14e630abd)",
+   "sub_14E7B9F8C(0x14e7b9f8c)"
+  ],
+  "key": [
+   "`// positive sp value has been detected, the output may be wrong!`",
+   "`__int64 sub_14E7827E6(`",
+   "`  __int64 v59; // rax`",
+   "`  __int64 v60; // rcx`",
+   "`  __int64 v61; // rbp`",
+   "`  __int64 v62; // rt2`",
+   "`  __int64 v63; // rbx`",
+   "`  int v64; // ebp`",
+   "`  __int64 v65; // rax`",
+   "`  __int64 v66; // rdx`",
+   "`  __int64 v67; // r8`",
+   "`  _QWORD *v68; // r9`"
+  ]
+ },
+ {
+  "ord": 28914,
+  "addr": "0x14e7acec8",
+  "name": "sub_14E7ACEC8",
+  "role": "Hook/隐藏",
+  "size": 300,
+  "callers": [
+   "sub_14E5D430D(0x14e5d430d)"
+  ],
+  "callees": [
+   "sub_14E5EB5E6(0x14e5eb5e6)",
+   "sub_14E5FFD97(0x14e5ffd97)",
+   "sub_14E66A13E(0x14e66a13e)",
+   "sub_14E765453(0x14e765453)"
+  ],
+  "key": [
+   "`call    sub_14E5EB5E6`",
+   "`call    sub_14E5FFD97`",
+   "`call    sub_14E66A13E`"
+  ]
+ },
+ {
+  "ord": 29908,
+  "addr": "0x14e7e61cd",
+  "name": "sub_14E7E61CD",
+  "role": "EPT/NPT内存映射",
+  "size": 4666,
+  "callers": [
+   "sub_140087190(0x140087190)"
+  ],
+  "callees": [
+   "sub_14003E7E0(0x14003e7e0)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_14E7E61CD(char *_RCX, unsigned __int64 *a2, _QWORD *a3, unsigned __int16 a4)`",
+   "`  __int16 v4; // r10`",
+   "`  unsigned __int64 v5; // r12`",
+   "`  __int64 v6; // r15`",
+   "`  bool v7; // cf`",
+   "`  unsigned int v9; // et0`",
+   "`  char v10; // sp`",
+   "`  char *v18; // r14`",
+   "`  unsigned __int64 v19; // rsi`",
+   "`  char *v20; // rbx`",
+   "`  bool v21; // zf`",
+   "`  __int64 v22; // rax`"
+  ]
+ },
+ {
+  "ord": 30012,
+  "addr": "0x14e807cdb",
+  "name": "sub_14E807CDB",
+  "role": "EPT/NPT内存映射",
+  "size": 4999,
+  "callers": [
+   "sub_1401349F0(0x1401349f0)"
+  ],
+  "callees": [
+   "sub_14003E7E0(0x14003e7e0)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_14E807CDB(char *a1, char *a2, __int64 *a3)`",
+   "`  __int64 v3; // rsi`",
+   "`  unsigned __int64 v7; // r15`",
+   "`  unsigned __int64 v8; // rsi`",
+   "`  char *v9; // rbx`",
+   "`  bool v10; // zf`",
+   "`  __int64 v11; // rax`",
+   "`  __int64 v12; // rcx`",
+   "`  int v13; // esi`",
+   "`  __m128 *v14; // rbx`",
+   "`  __int64 v15; // rdx`",
+   "`  __int64 i; // rax`"
+  ]
+ },
+ {
+  "ord": 30013,
+  "addr": "0x14e809062",
+  "name": "sub_14E809062",
+  "role": "EPT/NPT内存映射",
+  "size": 4141,
+  "callers": [
+   "sub_140135400(0x140135400)"
+  ],
+  "callees": [
+   "Mem_HeapFree(0x1400029f0)",
+   "sub_14003E7E0(0x14003e7e0)",
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)"
+  ],
+  "key": [
+   "`__int64 __fastcall sub_14E809062(char *a1, char *a2)`",
+   "`  __int64 v2; // r15`",
+   "`  unsigned __int64 v6; // r14`",
+   "`  unsigned __int64 v7; // rdi`",
+   "`  __m128 *v8; // r15`",
+   "`  char *v9; // rbx`",
+   "`  bool v10; // zf`",
+   "`  __int64 v11; // rax`",
+   "`  int v12; // r12d`",
+   "`  __m128 *v13; // rdi`",
+   "`  __int64 v14; // rdx`",
+   "`  __int64 i; // rax`"
+  ]
+ },
+ {
+  "ord": 30031,
+  "addr": "0x14e8106bc",
+  "name": "sub_14E8106BC",
+  "role": "EPT/NPT内存映射",
+  "size": 2155,
+  "callers": [
+   "Sys_QuerySystemInformation(0x140155350)",
+   "sub_14E811E71(0x14e811e71)"
+  ],
+  "callees": [
+   "HV_InvalidateGuestTlbOrEpt(0x14011b560)",
+   "HV_Rdgsbase(0x14011fb10)",
+   "HV_HostVmcallPath(0x140121cd0)",
+   "Mem_PoolAlloc(0x1401339c0)",
+   "Mem_HeapFreeTracked(0x140133bc0)",
+   "Mem_HeapFreeLocal(0x1401340a0)",
+   "sub_140134550(0x140134550)",
+   "HV_MemsetGuestVa(0x140152df0)"
+  ],
+  "key": [
+   "`__m128 *__fastcall sub_14E8106BC(int _ECX, __int64 a2, __int64 a3, __int16 a4)`",
+   "`  char v4; // si`",
+   "`  __int64 v5; // r12`",
+   "`  unsigned int *v7; // rsi`",
+   "`  __int64 v8; // rdx`",
+   "`  __int64 v9; // rdx`",
+   "`  __int64 v10; // rcx`",
+   "`  unsigned int v11; // r14d`",
+   "`  __m128 *v13; // rbx`",
+   "`  __int64 v14; // rdx`",
+   "`  __int64 i; // rax`",
+   "`  __int128 v16; // xmm1`"
+  ]
+ },
+ {
+  "ord": 30043,
+  "addr": "0x14e814604",
+  "name": "HV_RaiseException_C0000450",
+  "role": "EPT/NPT内存映射",
+  "size": 420,
+  "callers": [
+   "j_HV_RaiseException_C0000450(0x1401e9b70)"
+  ],
+  "callees": [
+   "HV_IsInHost(0x14011fb90)",
+   "HV_HostVmcallPath(0x140121cd0)"
+  ],
+  "key": [
+   "`__int64 HV_RaiseException_C0000450()`",
+   "`  bool v0; // zf`",
+   "`  __int64 v1; // rax`",
+   "`  __int64 v2; // rcx`",
+   "`  __int64 retaddr; // [rsp+88h] [rbp+0h] BYREF`",
+   "`  __int64 v5; // [rsp+90h] [rbp+8h] BYREF`",
+   "`  __int64 v6; // [rsp+98h] [rbp+10h] BYREF`",
+   "`  v0 = (unsigned __int8)HV_IsInHost() == 0;`",
+   "`  _InterlockedExchange64(&v6, 0x6D772324CE8FCDB9LL);`",
+   "`  _InterlockedExchange64(&v5, v1);`",
+   "`    return HV_HostVmcallPath(v5, 3221226576LL, retaddr, (__int64)&retaddr, 0, 0, 0, nullptr, 0, 0, 0, 0, 0, 0, 0, 0);`"
+  ]
+ }
+]
