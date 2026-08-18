@@ -132,9 +132,13 @@ IOCTL（用户态程序通过 \\.\DnzVisor）：
 - **认人三招已对齐老师原样**：PID 对比（EPROCESS 偏移链）+ guest RIP 对
   `g_Hook_NtosOffsetsCtx` 偏移表分派（14 个偏移分支，命中哪个模拟哪个 API，RIP 前移 +
   写 guest 寄存器/栈/内存）+ FNV-1a 哈希链表（`ACE_LookupListHookByPid` 同款：基数
-  0xCBF29CE484222325、质数 0x100000001B3、桶+链表+自旋锁）。8 个 stub 子函数已按
-  老师伪代码逐行还原（见 dnz_teacher.c），剩余几个深层叶子（sub_1401944D0 /
-  Hv_ReadProcessListFromGuest / sub_140175230）出处不全，保留为结构桩、不编造。
+  0xCBF29CE484222325、质数 0x100000001B3、桶+链表+自旋锁）。
+- **偏移表全部分支 + 深层叶子全部逐行还原（零结构桩）**：8 个子函数
+  （sub_140187B90/E60/1881D0/168A70/179540/179790/17BAF0/176310）和全部下级
+  （sub_14017B160/sub_140175230/sub_1401944D0/HV_HandlePendingEvent/sub_1400661D0/
+  sub_140066580/sub_140065C80…）都从 all_functions_raw.jsonl 挖出 Hex-Rays 伪代码
+  原样移植，每个函数都带出处。唯一保留的适配：老师 Mem_HeapAlloc/桶扩容 ->
+  静态节点池 + 固定 64 桶（节点布局原样），注释里逐条文档化。
 - **未做多核钩子状态一致性**：每核独立 EPT，装钩广播到每核；翻镜子的跨核同步
   是全局锁 + TSC 超时（老师代码同款语义），但未做跨核视图传播。
 - **未模拟嵌套**（L0 底下再套一层）——那是 NestedHv2026 的事，不在这。

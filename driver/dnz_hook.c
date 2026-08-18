@@ -328,9 +328,7 @@ DnzDispatchNtApi(
     {
         UINT64 v8 = CTX_Q(GuestCtx, 22);              /* Rdi */
         Hv_ReadGuestBytes(ctx, v26, CTX_Q(GuestCtx, 20) + 48, 16);  /* Rbp+48 */
-        /* 老师: sub_140175230(v8, v26) —— 待逐行还原 */
-        (void)v8;
-        (void)v26;
+        DnzSub_140175230(v8, (const UINT64*)v26);     /* 老师原样 */
         CTX_Q(GuestCtx, 31) += 4;                     /* Rip += 4 */
         CTX_Q(GuestCtx, 16) = CTX_Q(GuestCtx, 20) - 32;  /* Rcx = Rbp - 32 */
         goto done;
@@ -341,9 +339,7 @@ DnzDispatchNtApi(
     {
         UINT64 v11 = CTX_Q(GuestCtx, 16);             /* Rcx */
         Hv_ReadGuestBytes(ctx, v26, CTX_Q(GuestCtx, 17) + 16, 16);  /* Rdx+16 */
-        /* 老师: sub_140175230(v11, v26) —— 待逐行还原 */
-        (void)v11;
-        (void)v26;
+        DnzSub_140175230(v11, (const UINT64*)v26);    /* 老师原样 */
         CTX_Q(GuestCtx, 19) -= 48;                    /* Rsp -= 48 */
         CTX_Q(GuestCtx, 31) += 4;                     /* Rip += 4 */
         goto done;
@@ -503,8 +499,11 @@ DnzDispatchNtApi(
                 _mm_pause();
             }
             DnzSub_140180D20(out, v27[1]);
-            /* 老师: Hv_ReadProcessListFromGuest(a2[16], *out + 24) —— 待逐行还原 */
-            (void)out;
+            /* 老师原样：把进程列表读到实体表 0 节点 data 区 */
+            if (out[0] != 0)
+            {
+                Hv_ReadProcessListFromGuest(CTX_Q(GuestCtx, 16), out[0] + 24);
+            }
             InterlockedExchange(&g_TState.LockDetail, 0);
         }
         CTX_Q(GuestCtx, 19) -= 8;                        /* Rsp -= 8 */

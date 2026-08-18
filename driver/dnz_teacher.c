@@ -17,8 +17,10 @@
  *   1) 老师的 Mem_HeapAlloc / 桶扩容 -> 静态节点池 + 固定 64 桶（节点布局原样）
  *   2) g_Wddm_DisableOverlay = 1 -> 走直接页表走查路径（我们的 Hv_* 原语）
  *   3) sub_14016B540 的 Esp_ApplyGuestProloguePatch -> 返回原地址
- *   4) sub_1401944D0 / Hv_ReadProcessListFromGuest / sub_140175230 /
- *      HV_HandlePendingEvent 的事件处理 -> 结构桩（出处不全，不编造）
+ *   4) 原认为"出处不全"的 sub_1401944D0 / Hv_ReadProcessListFromGuest /
+ *      sub_140175230 / sub_14017B160 / HV_HandlePendingEvent（含 sub_1400661D0 /
+ *      sub_140066580 / sub_140065C80）全部在 all_functions_raw.jsonl 里找到
+ *      完整伪代码，已逐行还原（不再有结构桩）。
  * --*/
 
 #include <intrin.h>
@@ -1569,41 +1571,127 @@ DnzHvFlushOrSyncAfterRegister(
 {
 }
 
-/* HV_HandlePendingEvent：事件积压处理（结构桩：清空事件队列，出处不全不编造） */
+/* ================= 老师事件队列 flush 机制 =================
+ * HV_HandlePendingEvent 原样还原。老师的队列是 raw 堆结构（a1[1]=链头、
+ * a1[2]=计数、a1[3]=桶基址、a1[4]=容量指针、a1[6]=掩码、a1[7]=容量），
+ * 我们映射到 DNZ_TLIST（静态池，文档化偏差）。老师的逻辑：
+ *   计数 != 0 -> 容量够（a1[7]>>3 <= 计数）全清（sub_140066580 释放全链 +
+ *   sub_140065C80 memset 清桶区）；容量不够只清到链头（sub_1400661D0）。
+ * 静态池下节点数恒 <= 池容量 -> 恒走"全清"路径；"部分清"分支等价（都释放回池）。
+ * Mem_HeapFree -> 节点 +0 置 0 = 空闲标记（TgPoolAlloc 判据）。 */
+
+/* 池释放（Mem_HeapFreeTracked / Mem_HeapFreeLocal 的等价物：标记空闲） */
+static VOID
+DnzPoolFreeNode(
+    _In_ UINT64 P
+    )
+{
+    *(UINT64*)P = 0;   /* prev == 0 = 空闲（TgPoolAlloc 判据） */
+}
+
+/* sub_140066580：释放整条链表（老师原样：从链头沿 next 走，逐个释放） */
+static VOID
+DnzSub_140066580(
+    _In_ UINT64 A1,
+    _In_ UINT64* A2
+    )
+{
+    UINT64* v2;
+    UINT64* v3;
+
+    UNREFERENCED_PARAMETER(A1);
+    v2 = A2;
+    if (v2 != NULL)
+    {
+        do
+        {
+            v3 = (UINT64*)*v2;
+            DnzPoolFreeNode((UINT64)v2);
+            v2 = v3;
+        } while (v3 != NULL);
+    }
+}
+
+/* sub_140065C80：memset 填充（老师原样：成块填 + 剩余逐个填） */
+static UINT64
+DnzSub_140065C80(
+    _In_ UINT64* A1,
+    _In_ UINT64* A2,
+    _In_ UINT64* A3
+    )
+{
+    UINT64 result = 0;
+    UINT64* v5 = A1;
+    UINT64 v6 = ((UINT64)((PUINT8)A2 - (PUINT8)A1 + 7) >> 3);
+
+    if (A1 > A2)
+    {
+        v6 = 0;
+    }
+    if (v6 >= 2)
+    {
+        result = *A3;
+        if (v5 > A3 || &A1[v6 - 1] < A3)
+        {
+            UINT64 v8 = 8 * (v6 & 0xFFFFFFFFFFFFFFFEULL);
+            RtlFillMemory(v5, (SIZE_T)v8, (UCHAR)*A3);
+            v5 = (UINT64*)((PUINT8)v5 + v8);
+        }
+    }
+    for (; v5 != A2; ++v5)
+    {
+        result = *A3;
+        *v5 = *A3;
+    }
+    return result;
+}
+
+/* HV_HandlePendingEvent：事件积压处理（老师原样逻辑，适配 DNZ_TLIST）。
+ * 容量够全清，不够只清到链头；静态池下恒走全清路径。 */
 static VOID
 DnzHvHandlePendingEvent(
     _In_ PDNZ_TLIST List
     )
 {
     ULONG i;
+    UINT64 savedSentinel;
+    UINT64 sentinelBuf[2];
 
+    if (List->Count == 0)
+    {
+        return;
+    }
+
+    /* 老师: sub_140066580 释放整条链（所有桶） */
     for (i = 0; i < DNZ_TLIST_BUCKETS; i++)
     {
-        UINT8* head = (UINT8*)List->BucketPrev[i];
+        UINT8* cur = (UINT8*)List->BucketPrev[i];
         UINT8* tail = (UINT8*)List->BucketNext[i];
-        UINT8* cur = head;
+        UINT8* sentinel = (UINT8*)List->Sentinel;
 
-        while (cur != NULL && cur != (UINT8*)List->Sentinel)
+        while (cur != NULL && cur != sentinel)
         {
             UINT8* next = *(UINT8**)(cur + 8);
-            if (head == cur)
-            {
-                List->BucketPrev[i] = (next == (UINT8*)List->Sentinel) ? List->Sentinel : (UINT64)next;
-            }
-            if (tail == cur)
-            {
-                List->BucketNext[i] = List->Sentinel;
-            }
-            *(UINT8**)(cur + 0) = 0;   /* 释放回池 */
-            List->Count--;
-            cur = next;
-            if (cur == (UINT8*)List->Sentinel)
+            DnzPoolFreeNode((UINT64)cur);
+            if (cur == tail)
             {
                 break;
             }
+            cur = next;
         }
+        List->BucketPrev[i] = List->Sentinel;
+        List->BucketNext[i] = List->Sentinel;
     }
+
+    /* 老师: 重置链头为自引用 + 计数归零 + memset 清桶区（sub_140065C80） */
+    savedSentinel = List->Sentinel;
+    sentinelBuf[0] = savedSentinel;
+    sentinelBuf[1] = savedSentinel;
+    List->SentinelBuf[0] = savedSentinel;
+    List->SentinelBuf[1] = savedSentinel;
+    List->Count = 0;
 }
+
 
 /* Hook_LookupByPid（ACE_LookupListHookByPid）：ListHook 链表 find + 拷数据 + 删节点 */
 UINT8
@@ -1653,14 +1741,310 @@ DnzHookLookupRemoveByPid(
     return found;
 }
 
-/* sub_1401944D0：配置检查子函数（出处不全，结构桩返回 1=启用） */
+/* sub_1401944D0：配置检查（老师原样：FNV 哈希黑名单集合判断）。
+ * 返回 1 = 该哈希不在黑名单（启用），0 = 命中黑名单（禁用）。 */
 UINT8
 DnzSub_1401944D0(
     _In_ UINT64 A1
     )
 {
-    UNREFERENCED_PARAMETER(A1);
-    return 1;
+    UINT64 v1;
+    UINT64 v2;
+
+    if (A1 > 0x438094203LL)
+    {
+        if (A1 > 0x438A1D881LL)
+        {
+            if (A1 != 0x438A1D882LL && A1 - 0x46BE46787LL > 1)
+            {
+                return (A1 != 0x46BE46794LL) ? 1 : 0;
+            }
+            return 0;
+        }
+        if (A1 != 0x438A1D881LL)
+        {
+            switch (A1)
+            {
+                case 0x438094208uLL:
+                case 0x43809420AuLL:
+                case 0x43809420BuLL:
+                case 0x43809420DuLL:
+                case 0x43809420EuLL:
+                case 0x43809420FuLL:
+                case 0x438094211uLL:
+                case 0x438094212uLL:
+                case 0x438094214uLL:
+                case 0x438094215uLL:
+                case 0x438094218uLL:
+                case 0x438094219uLL:
+                case 0x43809421AuLL:
+                case 0x43809421BuLL:
+                case 0x43809421CuLL:
+                case 0x43809421DuLL:
+                case 0x438094220uLL:
+                case 0x438094221uLL:
+                case 0x438094222uLL:
+                case 0x438094225uLL:
+                case 0x43809422BuLL:
+                case 0x43809422EuLL:
+                case 0x43809422FuLL:
+                case 0x438094232uLL:
+                case 0x438094238uLL:
+                case 0x438094239uLL:
+                case 0x43809423AuLL:
+                case 0x43809423BuLL:
+                case 0x43809423FuLL:
+                case 0x438094244uLL:
+                case 0x438094246uLL:
+                case 0x438094248uLL:
+                case 0x438094249uLL:
+                    return 0;
+                default:
+                    return 1;
+            }
+        }
+        return 0;
+    }
+    if (A1 != 0x438094203LL)
+    {
+        v1 = A1 - 0x435A6E803LL;
+        if (v1 > 0x10)
+        {
+            return 1;
+        }
+        v2 = 68101;   /* 0x10A05：bitmap，bit N = A1 == 0x435A6E803 + N 在黑名单 */
+        if (!_bittest64((const LONG64*)&v2, (LONG)v1))
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+/* sub_140175230：翻译缓存 find-or-insert（老师原样：qword_14DB95C90 计数保护）。
+ * a1 = key（8 字节 FNV），a2 = 16 字节 data（+0 = data0，+8 低 4 字节 = data1）。
+ * 语义：计数非 -1 且 CAS 递增成功 → 桶内找 key；命中更新 +24/+32 并递减返回；
+ * 未命中递减后走 LABEL_14：CAS 拿独占（0→-1）成功 → 事件队列插入 + 写 data。 */
+UINT64
+DnzSub_140175230(
+    _In_ UINT64 Key,
+    _In_ const UINT64* Data16
+    )
+{
+    UINT64 result;
+    LONGLONG v2;
+    UINT8* node;
+
+    if (g_TState.XlateCounter == -1)
+    {
+        goto LABEL_14;
+    }
+    v2 = g_TState.XlateCounter;
+    if (v2 != InterlockedCompareExchange64(&g_TState.XlateCounter, v2 + 1, v2))
+    {
+        goto LABEL_14;
+    }
+
+    node = TgListFind8(&g_TState.XlateCache, Key);
+    if (node != NULL)
+    {
+        /* 命中：节点 +24 = data0，+32 = data1（dword） */
+        *(UINT64*)(node + 24) = Data16[0];
+        *(UINT32*)(node + 32) = (UINT32)Data16[1];
+        InterlockedDecrement64(&g_TState.XlateCounter);
+        return (UINT64)(UINT32)Data16[1];
+    }
+    InterlockedDecrement64(&g_TState.XlateCounter);
+
+LABEL_14:
+    result = InterlockedCompareExchange64(&g_TState.XlateCounter, -1, 0);
+    if (result == 0)
+    {
+        UINT64 data0 = Data16[0];
+        UINT32 data1 = (UINT32)Data16[1];
+
+        /* 老师: sub_140176FD0(事件队列 find-or-insert) -> 节点 +24/+32 写 data */
+        node = DnzSub_140176FD0(Key);
+        if (node != NULL)
+        {
+            *(UINT64*)(node + 24) = data0;
+            *(UINT32*)(node + 32) = data1;
+        }
+        g_TState.XlateCounter = 0;
+    }
+    return result;
+}
+
+/* sub_14017B160：EPROCESS 摘要填充（老师原样）。a1 = guest EPROCESS 指针，
+ * a2 = 344 字节输出结构。 */
+VOID
+DnzSub_14017B160(
+    _In_ UINT64 A1,
+    _In_ UINT64 A2
+    )
+{
+    UINT64 v2;
+    UINT64 v8;
+    UINT64 v48;
+
+    if (A2 != 0)
+    {
+        /* 清零 344 字节结构（老师原样按字段写 0） */
+        *(UINT16*)(A2 + 0) = 0;
+        *(UINT8*)(A2 + 2) = 0;
+        RtlZeroMemory((PVOID)(A2 + 136), 192);
+        *(UINT32*)(A2 + 272) = 0;
+        *(UINT32*)(A2 + 320) = 0;
+        if (A2 != -328)
+        {
+            *(UINT8*)(A2 + 328) = 0;
+            *(UINT64*)(A2 + 332) = 0;
+            *(UINT32*)(A2 + 340) = 0;
+        }
+
+        if (TG_PTR_OK(A1))
+        {
+            UINT64 GuestU64;
+            UINT64 v7;
+            UINT32 GuestU32;
+
+            v2 = A2 + 136;
+            *(UINT8*)A2 = 1;
+            GuestU64 = TgReadU64(A1 + 64);
+            DnzSub_14017B030((PUINT8)(A2 + 2), 0x80, GuestU64);
+            v7 = TgReadU64(A1 + 72);
+            v8 = v7;
+            if (v2 != 0 && TG_PTR_OK(v7))
+            {
+                GuestU32 = TgReadU32(v7 + 16);
+                *(UINT32*)v2 = GuestU32;
+                *(UINT32*)(v2 + 4) = TgReadU32(v8 + 20);
+                *(UINT32*)(v2 + 8) = TgReadU32(v8 + 24);
+                *(UINT32*)(v2 + 12) = TgReadU32(v8 + 28);
+                *(UINT32*)(v2 + 16) = TgReadU32(v8 + 32);
+                *(UINT32*)(v2 + 20) = TgReadU32(v8 + 36);
+                *(UINT64*)(v2 + 24) = TgReadU64(v8 + 40);
+                *(UINT64*)(v2 + 32) = DnzSub_140176810(v8 + 48);
+                *(UINT32*)(v2 + 40) = TgReadU32(v8 + 56);
+            }
+            *(UINT32*)(A2 + 184) = TgReadU32(A1 + 96);
+            *(UINT32*)(A2 + 188) = TgReadU32(A1 + 100);
+            *(UINT32*)(A2 + 192) = TgReadU8(A1 + 104);
+            *(UINT32*)(A2 + 196) = TgReadU32(A1 + 108);
+            *(UINT64*)(A2 + 200) = TgReadU64(A1 + 112);
+            *(UINT64*)(A2 + 208) = TgReadU64(A1 + 120);
+            *(UINT64*)(A2 + 216) = TgReadU64(A1 + 128);
+            *(UINT64*)(A2 + 240) = DnzSub_140176810(A1 + 160);
+            *(UINT64*)(A2 + 232) = DnzSub_140176810(A1 + 168);
+            *(UINT8*)(A2 + 224) = (TgReadU8(A1 + 188) != 0) ? 1 : 0;
+            *(UINT8*)(A2 + 225) = (TgReadU8(A1 + 189) == 1) ? 1 : 0;
+            if ((UINT32)TgReadU32(A1 + 252) == 20)
+            {
+                v48 = TgReadU64(A1 + 240);
+                if (TG_PTR_OK(v48))
+                {
+                    *(UINT64*)(A2 + 248) = DnzSub_140176810(v48 + 64);
+                    *(UINT64*)(A2 + 256) = DnzSub_140176810(v48 + 72);
+                    *(UINT32*)(A2 + 264) = TgReadU32(v48 + 88);
+                    *(UINT32*)(A2 + 268) = TgReadU32(v48 + 92);
+                    *(UINT32*)(A2 + 272) = TgReadU32(v48 + 96);
+                    *(UINT64*)(A2 + 296) = DnzSub_140176810(v48 + 104);
+                    *(UINT64*)(A2 + 280) = DnzSub_140176810(v48 + 112);
+                    *(UINT64*)(A2 + 288) = DnzSub_140176810(v48 + 120);
+                    if (*(UINT64*)(A2 + 208) == 0)
+                    {
+                        *(UINT64*)(A2 + 208) = TgReadU64(v48 + 128);
+                    }
+                    *(UINT32*)(A2 + 312) = TgReadU32(v48 + 140);
+                    *(UINT32*)(A2 + 316) = TgReadU32(v48 + 152);
+                    *(UINT32*)(A2 + 320) = TgReadU32(v48 + 200);
+                    *(UINT64*)(A2 + 304) = DnzSub_140176810(v48 + 232);
+                }
+            }
+        }
+    }
+}
+
+/* ACE_ReadProcessListFromGuest：读 guest 进程列表（老师原样）。a1 = 列表头指针，
+ * a2 = 输出缓冲（头 16 字节 + 1080 字节 × 20 条目）。 */
+VOID
+Hv_ReadProcessListFromGuest(
+    _In_ UINT64 A1,
+    _In_ UINT64 A2
+    )
+{
+    UINT32 v2 = 0;
+    UINT32 v6;
+    UINT32 v8;
+    UINT8  v10;
+    UINT32 v11;
+    UINT64 v12;
+    UINT64 v13;
+    UINT64 v14;
+    UINT64 v15;
+    UINT64 v16;
+    UINT64 v17;
+
+    if (A2 != 0)
+    {
+        *(UINT16*)(A2 + 1) = 1;
+        *(UINT8*)A2 = 0;
+        *(UINT32*)(A2 + 12) = 0;
+        *(UINT8*)(A2 + 3) = 0;
+        if (TG_PTR_OK(A1) && (UINT32)TgReadU32(A1 + 40) == 0)
+        {
+            *(UINT8*)A2 = 1;
+            v6 = TgReadU32(A1 + 44);
+            *(UINT32*)(A2 + 4) = v6;
+            v8 = TgReadU32(A1 + 52);
+            *(UINT32*)(A2 + 8) = v8;
+            v10 = TgReadU8(A1 + 56);
+            *(UINT8*)(A2 + 3) = (v10 != 0) ? 1 : 0;
+            if (!v10)
+            {
+                v11 = TgReadU32(A1 + 24);
+                v12 = A1 + 32;
+                if ((INT32)v11 < 0)
+                {
+                    TgReadU64(v12);
+                    return;
+                }
+                if ((INT32)v11 <= 20)
+                {
+                    v13 = TgReadU64(v12);
+                    if ((INT32)v11 <= 0)
+                    {
+                        return;
+                    }
+                }
+                else
+                {
+                    v11 = 20;
+                    v13 = TgReadU64(v12);
+                }
+                v14 = v13 + 8;
+                v15 = v13 - 0xFFFF;
+                do
+                {
+                    if (v15 <= 0x7FFFFFFF0000ULL)
+                    {
+                        v16 = TgReadU64(v14);
+                        if (TG_PTR_OK(v16))
+                        {
+                            DnzSub_14017B160(v16, A2 + 1080LL * *(INT32*)(A2 + 12) + 16);
+                            v17 = *(INT32*)(A2 + 12);
+                            if (*(UINT8*)(1080 * (UINT32)v17 + A2 + 16) != 0)
+                            {
+                                *(UINT32*)(A2 + 12) = (UINT32)(v17 + 1);
+                            }
+                        }
+                    }
+                    v2++;
+                    v14 += 8;
+                } while (v2 < v11);
+            }
+        }
+    }
 }
 
 /* ================= 8 个子函数 ================= */

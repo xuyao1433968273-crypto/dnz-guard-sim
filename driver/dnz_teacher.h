@@ -132,10 +132,12 @@ typedef struct _DNZ_TEACHER_STATE {
     DNZ_TLIST  PidState;
     UINT8      PidStatePool[16][0x20];
 
-    /* 指针翻译缓存（qword_14828F2F0，sub_1401755B0 用）：节点 = 0x28 字节，
+    /* 指针翻译缓存（qword_14828F2C8 桶 / qword_14828F2E0 掩码 / qword_14828F2B8 哨兵，
+     * sub_1401755B0 / sub_140175230 用）：节点 = 0x28 字节，
      * +0 prev / +8 next / +16 QWORD key / +24 QWORD data0 / +32 QWORD data1 */
     DNZ_TLIST  XlateCache;
     UINT8      XlatePool[16][0x28];
+    volatile LONGLONG XlateCounter;  /* qword_14DB95C90：翻译缓存引用计数/独占锁（0=空闲，-1=独占，>0=引用） */
 
     /* 实体表 1（qword_14DD8A378）：节点 = 0x70 字节，
      * +0 prev / +8 next / +16 QWORD key / +24 data[80] */
@@ -240,8 +242,31 @@ DnzSub_140180D20(
     _In_  UINT64 Key
     );
 
-/* sub_1401944D0：配置检查子函数（出处不全，结构桩返回 1=启用） */
+/* sub_1401944D0：配置检查（FNV 哈希黑名单 switch，原样还原） */
 UINT8
 DnzSub_1401944D0(
     _In_ UINT64 A1
+    );
+
+/* sub_140175230：翻译缓存 find-or-insert（qword_14DB95C90 计数保护；命中更新
+ * +24/+32 data，未命中走独占锁插入。a2 = 16 字节 data：+0 data0 / +8 dword data1） */
+UINT64
+DnzSub_140175230(
+    _In_ UINT64 Key,
+    _In_ const UINT64* Data16
+    );
+
+/* sub_14017B160：EPROCESS 摘要填充（a1 = guest EPROCESS，a2 = 344 字节输出） */
+VOID
+DnzSub_14017B160(
+    _In_ UINT64 A1,
+    _In_ UINT64 A2
+    );
+
+/* ACE_ReadProcessListFromGuest：读 guest 进程列表（a1 = 列表头，a2 = 输出缓冲：
+ * 头 16 字节 + 1080 字节 × 20 条目） */
+VOID
+Hv_ReadProcessListFromGuest(
+    _In_ UINT64 A1,
+    _In_ UINT64 A2
     );
