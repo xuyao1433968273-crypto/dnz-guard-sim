@@ -64,6 +64,22 @@ typedef struct _SHV_MTRR_RANGE
     UINT64 PhysicalAddressMax;
 } SHV_MTRR_RANGE, *PSHV_MTRR_RANGE;
 
+/* 双根视图（老师: HV_EptInstallHook 里的主根/影子根）。
+ * 每视图一套独立页表，只在被钩区域与共享基底（Epml4/Epdpt/Epde）不同。
+ * DECLSPEC_ALIGN(PAGE_SIZE) 保证每张表物理 4KB 对齐（MM 取物理地址用）。
+ * CloneRegion = 区域克隆覆盖的 1GB 区域号（PDPT 索引），-1 = 空闲；
+ * PtKey = 拆页 PT 覆盖的 2MB 页键 (region<<9|pd)，-1 = 空闲。 */
+typedef struct _DNZ_EPT_VIEW
+{
+    UINT64  EptpValue;               /* 算好的 EPTP 值（VMCS EPT_POINTER 直接写） */
+    LONG    CloneRegion[8];          /* 8 个区域克隆槽 */
+    LONG    PtKey[8];                /* 8 个拆页 PT 槽 */
+    DECLSPEC_ALIGN(PAGE_SIZE) VMX_EPML4E Pml4[PML4E_ENTRY_COUNT];      /* 1 pg */
+    DECLSPEC_ALIGN(PAGE_SIZE) VMX_PDPTE Pdpt[PDPTE_ENTRY_COUNT];       /* 1 pg */
+    DECLSPEC_ALIGN(PAGE_SIZE) VMX_LARGE_PDE Pde[8][PDE_ENTRY_COUNT];   /* 8 pg */
+    DECLSPEC_ALIGN(PAGE_SIZE) VMX_PTE Pt[8][PTE_ENTRY_COUNT];          /* 8 pg */
+} DNZ_EPT_VIEW, *PDNZ_EPT_VIEW;
+
 typedef struct _SHV_VP_DATA
 {
     union
@@ -84,22 +100,34 @@ typedef struct _SHV_VP_DATA
         };
     };
 
-    /* ===== 老师工程细节：EPT 拆页表 + 双视图钩子状态（dnz_ept.c 用） ===== */
-    /* 每核 8 张 4KB 页表，供拆 2MB 大页用（每张覆盖 512 个 4K 页 = 2MB） */
-    DECLSPEC_ALIGN(PAGE_SIZE) VMX_PTE EptPt[8][PTE_ENTRY_COUNT];
+    /* ===== 老师工程细节：双根 EPT（主根/影子根）+ 触发根（dnz_ept.c 用） =====
+     *
+     * 老师驱动是"双根"：手里同时攥着两套完整地图——
+     *   主根 MainView   ：被钩页 → 假页（FakePfn，"改过版"，住户/游戏看）
+     *   影子根 ShadowView：被钩页 → 真页（CleanPfn，"干净版"，保安/外人看）
+     * 翻镜子 = 切换视图（改 VMCS EPTP），不是改页表。
+     * 另配一个"触发根" FaultView：被钩页 → 无权限，作为默认 EPTP，
+     * 任何访问都触发 EPT violation，我们才能认出是谁、决定给哪张脸。
+     *
+     * 结构（省内存版"两套地图"）：
+     *   共享基底 Epml4/Epdpt/Epde（SimpleVisor 的 2MB 恒等映射，永不被改）
+     *   每个视图只带自己的 Pml4/Pdpt + 区域克隆 Pde[8] + 拆页 PT 表 Pt[8]
+     *   视图 Pdpt[i] 默认指向共享 Epde[i]，有钩子的区域才指向自己的克隆。
+     */
+    DECLSPEC_ALIGN(PAGE_SIZE) DNZ_EPT_VIEW MainView;
+    DECLSPEC_ALIGN(PAGE_SIZE) DNZ_EPT_VIEW ShadowView;
+    DECLSPEC_ALIGN(PAGE_SIZE) DNZ_EPT_VIEW FaultView;
     /* 每核双视图钩子状态（最多 8 个） */
     struct _DNZ_VP_EPT_STATE {
         UINT64  Gpa;              /* 被钩的客户机物理页（4K 对齐） */
-        UINT64  CleanPfn;         /* 干净视图物理帧号 */
-        UINT64  FakePfn;          /* 钩子视图物理帧号 */
-        UINT32  PtIndex;          /* 用哪张 EptPt 表 */
+        UINT64  CleanPfn;         /* 干净视图物理帧号（影子根） */
+        UINT64  FakePfn;          /* 钩子视图物理帧号（主根） */
+        LONG    CloneIdx;         /* 区域克隆槽（三个视图同槽） */
+        LONG    PtIdx;            /* 拆页 PT 槽（三个视图同槽） */
         UINT32  PteIndex;         /* PT 表内索引 */
-        UINT64  OriginalPde;      /* 拆页前保存的 2MB PDE 原值（卸钩恢复用） */
-        UINT64  OriginalPte;      /* 拆页后目标 4K 项原值 */
-        UINT32  SplitPdeIndex;    /* 拆页时改的 PDE 索引 */
         BOOLEAN Installed;
         BOOLEAN InFlip;           /* 正在翻镜子（MTF 单步中） */
-        BOOLEAN FlipToClean;      /* 本次翻到干净面还是钩子面 */
+        BOOLEAN FlipToClean;      /* 本次翻到干净面(影子根)还是钩子面(主根) */
         BOOLEAN FlipState;        /* 当前面向谁：FALSE=住户(假页) TRUE=保安(真页) */
     } EptHooks[8];
     UINT32  EptHookCount;

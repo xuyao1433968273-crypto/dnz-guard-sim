@@ -22,6 +22,7 @@ Environment:
 
 #include <ntddk.h>
 #include "shv.h"
+#include "dnz_ept.h"
 
 VOID
 ShvVmxMtrrInitialize (
@@ -291,7 +292,6 @@ ShvVmxSetupVmcsForVp (
     PSHV_SPECIAL_REGISTERS state = &VpData->SpecialRegisters;
     PCONTEXT context = &VpData->ContextFrame;
     VMX_GDTENTRY64 vmxGdtEntry;
-    VMX_EPTP vmxEptp;
 
     //
     // Begin by setting the link pointer to the required value for 4KB VMCS.
@@ -304,17 +304,10 @@ ShvVmxSetupVmcsForVp (
     if (VpData->EptControls != 0)
     {
         //
-        // Configure the EPTP
+        // Configure the EPTP — 默认指向"触发根"（被钩页无权限），
+        // 任何对被钩页的访问先触发 EPT violation，翻镜子时再切到主根/影子根。
         //
-        vmxEptp.AsUlonglong = 0;
-        vmxEptp.PageWalkLength = 3;
-        vmxEptp.Type = MTRR_TYPE_WB;
-        vmxEptp.PageFrameNumber = VpData->EptPml4PhysicalAddress / PAGE_SIZE;
-
-        //
-        // Load EPT Root Pointer
-        //
-        __vmx_vmwrite(EPT_POINTER, vmxEptp.AsUlonglong);
+        __vmx_vmwrite(EPT_POINTER, VpData->FaultView.EptpValue);
 
         //
         // Set VPID to one
@@ -591,6 +584,12 @@ ShvVmxLaunchOnVp (
     // Initialize the EPT structures
     //
     ShvVmxEptInitialize(VpData);
+
+    //
+    // Initialize the dual-root EPT views (main/shadow/fault). Must run before
+    // ShvVmxSetupVmcsForVp, which loads the default (fault) EPTP.
+    //
+    DnzEptViewsInit(VpData);
 
     //
     // Attempt to enter VMX root mode on this processor.
