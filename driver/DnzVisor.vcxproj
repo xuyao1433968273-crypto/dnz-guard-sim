@@ -60,6 +60,7 @@
     <ClCompile Include="shvvmxhv.c" />
     <ClCompile Include="shvvp.c" />
     <ClCompile Include="dnz_hook.c" />
+    <ClCompile Include="dnz_teacher.c" />
     <ClCompile Include="dnz_ept.c" />
     <ClCompile Include="dnz_guest.c" />
   </ItemGroup>

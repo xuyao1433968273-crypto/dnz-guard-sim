@@ -56,7 +56,7 @@ Hv_TranslateGuestVa_Present(
     _Out_ PUINT64 PhysOut
     );
 
-/* ===== 老师原样 guest 读写（Ctx = g_Hook_GuestCr3OrCtx，含 CR3） ===== */
+/* ===== 老师原样 guest 读写（Ctx = g_Hook_GuestCr3OrCtx，+8 = CR3） ===== */
 
 UINT64
 Hv_ReadGuestU64(
@@ -66,6 +66,18 @@ Hv_ReadGuestU64(
 
 UINT32
 Hv_ReadGuestU32(
+    _In_ UINT64 Ctx,
+    _In_ UINT64 Va
+    );
+
+UINT16
+Hv_ReadGuestU16(
+    _In_ UINT64 Ctx,
+    _In_ UINT64 Va
+    );
+
+UINT8
+Hv_ReadGuestU8(
     _In_ UINT64 Ctx,
     _In_ UINT64 Va
     );
@@ -83,6 +95,14 @@ Hv_WriteGuestU64(
     _In_ UINT64 Ctx,
     _In_ UINT64 Va,
     _In_ UINT64 Val
+    );
+
+VOID
+Hv_WriteGuestBytes(
+    _In_ UINT64 Ctx,
+    _In_ UINT64 Va,
+    _In_ const void* Src,
+    _In_ ULONG  Len
     );
 
 VOID

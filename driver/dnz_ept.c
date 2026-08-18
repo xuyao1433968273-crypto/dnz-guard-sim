@@ -521,6 +521,8 @@ DnzEptHandleViolation(
         // 认人第二招（老师: guest RIP 对 g_Hook_NtosOffsetsCtx 偏移表）：
         // 命中 -> 模拟这个 API（RIP 前移 + 写 guest 寄存器/内存），不走真代码
         //
+        // 分派前刷新翻译上下文 CR3（老师: g_Hook_GuestCr3OrCtx +8 = 当前 guest CR3）
+        g_DnzHook.GuestCtx.Cr3 = GuestCr3;
         if (DnzDispatchNtApi(VpData, GuestCtx, GuestRip))
         {
             return TRUE;   /* 已模拟，resume（RIP 已前移） */

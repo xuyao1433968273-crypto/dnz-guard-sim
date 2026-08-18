@@ -52,6 +52,14 @@ DnzReadPhys32(
     return *(volatile UINT32*)(DnzDirectMapBase + Phys);
 }
 
+UINT16
+DnzReadPhys16(
+    _In_ UINT64 Phys
+    )
+{
+    return *(volatile UINT16*)(DnzDirectMapBase + Phys);
+}
+
 UINT8
 DnzReadPhys8(
     _In_ UINT64 Phys
@@ -186,6 +194,36 @@ Hv_ReadGuestU32(
     return 0;
 }
 
+UINT16
+Hv_ReadGuestU16(
+    _In_ UINT64 Ctx,
+    _In_ UINT64 Va
+    )
+{
+    UINT64 phys;
+
+    if (Hv_TranslateGuestVa_Present(*(PUINT64)(Ctx + 8), Va, &phys))
+    {
+        return DnzReadPhys16(phys);
+    }
+    return 0;
+}
+
+UINT8
+Hv_ReadGuestU8(
+    _In_ UINT64 Ctx,
+    _In_ UINT64 Va
+    )
+{
+    UINT64 phys;
+
+    if (Hv_TranslateGuestVa_Present(*(PUINT64)(Ctx + 8), Va, &phys))
+    {
+        return DnzReadPhys8(phys);
+    }
+    return 0;
+}
+
 VOID
 Hv_ReadGuestBytes(
     _In_  UINT64 Ctx,
@@ -223,6 +261,27 @@ Hv_WriteGuestU64(
     if (Hv_TranslateGuestVa_Present(*(PUINT64)(Ctx + 8), Va, &phys))
     {
         DnzWritePhys(phys, Val, 8);
+    }
+}
+
+VOID
+Hv_WriteGuestBytes(
+    _In_ UINT64 Ctx,
+    _In_ UINT64 Va,
+    _In_ const void* Src,
+    _In_ ULONG  Len
+    )
+{
+    UINT64 phys;
+    const UINT8* src = (const UINT8*)Src;
+    ULONG i;
+
+    for (i = 0; i < Len; i++)
+    {
+        if (Hv_TranslateGuestVa_Present(*(PUINT64)(Ctx + 8), Va + i, &phys))
+        {
+            DnzWritePhys(phys, src[i], 1);
+        }
     }
 }
 

@@ -87,6 +87,9 @@ D:\dnz_guard_sim\driver\
 ├─ ntint.h               SimpleVisor 自带 NT 类型（已加 WDK 兼容保护）
 ├─ dnz_ept.c / .h        三视图初始化 / 装钩 / 卸钩 / 翻镜子（切 EPTP）/ MTF 收尾
 ├─ dnz_hook.c / .h       认人（PID 对比 + 偏移表分派 + FNV 链表）/ 跨核同步（三段式）/ 计时账本
+├─ dnz_teacher.c / .h    老师 8 个子函数逐行还原（sub_140187B90/E60/1881D0/168A70/
+│                        179540/179790/17BAF0/176310）+ 全部下级 helper（FNV 哈希链
+│                        表机制 / guest 翻译 / 自瞄状态 / 事件状态表 / 实体表 / 配置标志）
 └─ dnz_guest.c / .h      guest 内存读写（direct map + 4 级页表翻译）
 ```
 
@@ -126,7 +129,12 @@ IOCTL（用户态程序通过 \\.\DnzVisor）：
 - **触发根方案每次访问都翻一次镜子**（VM-exit 开销大）：这是"按访问认人 + RIP 黑名单"
   的代价——要认出"谁在访问"就得让访问先 fault。老师驱动在同款机制上做了计时校准
   掩盖延迟，本骨架只有账本、没做掩盖。
-- **认人只用 CR3 + 绝对 RIP**：老师驱动还叠加进程链表遍历、FNV 哈希、偏移表分派。
+- **认人三招已对齐老师原样**：PID 对比（EPROCESS 偏移链）+ guest RIP 对
+  `g_Hook_NtosOffsetsCtx` 偏移表分派（14 个偏移分支，命中哪个模拟哪个 API，RIP 前移 +
+  写 guest 寄存器/栈/内存）+ FNV-1a 哈希链表（`ACE_LookupListHookByPid` 同款：基数
+  0xCBF29CE484222325、质数 0x100000001B3、桶+链表+自旋锁）。8 个 stub 子函数已按
+  老师伪代码逐行还原（见 dnz_teacher.c），剩余几个深层叶子（sub_1401944D0 /
+  Hv_ReadProcessListFromGuest / sub_140175230）出处不全，保留为结构桩、不编造。
 - **未做多核钩子状态一致性**：每核独立 EPT，装钩广播到每核；翻镜子的跨核同步
   是全局锁 + TSC 超时（老师代码同款语义），但未做跨核视图传播。
 - **未模拟嵌套**（L0 底下再套一层）——那是 NestedHv2026 的事，不在这。

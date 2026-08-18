@@ -4,7 +4,9 @@
  *
  *   ACE_NtApiHook_ExitHandler (0x1401906e0)
  *     - 第一招：当前 guest 进程 PID != g_Hook_GuestCr3OrCtx.Pid -> return 0
- *     - 第二招：guest RIP 对 g_Hook_NtosOffsetsCtx 偏移表，命中哪个模拟哪个 API
+ *     - 第二招：guest RIP 对 g_Hook_NtosOffsetsCtx 偏移表，命中哪个模拟哪个 API；
+ *       8 个调子函数的分支（+1960/+1968/+1976/+2024/+2048/+2056/+2072 与 +2032
+ *       的 sub_140176310）已按老师伪代码逐行还原（dnz_teacher.c）
  *   ACE_LookupListHookByPid (FNV-1a 哈希查 ListHook 链表，自旋锁 + 桶 + 遍历)
  *   HV_EptSwapHookOnViolation 的跨核等待（内层 1000 次 mfence/pause +
  *     外层 8×预算 TSC 限时，等状态变 2 后归零 + lfence）
@@ -14,24 +16,18 @@
 #include <intrin.h>
 #include "dnz_hook.h"
 #include "dnz_guest.h"
+#include "dnz_teacher.h"
 
 /* 未导出的内核 API，手工声明 */
 NTKERNELAPI NTSTATUS PsLookupProcessByProcessId(_In_ HANDLE ProcessId, _Outptr_ PEPROCESS* Process);
 
 DNZ_HOOK_CONTEXT g_DnzHook;
 
-/* 老师 ACE_NtApiHook_ExitHandler 的全局小变量（按原样保留语义） */
-static UINT8  g_B5Flag;            /* byte_14026E0B5 */
-static volatile LONG g_C030;       /* dword_14026C030 */
-static volatile LONG g_C02C;       /* dword_14026C02C */
-static volatile LONG g_C034;       /* dword_14026C034 */
-static volatile LONG g_V0228;      /* dword_140270228 */
-static volatile LONG g_V0230;      /* dword_140270230 */
-static UINT64 g_V07A8;             /* qword_1402707A8 */
-static UINT32 g_V0234;             /* dword_140270234 */
-
 /* a2 = PCONTEXT（老师把 guest 寄存器帧当 QWORD 数组，a2[N] = CONTEXT 偏移 N*8，
- * a2[31] = Rip）。 */
+ * a2[31] = Rip、a2[19] = Rsp、a2[15] = Rax）。标准 CONTEXT 布局：
+ * Rax +120/8=15、Rcx +128/8=16、Rdx +136/8=17、Rbx +144/8=18、Rsp +152/8=19、
+ * Rbp +160/8=20、Rsi +168/8=21、Rdi +176/8=22、R8 +184/8=23、R9 +192/8=24、
+ * Rip +248/8=31、EFlags +68。 */
 #define CTX_Q(ctx, n) (*(UINT64*)((PUCHAR)(ctx) + (n) * 8))
 
 /* ============ FNV-1a（老师: ACE_LookupListHookByPid 的哈希式） ============ */
@@ -284,6 +280,22 @@ DnzRecognizeAccessor(
 
 /* ============ 认人第二招：偏移表分派（老师: ACE_NtApiHook_ExitHandler 原样） ============ */
 
+/* 老师 sub_14015D2D0 + Hv_WriteGuestPtr 的"读后写回"（第三参分析缺失，文档化） */
+static VOID
+DnzTouchFloat(
+    _In_ UINT64 Va
+    )
+{
+    UINT32 v = 0;
+    UINT64 ctx = (UINT64)&g_DnzHook.GuestCtx;
+
+    if (Va > 0x10000)
+    {
+        Hv_ReadGuestBytes(ctx, &v, Va, 4);
+        Hv_WriteGuestPtr(ctx, Va, (UINT64)v);
+    }
+}
+
 BOOLEAN
 DnzDispatchNtApi(
     _In_ PSHV_VP_DATA VpData,
@@ -294,8 +306,22 @@ DnzDispatchNtApi(
     UINT64 rip = GuestRip;
     UINT64 ctx = (UINT64)&g_DnzHook.GuestCtx;
     UINT8  v26[16];
+    UINT64 guestRsp;
+    UINT64 guestRflags;
 
     UNREFERENCED_PARAMETER(VpData);
+
+    //
+    // 老师 a2 帧灌入：VM-exit 时 GPR 已是 guest 值，但 RIP/RSP/EFLAGS 在
+    // CONTEXT 里是 host 的（guest 值在 VMCS 字段）。按老师 a2 帧语义
+    // （a2[31]=Rip、a2[19]=Rsp、a2[8]=EFlags@+68）先读进来，改完统一写回。
+    // g_Hook_GuestCr3OrCtx.Cr3 由 DnzEptHandleViolation 在分派前更新。
+    //
+    CTX_Q(GuestCtx, 31) = GuestRip;
+    __vmx_vmread(GUEST_RSP, &guestRsp);
+    CTX_Q(GuestCtx, 19) = guestRsp;
+    __vmx_vmread(GUEST_RFLAGS, &guestRflags);
+    GuestCtx->EFlags = (UINT32)guestRflags;
 
     // ===== +1936 =====
     if (rip == g_DnzHook.NtosOffsets[0])
@@ -307,8 +333,7 @@ DnzDispatchNtApi(
         (void)v26;
         CTX_Q(GuestCtx, 31) += 4;                     /* Rip += 4 */
         CTX_Q(GuestCtx, 16) = CTX_Q(GuestCtx, 20) - 32;  /* Rcx = Rbp - 32 */
-        __vmx_vmwrite(GUEST_RIP, CTX_Q(GuestCtx, 31));
-        return TRUE;
+        goto done;
     }
 
     // ===== +1944 =====
@@ -318,67 +343,100 @@ DnzDispatchNtApi(
         Hv_ReadGuestBytes(ctx, v26, CTX_Q(GuestCtx, 17) + 16, 16);  /* Rdx+16 */
         /* 老师: sub_140175230(v11, v26) —— 待逐行还原 */
         (void)v11;
+        (void)v26;
         CTX_Q(GuestCtx, 19) -= 48;                    /* Rsp -= 48 */
         CTX_Q(GuestCtx, 31) += 4;                     /* Rip += 4 */
-        __vmx_vmwrite(GUEST_RIP, CTX_Q(GuestCtx, 31));
-        return TRUE;
+        goto done;
     }
 
-    // ===== +2032 =====
+    // ===== +2032（老师原样：哈希 -> 武器判断 -> 公共尾） =====
     if (rip == g_DnzHook.NtosOffsets[2])
     {
-        if (g_V0234)
+        if (g_TState.Aim.Counter2 != 0)
         {
-            /* 老师: sub_140176310(a2[23]) 算哈希后与两个魔数比较 —— 待逐行还原 */
+            UINT64 v12 = DnzSub_140176310(CTX_Q(GuestCtx, 23));   /* R8 */
+            if (v12 == 0x553A7EE1DD1AE97CULL || v12 == 0x73BAE6D464A1B55CULL)
+            {
+                UINT32 v13 = Hv_ReadGuestU32(ctx, CTX_Q(GuestCtx, 24) + g_DnzHook.OffsetTable[269]); /* R9 + +1076 */
+                UINT32 v14 = Hv_ReadGuestU32(ctx, CTX_Q(GuestCtx, 24) + g_DnzHook.OffsetTable[270]); /* R9 + +1080 */
+                InterlockedCompareExchange(&g_TState.CntC02C, 0, 1);
+                if (v14 == (UINT32)g_TState.Aim.Counter2)
+                {
+                    UINT64 v15;
+                    UINT64 v16;
+
+                    DnzTouchFloat(g_TState.Aim.BasePtr + g_DnzHook.OffsetTable[268]);  /* +1072 */
+                    v15 = CTX_Q(GuestCtx, 19);
+                    g_TState.Aim.FlagB5 = 1;
+                    v16 = Hv_ReadGuestU64(ctx, v15);
+                    CTX_Q(GuestCtx, 19) += 8;
+                    CTX_Q(GuestCtx, 31) = v16;
+                    InterlockedCompareExchange(&g_TState.CntC034, 0, 1);
+                    goto done;
+                }
+                if (v13 == (UINT32)g_TState.Aim.Counter2)
+                {
+                    DnzTouchFloat(g_TState.Aim.BasePtr + g_DnzHook.OffsetTable[268]);  /* +1072 */
+                    g_TState.Aim.FlagB5 = 0;
+                }
+            }
         }
         Hv_WriteGuestU64(ctx, CTX_Q(GuestCtx, 19) + 32, CTX_Q(GuestCtx, 24));
         CTX_Q(GuestCtx, 31) += 5;
-        __vmx_vmwrite(GUEST_RIP, CTX_Q(GuestCtx, 31));
-        return TRUE;
+        goto done;
     }
 
     // ===== +2040 =====
     if (rip == g_DnzHook.NtosOffsets[3])
     {
         UINT64 v17 = CTX_Q(GuestCtx, 19);             /* Rsp */
-        if (g_B5Flag)
+        if (g_TState.Aim.FlagB5)
         {
             UINT64 v18 = Hv_ReadGuestU64(ctx, v17);
             CTX_Q(GuestCtx, 19) += 8;                 /* Rsp += 8 */
             CTX_Q(GuestCtx, 31) = v18;                /* Rip = 读到的返回地址（ret 模拟） */
-            InterlockedCompareExchange(&g_C030, 0, 1);
+            InterlockedCompareExchange(&g_TState.CntC030, 0, 1);
         }
         else
         {
             Hv_WriteGuestU64(ctx, v17 + 16, CTX_Q(GuestCtx, 17));  /* 写 Rsp+16 = Rdx */
             CTX_Q(GuestCtx, 31) += 5;
         }
-        __vmx_vmwrite(GUEST_RIP, CTX_Q(GuestCtx, 31));
-        return TRUE;
+        goto done;
     }
 
-    // ===== +1952 =====
+    // ===== +1952（老师原样：配置标志 + sub_1401944D0） =====
     if (rip == g_DnzHook.NtosOffsets[4])
     {
+        PUINT8 v19 = g_TState.ConfigFlags;
         CTX_Q(GuestCtx, 31) += 5;
         CTX_Q(GuestCtx, 16) = 12;                     /* Rcx = 12 */
-        /* 老师: 配置标志判断 + sub_1401944D0 —— 待逐行还原 */
-        __vmx_vmwrite(GUEST_RIP, CTX_Q(GuestCtx, 31));
-        return TRUE;
+        if (v19[629] && (v19[630] || v19[849]) &&
+            (!v19[640] || (UINT8)DnzSub_1401944D0(g_TState.Ntos1928)))
+        {
+            Hv_WriteGuestPtr(ctx, CTX_Q(GuestCtx, 19) + g_DnzHook.OffsetTable[42], 0);  /* +168, IDA 第三参折叠，按 NULL 写 */
+        }
+        goto done;
     }
 
-    // ===== +1960 / +1968 / +1976（老师调 sub_140187B90 / sub_140187E60 / sub_1401881D0）=====
-    if (rip == g_DnzHook.NtosOffsets[5] ||
-        rip == g_DnzHook.NtosOffsets[6] ||
-        rip == g_DnzHook.NtosOffsets[7])
+    // ===== +1960 / +1968 / +1976（老师子函数，逐行还原见 dnz_teacher.c） =====
+    if (rip == g_DnzHook.NtosOffsets[5])
     {
-        /* 老师: sub_140187B90 / sub_140187E60 / sub_1401881D0 —— 待逐行还原 */
-        CTX_Q(GuestCtx, 31) += 8;
-        __vmx_vmwrite(GUEST_RIP, CTX_Q(GuestCtx, 31));
-        return TRUE;
+        DnzSub_140187B90((UINT64*)GuestCtx);
+        goto done;
+    }
+    if (rip == g_DnzHook.NtosOffsets[6])
+    {
+        DnzSub_140187E60((UINT64*)GuestCtx);
+        goto done;
+    }
+    if (rip == g_DnzHook.NtosOffsets[7])
+    {
+        DnzSub_1401881D0((UINT64*)GuestCtx);
+        goto done;
     }
 
-    // ===== +2008 / +2016（同一段，偏移表槽不同）=====
+    // ===== +2008 / +2016（同一段，偏移表槽不同） =====
     if (rip == g_DnzHook.NtosOffsets[8] ||
         rip == g_DnzHook.NtosOffsets[9])
     {
@@ -386,34 +444,44 @@ DnzDispatchNtApi(
                          ? g_DnzHook.OffsetTable[29]    /* 老师: +116/4 */
                          : g_DnzHook.OffsetTable[31];   /* 老师: +124/4 */
         UINT64 v21 = CTX_Q(GuestCtx, 19) + off;         /* Rsp + off */
-        InterlockedIncrement(&g_V0228);
+        ++g_TState.CntV0228;                            /* ++dword_140270228 */
         CTX_Q(GuestCtx, 31) += 8;
-        InterlockedExchange(&g_V0230, 0);
+        g_TState.Aim.Counter0 = 0;                      /* dword_140270230 = 0 */
         CTX_Q(GuestCtx, 17) = v21;                      /* Rdx = Rsp + off */
-        g_V07A8 = v21;
-        __vmx_vmwrite(GUEST_RIP, CTX_Q(GuestCtx, 31));
-        return TRUE;
+        g_TState.Aim.ReadPtr = v21;                     /* qword_1402707A8 */
+        goto done;
     }
 
-    // ===== +2024 / +2048 / +2056 / +2072（老师调子函数）=====
-    if (rip == g_DnzHook.NtosOffsets[10] ||
-        rip == g_DnzHook.NtosOffsets[11] ||
-        rip == g_DnzHook.NtosOffsets[12] ||
-        rip == g_DnzHook.NtosOffsets[14])
+    // ===== +2024 / +2048 / +2056 / +2072（老师子函数，逐行还原见 dnz_teacher.c） =====
+    if (rip == g_DnzHook.NtosOffsets[10])
     {
-        /* 老师: sub_140168A70 / sub_140179540 / sub_140179790 / sub_14017BAF0
-         * —— 待逐行还原 */
-        CTX_Q(GuestCtx, 31) += 8;
-        __vmx_vmwrite(GUEST_RIP, CTX_Q(GuestCtx, 31));
-        return TRUE;
+        DnzSub_140168A70((UINT64*)GuestCtx);
+        goto done;
+    }
+    if (rip == g_DnzHook.NtosOffsets[11])
+    {
+        DnzSub_140179540((UINT64*)GuestCtx);
+        goto done;
+    }
+    if (rip == g_DnzHook.NtosOffsets[12])
+    {
+        DnzSub_140179790((UINT64*)GuestCtx);
+        goto done;
+    }
+    if (rip == g_DnzHook.NtosOffsets[14])
+    {
+        DnzSub_14017BAF0((UINT64*)GuestCtx);
+        goto done;
     }
 
-    // ===== +2064（FNV 查 ListHook + 读进程链表）=====
+    // ===== +2064（FNV 查 ListHook + 删节点 + 实体表 0） =====
     if (rip == g_DnzHook.NtosOffsets[13])
     {
         UINT64 v22 = Hv_ReadGuestU64(ctx, CTX_Q(GuestCtx, 20) - g_DnzHook.OffsetTable[63]);  /* Rbp - +252 */
         UINT32 v23;
-        if ((v22 - 0xFFFF) <= 0x7FFFFFFF0000ULL)
+        UINT64 v27[3] = { 0, 0, 0 };
+
+        if ((UINT64)(v22 - 0xFFFF) <= 0x7FFFFFFF0000ULL)
         {
             v23 = Hv_ReadGuestU32(ctx, v22 + 44);
         }
@@ -421,27 +489,39 @@ DnzDispatchNtApi(
         {
             v23 = 0;
         }
-        if (DnzLookupListHookByPid(v23) == NULL)
+        if (!DnzHookLookupRemoveByPid(v23, v27) || (UINT32)v27[0] != 0)
         {
-            /* 老师: Hook_LogListEntry("ListHook", v23, a2) —— 日志，简化 */
+            /* 老师: Hook_LogListEntry("ListHook", v23, a2) */
+            DnzHookLogListEntry("ListHook", v23, (UINT64)GuestCtx);
         }
         else
         {
-            /* 老师: 自旋锁 + Hv_ReadProcessListFromGuest —— 待逐行还原 */
-            while (InterlockedCompareExchange(&g_DnzHook.SyncStateLock, 1, 0) == 1)
+            UINT64 out[2];
+
+            while (InterlockedCompareExchange(&g_TState.LockDetail, 1, 0) == 1)
             {
                 _mm_pause();
             }
-            InterlockedExchange(&g_DnzHook.SyncStateLock, 0);
+            DnzSub_140180D20(out, v27[1]);
+            /* 老师: Hv_ReadProcessListFromGuest(a2[16], *out + 24) —— 待逐行还原 */
+            (void)out;
+            InterlockedExchange(&g_TState.LockDetail, 0);
         }
         CTX_Q(GuestCtx, 19) -= 8;                        /* Rsp -= 8 */
         Hv_WriteGuestU64(ctx, CTX_Q(GuestCtx, 19), CTX_Q(GuestCtx, 18));  /* 写 Rsp = Rbx */
         CTX_Q(GuestCtx, 31) += 2;
-        __vmx_vmwrite(GUEST_RIP, CTX_Q(GuestCtx, 31));
-        return TRUE;
+        goto done;
     }
 
     return FALSE;
+
+done:
+    //
+    // 老师 a2 帧写回：RIP/RSP 是 VMCS 字段（GPR 走 RtlRestoreContext 恢复）
+    //
+    __vmx_vmwrite(GUEST_RIP, CTX_Q(GuestCtx, 31));
+    __vmx_vmwrite(GUEST_RSP, CTX_Q(GuestCtx, 19));
+    return TRUE;
 }
 
 /* ============ 跨核同步（老师: HV_EptSwapHookOnViolation 原样） ============ */
@@ -576,6 +656,8 @@ DnzRegisterProc(
 
     //
     // 往 ListHook 链表加节点（老师: ACE_LookupListHookByPid 查的链表）
+    // 注意：DetailHook（+2072）要求 Data0 = 1、Data1 = key、Data2 = 槽位索引，
+    // 由调用方按需注册；这里默认只给 EPROCESS 指针。
     //
     DnzListHookAdd(Pid, (UINT64)process, 0, 0);
     ObDereferenceObject(process);
@@ -624,6 +706,7 @@ DnzHookInit(
     RtlZeroMemory(&g_DnzHook, sizeof(g_DnzHook));
     g_DnzHook.Sync.State = 0;
     g_DnzHook.SwapBudgetTsc = 4096;   /* 老师: 8×预算里的预算值 */
+    DnzTeacherInit();                 /* 老师 8 个子函数的全局状态 */
     InterlockedExchange(&g_DnzHook.Initialized, 1);
 }
 
@@ -634,4 +717,5 @@ DnzHookCleanup(
 {
     InterlockedExchange(&g_DnzHook.Initialized, 0);
     RtlZeroMemory(&g_DnzHook, sizeof(g_DnzHook));
+    RtlZeroMemory(&g_TState, sizeof(g_TState));
 }
