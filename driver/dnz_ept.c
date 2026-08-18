@@ -323,12 +323,14 @@ BOOLEAN
 DnzEptHandleViolation(
     _In_ PSHV_VP_DATA VpData,
     _In_ UINT64 GuestCr3,
+    _In_ UINT64 GuestRip,
     _In_ UINT64 FaultGpa
     )
 {
     LONG slot;
     PVMX_PTE pte;
     INT who;
+    BOOLEAN ripHit;
     UINT64 targetPfn;
     BOOLEAN flipToClean;
     UINT64 tscBefore, tscAfter;
@@ -341,10 +343,37 @@ DnzEptHandleViolation(
     }
 
     //
-    // 认人（老师: Hook_NtApi_VmExitHandler 的 PID/CR3 检查）
+    // 认人两招（老师: Hook_NtApi_VmExitHandler）：
+    //   第一招：查 PID（CR3）——不是被钩进程就 return 0
+    //   第二招：拿 guest RIP 对黑名单——命中才"干活"（翻到钩子面/模拟 API）
+    // 只有"住户 + RIP 命中黑名单"才看假页；其他一切情况看真页（干净面）。
     //
     who = DnzRecognizeAccessor(GuestCr3);
-    flipToClean = (who != 1);   /* 住户看假页，其他（保安/无关）看真页 */
+    if (who == 0)
+    {
+        //
+        // 不是被钩进程——老师代码里这里 return 0，直接放行（看真页）
+        //
+        flipToClean = TRUE;
+    }
+    else
+    {
+        ripHit = DnzRipInBlacklist(GuestRip);
+        if (ripHit)
+        {
+            //
+            // 住户 + RIP 命中黑名单：翻到钩子面（假页），模拟这个 API
+            //
+            flipToClean = FALSE;
+        }
+        else
+        {
+            //
+            // 住户但 RIP 没命中：不是要拦的 API，正常放行（看真页）
+            //
+            flipToClean = TRUE;
+        }
+    }
 
     //
     // 跨核同步：抢翻镜子权（TSC 限时等待，老师: 8×预算周期）

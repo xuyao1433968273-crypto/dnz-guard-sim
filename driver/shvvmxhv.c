@@ -229,13 +229,15 @@ ShvVmxHandleExit (
     {
         UINT64 qualification = 0;
         UINT64 guestCr3 = 0;
+        UINT64 guestRip = 0;
         UINT64 faultGpa;
 
         __vmx_vmread(EXIT_QUALIFICATION, &qualification);
         __vmx_vmread(GUEST_CR3, &guestCr3);
+        __vmx_vmread(GUEST_RIP, &guestRip);
         faultGpa = qualification & DNZ_EPT_VIOLATION_GPA_MASK;
 
-        if (DnzEptHandleViolation(VpData, guestCr3, faultGpa))
+        if (DnzEptHandleViolation(VpData, guestCr3, guestRip, faultGpa))
         {
             //
             // 翻镜子成功：保持 RIP 不动，VM-resume 后重跑出错指令

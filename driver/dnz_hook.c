@@ -47,6 +47,31 @@ DnzRecognizeAccessor(
     return 0;
 }
 
+/* ============ RIP 黑名单（老师: Hook_NtApi_VmExitHandler 第二招） ============ */
+
+BOOLEAN
+DnzRipInBlacklist(
+    _In_ UINT64 GuestRip
+    )
+{
+    ULONG i;
+
+    //
+    // 老师逻辑：拿 guest RIP 去和登记表（g_Hook_NtosOffsetsCtx 的十几个偏移）
+    // 逐个对，RIP == 偏移 N 的位置就按 N 的处理方式模拟那个 API。
+    // 教学骨架：直接对比绝对 RIP（IOCTL 注册的黑名单）。
+    //
+    for (i = 0; i < DNZ_MAX_RIP_BLACKLIST; i++)
+    {
+        if (g_DnzHook.Rips[i].Active &&
+            g_DnzHook.Rips[i].Rip == GuestRip)
+        {
+            return TRUE;
+        }
+    }
+    return FALSE;
+}
+
 /* ============ 跨核同步（老师: 翻镜子里的 spin-wait + TSC 超时） ============ */
 
 BOOLEAN

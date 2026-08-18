@@ -79,6 +79,13 @@ DnzRecognizeAccessor(
     _In_ UINT64 GuestCr3
     );
 
+/* RIP 黑名单命中检查（老师: Hook_NtApi_VmExitHandler 第二招——
+ * 拿 guest RIP 去对 g_Hook_NtosOffsetsCtx 的偏移表，命中才处理） */
+BOOLEAN
+DnzRipInBlacklist(
+    _In_ UINT64 GuestRip
+    );
+
 /* 跨核同步（老师: 翻镜子里的 spin-wait + TSC 限时） */
 BOOLEAN
 DnzSyncFlipBegin(

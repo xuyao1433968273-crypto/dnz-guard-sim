@@ -68,6 +68,7 @@ BOOLEAN
 DnzEptHandleViolation(
     _In_ PSHV_VP_DATA VpData,
     _In_ UINT64 GuestCr3,
+    _In_ UINT64 GuestRip,
     _In_ UINT64 FaultGpa
     );
 
