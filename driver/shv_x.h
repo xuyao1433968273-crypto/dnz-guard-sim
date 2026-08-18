@@ -135,6 +135,11 @@ typedef struct _SHV_VP_DATA
     UINT64  LastSwapTsc;          /* 本核翻镜子耗时账本（老师: +24656） */
     UINT64  SwapExpectedTsc;
     volatile long  SyncLocal;     /* 本核跨核同步镜像 */
+    UINT64  GuestGsBase;          /* VM-exit 时 VMREAD(GUEST_GS_BASE)：guest KPCRB（虚拟地址） */
+    UINT64  SwapRecordPoint;      /* 老师: a1+6427312（翻镜子计时记录点） */
+    UINT64  EptCtl;               /* 老师: a1+24588（EPT 控制标志） */
+    UINT64  EptCtl2;              /* 老师: a1+24768 */
+    BOOLEAN NeedRehook;           /* 老师: 重装钩标志（g_HvGlobalState+6332536） */
     /* ===== 老师工程细节结束 ===== */
 
     DECLSPEC_ALIGN(PAGE_SIZE) UINT8 MsrBitmap[PAGE_SIZE];

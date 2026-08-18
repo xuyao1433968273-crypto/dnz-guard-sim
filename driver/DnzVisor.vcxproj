@@ -61,6 +61,7 @@
     <ClCompile Include="shvvp.c" />
     <ClCompile Include="dnz_hook.c" />
     <ClCompile Include="dnz_ept.c" />
+    <ClCompile Include="dnz_guest.c" />
   </ItemGroup>
   <ItemGroup>
     <Masm Include="shvvmxhvx64.asm" />

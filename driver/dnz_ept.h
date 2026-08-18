@@ -56,13 +56,17 @@ DnzEptRemoveHook(
     _In_ UINT64 Gpa
     );
 
-/* 翻镜子（老师: HV_EptSwapHookOnViolation）：
- *   在 EPT violation 时调用。guest_cr3 = 访问者 CR3。
- *   认人 → 把 VMCS EPTP 切到主根（假页）或影子根（真页）→ 开 MTF。
- *   返回 TRUE 表示已切视图并开了 MTF（下个 exit 由 DnzEptFinishFlip 收尾）。 */
+/* 翻镜子（老师: HV_EptSwapHookOnViolation + ACE_NtApiHook_ExitHandler）：
+ *   在 EPT violation 时调用。GuestCtx = guest 寄存器帧（PCONTEXT，a2）。
+ *   流程（老师原样）：
+ *     第一招认人（PID 对比）→ 不是被钩进程：切影子根（干净面）+ MTF
+ *     第二招认人（RIP 偏移表）→ 命中：DnzDispatchNtApi 模拟 API，RIP 前移
+ *     都没命中 → 切主根（假页）+ MTF
+ *   返回 TRUE 表示已处理（切视图 + MTF，或已模拟 API）。 */
 BOOLEAN
 DnzEptHandleViolation(
     _In_ PSHV_VP_DATA VpData,
+    _In_ PCONTEXT GuestCtx,
     _In_ UINT64 GuestCr3,
     _In_ UINT64 GuestRip,
     _In_ UINT64 FaultGpa

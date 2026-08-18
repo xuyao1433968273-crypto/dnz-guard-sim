@@ -25,6 +25,7 @@ Environment:
 #include "shv.h"
 #include "dnz_ept.h"
 #include "dnz_hook.h"
+#include "dnz_guest.h"
 
 /* KeGenericCallDpc 三件套原型（WDK 头有时不导出，手工声明） */
 NTKERNELAPI VOID KeGenericCallDpc(_In_ PKDEFERRED_ROUTINE Routine, _In_opt_ PVOID Context);
@@ -312,6 +313,7 @@ DnzDeviceInit (
         deviceObject->Flags &= ~DO_DEVICE_INITIALIZING;
     }
 
+    DnzGuestInit();   /* direct map 基址（guest 物理内存读写用） */
     DnzHookInit();
     return status;
 }

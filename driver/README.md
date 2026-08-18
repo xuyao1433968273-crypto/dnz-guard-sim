@@ -33,11 +33,14 @@
 | 三视图 | 主根/影子根/触发根，EPTP 预置 | 新增 dnz_ept.c `DnzEptViewsInit` | `HV_EptInstallHook` 的主根/影子根 |
 | EPT 拆页 | 2MB 大页拆 512×4K（三视图各带 8 张 PT 表） | 新增 dnz_ept.c | `HV_EptSplitLargePage` (0x140115400) |
 | 装双视图 | 三张图同步建好：主根→假页、影子根→真页、触发根→无权限 | 新增 dnz_ept.c | `HV_EptInstallHook` (0x140115980) |
-| 认人 | EPT violation 时按 **CR3** 判断访问者：住户 vs 其他 | 新增 dnz_hook.c | `Hook_NtApi_VmExitHandler` (0x1401906E0) |
+| 认人第一招 | **PID 对比**：guest 当前进程 PID != g_Hook_GuestCr3OrCtx.Pid -> 放行（EPROCESS 偏移链） | 新增 dnz_hook.c | `ACE_NtApiHook_ExitHandler` (0x1401906E0) |
+| 认人第二招 | **偏移表分派**：guest RIP 对 g_Hook_NtosOffsetsCtx 14 个偏移，命中哪个模拟哪个 API | 新增 dnz_hook.c | `ACE_NtApiHook_ExitHandler` 偏移表 if-else 链 |
+| FNV 链表 | **ListHook FNV-1a 哈希链表**（基数 0xCBF29CE484222325，自旋锁+桶+遍历） | 新增 dnz_hook.c | `ACE_LookupListHookByPid` |
+| guest 内存读写 | **direct map + 4 级页表翻译**：Hv_ReadGuest* / Hv_WriteGuest* | 新增 dnz_guest.c | `HV_TranslateGuestVa_Present` (0x14011C2A0) |
 | 翻镜子 | **切换视图**：VMCS EPTP → 主根/影子根 + INVEPT，**不动页表** | 新增 dnz_ept.c | `HV_EptSwapHookOnViolation` (0x140116F90) |
 | MTF 收尾 | 单步执行一条指令后 EPTP 切回触发根 + 关 MTF + INVEPT | 新增 dnz_ept.c | `HV_AfterEptViolation` (0x140116ED0) |
-| 跨核同步 | 翻镜子抢锁（CAS 0→1），别人在翻就 spin-wait，**TSC 限时**超时放弃 | 新增 dnz_hook.c | 翻镜子里的跨核等待 |
-| 计时账本 | 每次翻镜子记录 `预期-实际` TSC（防时间差） | 新增 dnz_hook.c | `*(a1+24656) = 预期 - 实际` |
+| 跨核同步 | 老师原样：状态非 0 等变 2（**内层 1000 次 mfence/pause + 外层 8×预算 TSC 限时**）→ 归零 + lfence | 新增 dnz_hook.c | `HV_EptSwapHookOnViolation` (0x140116F90) |
+| 计时账本 | 老师原样公式：`*(a1+24656) = *(a1+6427312) - 当前TSC`（记录点 - 现在） | 新增 dnz_hook.c | `*(a1+24656)` |
 | RIP 黑名单 | 可注册黑名单 RIP（教学用 0xCC 语义） | 新增 dnz_hook.c | `g_Hook_NtosOffsetsCtx` |
 | 驱动入口 | 设备对象 + IOCTL + 卸载恢复（VMXOFF + GDTR/IDTR 还原 + 段修复） | shv.c / shvos.c | — |
 
@@ -49,17 +52,20 @@
 HV_DispatchExitHandlers 门口
    ↓ 读 EXIT_QUALIFICATION 拿 fault GPA，读 GUEST_CR3 / GUEST_RIP
 DnzEptHandleViolation
-   ├─ 认人：CR3 对比进程表（住户?）+ RIP 黑名单（命中黑名单 API?）
-   ├─ 跨核同步：DnzSyncFlipBegin（CAS 抢锁，TSC 超时）
-   ├─ 切视图：VMCS EPTP = 主根(假页) 或 影子根(真页) + INVEPT   ← 不碰页表
+   ├─ 认人第一招：guest 进程 PID 对比 g_Hook_GuestCr3OrCtx.Pid（老师原样）
+   │     不是被钩进程 -> 影子根（干净面）+ MTF（保安永远看到真页）
+   ├─ 认人第二招：guest RIP 对偏移表 -> 命中则 DnzDispatchNtApi 模拟 API（RIP 前移）
+   ├─ 没命中 -> 切视图：VMCS EPTP = 主根(假页) + INVEPT   ← 不碰页表
+   ├─ 跨核同步：状态非 0 等变 2（内层 1000 次 mfence/pause + 外层 8×预算）
    ├─ 开 MTF（SECONDARY_VM_EXEC_CONTROL bit27）
-   └─ 计时账本：LastSwapTsc = 预期 - 实际
+   └─ 计时记录点：SwapRecordPoint = TSC
    ↓ VM-resume，重跑出错指令（RIP 不动），对着选定视图执行一条指令
    ↓ 硬件 MTF exit (reason 37)
 DnzEptFinishFlip
    ├─ VMCS EPTP 切回触发根 + INVEPT（下个访问重新认人）
    ├─ 关 MTF
-   └─ DnzSyncFlipEnd（状态 0→2）
+   ├─ DnzSyncFinish：状态置 2 -> 内层 1000 次 + 外层 8×预算 TSC 限时 -> 归零 + lfence
+   └─ 计时账本：LastSwapTsc = 记录点 - 当前TSC（老师原公式）
    ↓ VM-resume，继续跑
 ```
 
@@ -80,7 +86,8 @@ D:\dnz_guard_sim\driver\
 ├─ vmx.h                 VMX 常量 + EPT 结构（含 4KB VMX_PTE）
 ├─ ntint.h               SimpleVisor 自带 NT 类型（已加 WDK 兼容保护）
 ├─ dnz_ept.c / .h        三视图初始化 / 装钩 / 卸钩 / 翻镜子（切 EPTP）/ MTF 收尾
-└─ dnz_hook.c / .h       认人（CR3 对比）/ 跨核同步（TSC 限时）/ 计时账本
+├─ dnz_hook.c / .h       认人（PID 对比 + 偏移表分派 + FNV 链表）/ 跨核同步（三段式）/ 计时账本
+└─ dnz_guest.c / .h      guest 内存读写（direct map + 4 级页表翻译）
 ```
 
 ## 编译（本机已验证）

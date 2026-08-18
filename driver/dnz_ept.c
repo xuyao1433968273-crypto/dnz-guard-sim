@@ -490,6 +490,7 @@ DnzEptRemoveHook(
 BOOLEAN
 DnzEptHandleViolation(
     _In_ PSHV_VP_DATA VpData,
+    _In_ PCONTEXT GuestCtx,
     _In_ UINT64 GuestCr3,
     _In_ UINT64 GuestRip,
     _In_ UINT64 FaultGpa
@@ -497,9 +498,8 @@ DnzEptHandleViolation(
 {
     LONG slot;
     INT who;
-    BOOLEAN ripHit, flipToClean;
+    BOOLEAN flipToClean;
     PDNZ_EPT_VIEW view;
-    UINT64 tscBefore, tscAfter;
     LARGE_INTEGER msr;
 
     slot = DnzEptFindHook(VpData, FaultGpa);
@@ -509,26 +509,38 @@ DnzEptHandleViolation(
     }
 
     //
-    // 认人两招（老师: Hook_NtApi_VmExitHandler）：
-    //   第一招：查 PID（CR3）——不是被钩进程就 return 0
-    //   第二招：拿 guest RIP 对黑名单——命中才"干活"（翻到钩子面/模拟 API）
-    // 只有"住户 + RIP 命中黑名单"才看假页；其他一切情况看真页（干净面）。
+    // 认人第一招（老师: ACE_NtApiHook_ExitHandler 开头）：
+    //   guest 当前进程 PID != g_Hook_GuestCr3OrCtx.Pid -> return 0
+    // 注意：不能直接放行（触发根被钩页无权限会死循环），
+    // 非被钩进程走影子根（干净面）——保安永远看到真页。
     //
-    who = DnzRecognizeAccessor(GuestCr3);
-    if (who == 0)
+    who = DnzRecognizeAccessor(VpData, GuestCr3);
+    if (who != 0)
     {
-        flipToClean = TRUE;     /* 不是被钩进程 -> 影子根（真页） */
+        //
+        // 认人第二招（老师: guest RIP 对 g_Hook_NtosOffsetsCtx 偏移表）：
+        // 命中 -> 模拟这个 API（RIP 前移 + 写 guest 寄存器/内存），不走真代码
+        //
+        if (DnzDispatchNtApi(VpData, GuestCtx, GuestRip))
+        {
+            return TRUE;   /* 已模拟，resume（RIP 已前移） */
+        }
+        //
+        // 住户 + 没命中偏移表 -> 主根（假页）
+        //
+        flipToClean = FALSE;
     }
     else
     {
-        ripHit = DnzRipInBlacklist(GuestRip);
-        flipToClean = ripHit ? FALSE : TRUE;
+        //
+        // 非被钩进程（保安/其他）-> 影子根（真页/干净）
+        //
+        flipToClean = TRUE;
     }
 
     //
-    // 跨核同步：抢翻镜子权（TSC 限时等待，老师: 8×预算周期）
+    // 跨核同步（老师: 状态非 0 则等变 2，内层 1000 次 + 外层 8×预算 TSC 限时）
     //
-    tscBefore = __rdtsc();
     if (!DnzSyncFlipBegin(KeGetCurrentProcessorNumberEx(NULL), 8 * 4096))
     {
         return FALSE;   /* 超时放弃（不该发生，教学骨架） */
@@ -557,18 +569,17 @@ DnzEptHandleViolation(
     VpData->MtfActive = 1;
 
     //
-    // 计时账本（老师: *(a1+24656) = 预期 - 实际）
+    // 计时记录点（老师: a1+6427312），收尾时 LastSwapTsc = 记录点 - 现在
     //
-    tscAfter = __rdtsc();
-    VpData->SwapExpectedTsc = 4096;   /* 预算：4096 ticks */
-    VpData->LastSwapTsc = VpData->SwapExpectedTsc - (tscAfter - tscBefore);
-    DnzSyncRecordSwap(VpData->SwapExpectedTsc, tscAfter - tscBefore);
+    VpData->SwapRecordPoint = __rdtsc();
+    g_DnzHook.SwapRecordPoint = VpData->SwapRecordPoint;
 
     //
     // 收尾由下个 exit（MTF）做
     //
     return TRUE;
 }
+
 
 VOID
 DnzEptFinishFlip(
@@ -594,15 +605,21 @@ DnzEptFinishFlip(
     DnzInvEptSingle(VpData->FaultView.EptpValue);
 
     //
+    // 老师: HV_EptSwapHookOnViolation 的跨核等待收尾
+    //   （状态置 2 -> 内层 1000 次 + 外层 8×预算 TSC 限时 -> 归零 + lfence）
+    //
+    DnzSyncFinish();
+
+    //
+    // 老师: 计时账本 *(a1+24656) = *(a1+6427312) - 当前TSC（记录点 - 现在）
+    //
+    DnzSyncRecordSwap();
+
+    //
     // 清翻镜子标记——双根的好处：没有页表要恢复，视图是预置好的
     //
     for (h = 0; h < VpData->EptHookCount; h++)
     {
         VpData->EptHooks[h].InFlip = FALSE;
     }
-
-    //
-    // 翻完，释放跨核同步锁
-    //
-    DnzSyncFlipEnd();
 }

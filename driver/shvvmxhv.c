@@ -237,10 +237,17 @@ ShvVmxHandleExit (
         __vmx_vmread(GUEST_RIP, &guestRip);
         faultGpa = qualification & DNZ_EPT_VIOLATION_GPA_MASK;
 
-        if (DnzEptHandleViolation(VpData, guestCr3, guestRip, faultGpa))
+        //
+        // 老师认人第一招要拿 guest 当前进程 PID：
+        // 保存 guest KPCRB（GUEST_GS_BASE，虚拟地址）到每核 VP 数据
+        //
+        __vmx_vmread(GUEST_GS_BASE, &VpData->GuestGsBase);
+
+        if (DnzEptHandleViolation(VpData, VpState->VpRegs, guestCr3, guestRip, faultGpa))
         {
             //
             // 翻镜子成功：保持 RIP 不动，VM-resume 后重跑出错指令
+            // （若走了偏移表分派模拟，RIP 已由 DnzDispatchNtApi 前移）
             //
             return;
         }
