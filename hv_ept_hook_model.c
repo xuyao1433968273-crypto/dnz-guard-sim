@@ -78,6 +78,7 @@ typedef struct {
     u32 reason;          /* 退出原因：1=EPT violation */
     u32 rip;             /* 客人在哪个位置被拦 */
     u64 gpa;             /* 碰的是哪个地址 */
+    u32 observer;        /* 0=住户 1=保安（认人的材料之一） */
     u32 magic;           /* 0x52695269="RiRi" -> 走拆页重定向路径 */
 } ExitInfo;
 
@@ -367,26 +368,36 @@ static int ept_violation_handler(VcpuState *s, ExitInfo *info) {
         HookEntry *h = &s->hooks[i];
         if (h->gpa != (info->gpa & ~(u64)(PAGE_4K - 1))) continue;
 
-        printf("[door] EPT violation @ gpa=0x%llx rip=0x%x\n", info->gpa, info->rip);
+        printf("[door] EPT violation @ gpa=0x%llx rip=0x%x observer=%d\n",
+               info->gpa, info->rip, info->observer);
 
-        /* 模拟跨核信号：另一个核"正在翻面"，置 exit_state=1，稍后=2 */
-        s->exit_state = 1;
-        s->exit_state = 2;
+        if (info->observer == 1) {
+            /* ---- 保安来查 -> 翻镜子，给干净页，查完翻回来 ---- */
+            /* 模拟跨核信号：另一个核"正在翻面"，置 exit_state=1，稍后=2 */
+            s->exit_state = 1;
+            s->exit_state = 2;
 
-        hv_ept_swap_hook_on_violation(s, h);   /* 翻镜子 */
-        hv_after_ept_violation(s, h->gpa);     /* 收尾 */
+            hv_ept_swap_hook_on_violation(s, h);   /* 翻镜子 */
+            hv_after_ept_violation(s, h->gpa);     /* 收尾 */
 
-        /* 翻镜子时给保安看干净页：把表项临时换成干净 pfn */
-        EptEntry *e = hv_ept_lookup(s, h->gpa);
-        e->b.pfn = h->clean_pfn;
-        s->scan_count++;
-        printf("   [保安] 看到: %02X %02X %02X ... (干净页, 一切正常)\n",
-               pfn_to_va(h->clean_pfn)[0], pfn_to_va(h->clean_pfn)[1],
-               pfn_to_va(h->clean_pfn)[2]);
-        e->b.pfn = h->modified_pfn;            /* 保安走了，翻回来 */
+            /* 翻镜子时给保安看干净页：把表项临时换成干净 pfn */
+            EptEntry *e = hv_ept_lookup(s, h->gpa);
+            e->b.pfn = h->clean_pfn;
+            s->scan_count++;
+            printf("   [保安] 看到: %02X %02X %02X ... (干净页, 一切正常)\n",
+                   pfn_to_va(h->clean_pfn)[0], pfn_to_va(h->clean_pfn)[1],
+                   pfn_to_va(h->clean_pfn)[2]);
+            e->b.pfn = h->modified_pfn;            /* 保安走了，翻回来 */
 
-        info->magic = MAGIC_RIRI;              /* 让分派器走重定向路径 */
-        return 1;
+            info->magic = MAGIC_RIRI;              /* 让分派器走重定向路径 */
+            return 1;
+        } else {
+            /* ---- 住户访问 -> 替身模拟：给改过页的内容 ---- */
+            printf("   [住户] 替身模拟: 读到 %02X %02X %02X ... (改过页)\n",
+                   pfn_to_va(h->modified_pfn)[0], pfn_to_va(h->modified_pfn)[1],
+                   pfn_to_va(h->modified_pfn)[2]);
+            return 1;
+        }
     }
     return 0;
 }
@@ -422,8 +433,20 @@ static void guest_access(VcpuState *s, int observer, u64 gpa, u32 rip) {
     info.rip = rip;
 
     EptEntry *e = hv_ept_lookup(s, gpa);
+
+    /* 被钩子保护的页：访问必触发 violation（真实机制：钩子让页产生陷阱） */
+    for (int i = 0; i < s->hook_count; i++) {
+        if (s->hooks[i].gpa == (gpa & ~(u64)(PAGE_4K - 1))) {
+            info.observer = observer;
+            info.reason = EXIT_REASON_EPT_VIOLATION;
+            hv_dispatch_exit_handlers(s, &info);
+            return;
+        }
+    }
+
     if (!e || !(e->b.r || e->b.w || e->b.x)) {
         /* 访问不可见页 -> EPT violation */
+        info.observer = observer;
         info.reason = EXIT_REASON_EPT_VIOLATION;
         hv_dispatch_exit_handlers(s, &info);
         if (observer == 0)
