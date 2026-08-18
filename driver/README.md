@@ -87,10 +87,12 @@ D:\dnz_guard_sim\driver\
 ├─ ntint.h               SimpleVisor 自带 NT 类型（已加 WDK 兼容保护）
 ├─ dnz_ept.c / .h        三视图初始化 / 装钩 / 卸钩 / 翻镜子（切 EPTP）/ MTF 收尾
 ├─ dnz_hook.c / .h       认人（PID 对比 + 偏移表分派 + FNV 链表）/ 跨核同步（三段式）/ 计时账本
-├─ dnz_teacher.c / .h    老师 8 个子函数逐行还原（sub_140187B90/E60/1881D0/168A70/
-│                        179540/179790/17BAF0/176310）+ 全部下级 helper（FNV 哈希链
-│                        表机制 / guest 翻译 / 自瞄状态 / 事件状态表 / 实体表 / 配置标志）
-└─ dnz_guest.c / .h      guest 内存读写（direct map + 4 级页表翻译）
+├─ dnz_guest.c / .h      guest 内存读写（direct map + 4 级页表翻译）
+├─ dnz_heap.c / .h       老师堆移植（size-class 分箱 + 预分配区 bump + best-fit
+│                        空闲链表 + 前后合并；Mem_HeapAllocRaw/Free 原样）
+└─ dnz_teacher.c / .h     认人分派 + 偏移表 14 分支逐行还原 + 跳板真身
+                          （sub_14016B540 / Esp_ApplyGuestProloguePatch）+
+                          动态偏移自举解析
 ```
 
 ## 编译（本机已验证）
@@ -137,8 +139,16 @@ IOCTL（用户态程序通过 \\.\DnzVisor）：
   （sub_140187B90/E60/1881D0/168A70/179540/179790/17BAF0/176310）和全部下级
   （sub_14017B160/sub_140175230/sub_1401944D0/HV_HandlePendingEvent/sub_1400661D0/
   sub_140066580/sub_140065C80…）都从 all_functions_raw.jsonl 挖出 Hex-Rays 伪代码
-  原样移植，每个函数都带出处。唯一保留的适配：老师 Mem_HeapAlloc/桶扩容 ->
-  静态节点池 + 固定 64 桶（节点布局原样），注释里逐条文档化。
+  原样移植，每个函数都带出处。
+- **老师堆已原样移植（dnz_heap.c）**：老师的"动态堆"其实是预分配大区
+  （9MB 小对象区 + 128MB 大块区）+ size-class 分箱 + bump 游标 + best-fit
+  空闲链表 + 前后合并——不是无限扩容。已按 Mem_HeapAllocRaw/Free 原样实现，
+  链节点不再用固定 64 桶静态池。
+- **偏移不再硬编码**：首个 EPT violation 自举解析偏移（KPCRB.CurrentThread /
+  KTHREAD.Process / EPROCESS.UniqueProcessId 结构签名定位，等价老师运行时
+  Hook_AllocNtosOffsetCtx），自举失败才回退 Win10/11 稳定值。
+- **死旗标已清**：WddmDisableOverlay 是只赋值从未被读的死 flag（门的其实是
+  老师 ESP 外接屏/overlay 子系统，另一个功能模块），已从代码移除。
 - **未做多核钩子状态一致性**：每核独立 EPT，装钩广播到每核；翻镜子的跨核同步
   是全局锁 + TSC 超时（老师代码同款语义），但未做跨核视图传播。
 - **未模拟嵌套**（L0 底下再套一层）——那是 NestedHv2026 的事，不在这。

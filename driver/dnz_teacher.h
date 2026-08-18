@@ -26,6 +26,7 @@
 
 #pragma once
 #include <ntddk.h>
+#include "dnz_heap.h"
 
 /* ================= FNV-1a 常量（老师原样） ================= */
 
@@ -116,37 +117,30 @@ typedef struct _DNZ_TEACHER_STATE {
     /* 进程名 FNV 哈希表（qword_14DB95C98）：节点 = 0x20 字节，
      * +0 prev / +8 next / +16 DWORD pid / +24 QWORD 名字哈希 */
     DNZ_TLIST  NameList;
-    UINT8      NamePool[32][0x20];
 
     /* 事件队列（qword_14828F380）：节点 = 0x28 字节，
      * +0 prev / +8 next / +16 QWORD key / +24 QWORD data0 / +32 DWORD data1 */
     DNZ_TLIST  EventQueue;
-    UINT8      EventPool[16][0x28];
 
     /* 事件状态表（qword_14828F388）：节点布局同事件队列 */
     DNZ_TLIST  EventState;
-    UINT8      EventStatePool[16][0x28];
 
     /* PID 状态表（qword_14828F308）：节点 = 0x20 字节，
      * +0 prev / +8 next / +16 DWORD pid / +24 QWORD data */
     DNZ_TLIST  PidState;
-    UINT8      PidStatePool[16][0x20];
 
     /* 指针翻译缓存（qword_14828F2C8 桶 / qword_14828F2E0 掩码 / qword_14828F2B8 哨兵，
      * sub_1401755B0 / sub_140175230 用）：节点 = 0x28 字节，
      * +0 prev / +8 next / +16 QWORD key / +24 QWORD data0 / +32 QWORD data1 */
     DNZ_TLIST  XlateCache;
-    UINT8      XlatePool[16][0x28];
     volatile LONGLONG XlateCounter;  /* qword_14DB95C90：翻译缓存引用计数/独占锁（0=空闲，-1=独占，>0=引用） */
 
     /* 实体表 1（qword_14DD8A378）：节点 = 0x70 字节，
      * +0 prev / +8 next / +16 QWORD key / +24 data[80] */
     DNZ_TLIST  Entity1;
-    UINT8      Entity1Pool[16][0x70];
 
     /* 实体表 0（qword_14DD8A2F8）：节点 = 24 + 21616 字节（1080 字节 × 20 槽） */
     DNZ_TLIST  Entity0;
-    UINT8      Entity0Pool[4][21616 + 24];
 
     /* sub_140176080 的进程名字符串静态缓冲（0x14DD92210，4096 字节） */
     UINT8      NameBuf[4096];
@@ -156,8 +150,9 @@ typedef struct _DNZ_TEACHER_STATE {
     UINT8      Utf16Buf[512];
     UINT16     Utf16Key;
 
-    /* 移植开关：置 1 走直接页表走查路径（我们的 Hv_* 原语） */
-    UINT32     WddmDisableOverlay;
+    /* 注：老师的 g_Wddm_DisableOverlay 是 ESP 外接屏/overlay 渲染子系统
+     * （Esp_CollectGuestDxState 等，属于"透视/外接屏"功能模块）的开关，
+     * 不在本模块（认人+翻镜子+偏移表分派）范围内——见 README 偏差说明。 */
 } DNZ_TEACHER_STATE, *PDNZ_TEACHER_STATE;
 
 extern DNZ_TEACHER_STATE g_TState;

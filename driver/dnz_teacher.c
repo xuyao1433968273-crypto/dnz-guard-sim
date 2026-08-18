@@ -132,26 +132,21 @@ TgPoolAlloc(
     _In_ ULONG  Count
     )
 {
-    ULONG i;
-
-    for (i = 0; i < Count; i++)
-    {
-        PUINT8 n = Pool + (UINT64)i * NodeSize;
-        if (*(UINT64*)(n + 0) == 0)   /* 空闲标记：prev == 0 */
-        {
-            RtlZeroMemory(n, NodeSize);
-            return n;
-        }
-    }
-    return NULL;
+    /* 老师 Mem_HeapAllocRaw：从 size-class 堆分配 + 清零（静态池已移除，
+     * 节点全部走老师堆 —— 见 dnz_heap.c） */
+    UNREFERENCED_PARAMETER(Pool);
+    UNREFERENCED_PARAMETER(Count);
+    return (UINT8*)DnzHeapAllocRaw(NodeSize);
 }
 
 static VOID
 TgPoolFree(
-    _In_ PUINT8 Node
+    _In_ PUINT8 Node,
+    _In_ ULONG  NodeSize
     )
 {
-    *(UINT64*)(Node + 0) = 0;
+    /* 老师 Mem_HeapFree(ptr, size) */
+    DnzHeapFree(Node, NodeSize);
 }
 
 static UINT8*
@@ -304,7 +299,7 @@ DnzNameListInsert(
     {
         return node;
     }
-    node = TgPoolAlloc(&g_TState.NamePool[0][0], 0x20, 32);
+    node = TgPoolAlloc(NULL, 0x20, 0);
     if (node == NULL)
     {
         return NULL;
@@ -328,7 +323,7 @@ DnzEventQueueInsert(
     {
         return node;
     }
-    node = TgPoolAlloc(&g_TState.EventPool[0][0], 0x28, 16);
+    node = TgPoolAlloc(NULL, 0x28, 0);
     if (node == NULL)
     {
         return NULL;
@@ -355,7 +350,7 @@ DnzXlateInsert(
         *(UINT64*)(node + 32) = Data1;
         return;
     }
-    node = TgPoolAlloc(&g_TState.XlatePool[0][0], 0x28, 16);
+    node = TgPoolAlloc(NULL, 0x28, 0);
     if (node == NULL)
     {
         return;
@@ -379,7 +374,7 @@ DnzEntity1Insert(
     {
         return node;
     }
-    node = TgPoolAlloc(&g_TState.Entity1Pool[0][0], 0x70, 16);
+    node = TgPoolAlloc(NULL, 0x70, 0);
     if (node == NULL)
     {
         return NULL;
@@ -402,7 +397,7 @@ DnzEntity0Insert(
     {
         return node;
     }
-    node = TgPoolAlloc(&g_TState.Entity0Pool[0][0], 21616 + 24, 4);
+    node = (UINT8*)DnzHeapAllocAligned(21616 + 24);   /* >=0x1000：走大块区对齐分配 */
     if (node == NULL)
     {
         return NULL;
@@ -1078,7 +1073,7 @@ DnzSub_14018CC80(
     {
         return 0;
     }
-    TgPoolFree(node);
+    TgPoolFree(node, 0x28);
     return 1;
 }
 
@@ -1290,7 +1285,74 @@ DnzSub_1401687E0(
     return result;
 }
 
-/* sub_14016B540：prologue patch 未移植（文档化：返回原地址） */
+/* sub_14016B540 的两条真身路径（老师原样）：
+ *   1) g_Sys_ConfigFlags+216 != 0（NtApi 钩子启用，sub_14018D350 置 1）
+ *      -> sub_1401196F0：把 128 字节上下文帧写到 guest 栈 + 改 guest RIP/RSP
+ *         到 handler（替身模拟返回机制，对应我们 DnzDispatchNtApi 尾部的
+ *         VMCS 写回）
+ *   2) 否则 -> Esp_ApplyGuestProloguePatch：往 guest 函数 prologue 写 E9 跳板 */
+
+/* 老师 sub_1401196F0（641 字节）：guest 上下文重定向。
+ * 差异（文档化）：老师操作每核 vcpu ctx（qword_148287008 槽）+
+ * HV_SaveGprContext/RestoreSavedHostState；我们用 VMCS 写回等价。 */
+static UINT64
+DnzSub_1401196F0(
+    _In_ UINT64 A1,
+    _In_ UINT64 A2,
+    _In_ UINT64 A3,
+    _In_ UINT64 A4
+    )
+{
+    UINT64 guestRsp = 0;
+    UINT64 frameVa;
+    UINT8  frame[128];
+
+    /* 老师: v16 = (v13 & ~0xF) - 200，v13 = 当前 guest RSP（vcpu ctx +152 槽） */
+    __vmx_vmread(GUEST_RSP, &guestRsp);
+    frameVa = (guestRsp & ~0xF) - 200;
+
+    /* v29 帧：v29[0] = qword_14828E008（目标 RIP），其余清零 */
+    RtlZeroMemory(frame, sizeof(frame));
+    *(UINT64*)&frame[0] = A2;
+    Hv_WriteGuestBytes(TCTX, frameVa, frame, 128);
+
+    /* 老师: v11[31]=a2(RIP)、v11[19]=v16(RSP)。我们写回 VMCS，
+     * 执行重定向与 DnzDispatchNtApi 尾部的统一写回等价。 */
+    __vmx_vmwrite(GUEST_RIP, A2);
+    __vmx_vmwrite(GUEST_RSP, frameVa);
+
+    UNREFERENCED_PARAMETER(A1);
+    UNREFERENCED_PARAMETER(A3);
+    UNREFERENCED_PARAMETER(A4);
+    return A2;   /* 老师返回 v27[15]（vcpu ctx Rax 槽）；我们映射为翻译目标 */
+}
+
+/* 老师 Esp_ApplyGuestProloguePatch（1103 字节）：往 guest prologue 写 E9 跳板。
+ * 差异（文档化）：老师按 vcpu 状态选 g_HookedRip_PresentA/B/C；我们写
+ * 标准 E9 rel32 到目标，返回目标地址。 */
+static UINT64
+DnzEspApplyGuestProloguePatch(
+    _In_ UINT64 A1,
+    _In_ UINT64 A2,
+    _In_ UINT64 A3
+    )
+{
+    UINT8  patch[5];
+    INT32  rel;
+    UINT64 target;
+
+    UNREFERENCED_PARAMETER(A3);
+    target = (A2 != 0) ? A2 : A1;
+
+    /* E9 rel32：目标 - (跳板地址 + 5) */
+    patch[0] = 0xE9;
+    rel = (INT32)(target - (A1 + 5));
+    RtlCopyMemory(&patch[1], &rel, 4);
+    Hv_WriteGuestBytes(TCTX, A1, patch, 5);
+    return target;
+}
+
+/* sub_14016B540：prologue patch 分派（老师真身原样） */
 static UINT64
 DnzSub_14016B540(
     _In_ UINT64 A1,
@@ -1298,11 +1360,16 @@ DnzSub_14016B540(
     _In_ UINT64 A3
     )
 {
-    /* 老师: Esp_ApplyGuestProloguePatch / sub_1401196F0 —— 本移植不安装
-     * prologue 跳板，返回原目标地址（偏差文档化） */
-    UNREFERENCED_PARAMETER(A2);
-    UNREFERENCED_PARAMETER(A3);
-    return A1;
+    /* 老师: if (*(BYTE*)(g_Sys_ConfigFlags+216) != 0)
+     *          return sub_1401196F0(A1, A1, A2, A3, 0,0,0,0,0, v4);
+     *        else
+     *          return Esp_ApplyGuestProloguePatch(A1, *(qword_1402707B8),
+     *                 A1, A2, A3, 0,0,0,0,0, v5,v6,v7,v8); */
+    if (g_TState.ConfigFlags[216] != 0)
+    {
+        return DnzSub_1401196F0(A1, A1, A2, A3);
+    }
+    return DnzEspApplyGuestProloguePatch(A1, A2, A3);
 }
 
 /* sub_1401755B0：指针翻译 + 缓存（老师原样结构） */
@@ -1580,13 +1647,13 @@ DnzHvFlushOrSyncAfterRegister(
  * 静态池下节点数恒 <= 池容量 -> 恒走"全清"路径；"部分清"分支等价（都释放回池）。
  * Mem_HeapFree -> 节点 +0 置 0 = 空闲标记（TgPoolAlloc 判据）。 */
 
-/* 池释放（Mem_HeapFreeTracked / Mem_HeapFreeLocal 的等价物：标记空闲） */
+/* 池释放：老师 Mem_HeapFree 语义（事件队列/状态表节点 = 0x28） */
 static VOID
 DnzPoolFreeNode(
     _In_ UINT64 P
     )
 {
-    *(UINT64*)P = 0;   /* prev == 0 = 空闲（TgPoolAlloc 判据） */
+    DnzHeapFree((void*)P, 0x28);
 }
 
 /* sub_140066580：释放整条链表（老师原样：从链头沿 next 走，逐个释放） */
@@ -2934,5 +3001,7 @@ DnzTeacherInit(
     TgListInit(&g_TState.XlateCache);
     TgListInit(&g_TState.Entity1);
     TgListInit(&g_TState.Entity0);
-    g_TState.WddmDisableOverlay = 1;   /* 走直接页表走查路径（偏差文档化） */
+
+    /* 老师堆初始化（Mem_HeapAlloc 的 9MB 小对象区 + 128MB 大块区） */
+    DnzHeapInit();
 }

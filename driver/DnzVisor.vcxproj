@@ -63,6 +63,7 @@
     <ClCompile Include="dnz_teacher.c" />
     <ClCompile Include="dnz_ept.c" />
     <ClCompile Include="dnz_guest.c" />
+    <ClCompile Include="dnz_heap.c" />
   </ItemGroup>
   <ItemGroup>
     <Masm Include="shvvmxhvx64.asm" />

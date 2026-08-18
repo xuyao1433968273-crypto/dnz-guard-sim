@@ -79,6 +79,14 @@ typedef struct _DNZ_HOOK_CONTEXT {
     LONGLONG       SwapBudgetTsc;           /* 老师: 8×预算里的预算 */
     UINT64         SwapRecordPoint;         /* 老师: a1+6427312（记录点） */
     volatile LONG  Initialized;
+
+    /* 运行时解析的进程结构偏移（老师 Hook_AllocNtosOffsetCtx 从 guest 动态
+     * 解析 g_Off_* 表；我们同样在首个 EPT violation 时自举解析并缓存，
+     * 不再硬编码 —— 见 DnzResolveOffsets）。 */
+    UINT32         OffCurrentThread;        /* KPCRB.CurrentThread */
+    UINT32         OffThreadProcess;        /* KTHREAD.Process */
+    UINT32         OffUniquePid;            /* EPROCESS.UniqueProcessId */
+    volatile LONG  OffsetsResolved;
 } DNZ_HOOK_CONTEXT, *PDNZ_HOOK_CONTEXT;
 
 extern DNZ_HOOK_CONTEXT g_DnzHook;

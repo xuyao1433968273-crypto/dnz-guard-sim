@@ -201,11 +201,118 @@ DnzListHookRemove(
 
 /* ============ guest 当前进程 PID（老师第一招的 v4） ============ */
 
-/* 老师用偏移表（g_Off_EPROCESS_UniqueProcessId 等）拿进程信息，我们也用偏移：
- * Win10/11 x64 稳定偏移（与老师 g_Off_* 偏移表同一个思路） */
-#define DNZ_KPCRB_CURRENT_THREAD 0x48    /* KPCRB.CurrentThread（自 1607 未变） */
-#define DNZ_KTHREAD_PROCESS       0x98    /* KTHREAD->Process（KPROCESS=EPROCESS 头） */
-#define DNZ_EPROCESS_UNIQUE_PID   0x440   /* EPROCESS->UniqueProcessId（1607~23H2 未变） */
+/* 老师用 g_Off_* 偏移表（运行时由 Hook_AllocNtosOffsetCtx 从 guest 动态解析）。
+ * 我们不硬编码版本偏移，而是在首个 EPT violation 时自举解析：
+ *   KPCRB.CurrentThread（KPCRB 里第一个指向内核地址的指针）
+ *   KTHREAD.Process（KTHREAD 里指向 EPROCESS 的指针）
+ *   EPROCESS.UniqueProcessId（用 UniqueProcessId -> ActiveProcessLinks 的
+ *     LIST_ENTRY 结构签名定位：+8/+16 是成对的内核地址指针）
+ * 解析失败才回退到 Win10/11 已知稳定值。 */
+
+/* 结构签名兜底（自 Win10 1607 起从未变过，仅当自举失败时用） */
+#define DNZ_KPCRB_CURRENT_THREAD 0x48
+#define DNZ_KTHREAD_PROCESS       0x98
+#define DNZ_EPROCESS_UNIQUE_PID   0x440
+
+static BOOLEAN
+DnzIsKernelPtr(
+    _In_ UINT64 V
+    )
+{
+    /* 内核虚拟地址：高 16 位全 1 */
+    return V >= 0xFFFF000000000000ULL;
+}
+
+static UINT64
+DnzReadGuestVa64(
+    _In_ UINT64 GuestCr3,
+    _In_ UINT64 Va
+    )
+{
+    UINT64 phys;
+
+    if (!Hv_TranslateGuestVa_Present(GuestCr3, Va, &phys))
+    {
+        return 0;
+    }
+    return DnzReadPhys64(phys);
+}
+
+static UINT32
+DnzReadGuestVa32(
+    _In_ UINT64 GuestCr3,
+    _In_ UINT64 Va
+    )
+{
+    UINT64 phys;
+
+    if (!Hv_TranslateGuestVa_Present(GuestCr3, Va, &phys))
+    {
+        return 0;
+    }
+    return DnzReadPhys32(phys);
+}
+
+/* 老师 Hook_AllocNtosOffsetCtx 的等价：运行时从 guest 结构自举解析三个偏移 */
+static BOOLEAN
+DnzResolveOffsets(
+    _In_ UINT64 GuestCr3,
+    _In_ UINT64 GuestGsBase
+    )
+{
+    ULONG  ct;
+    ULONG  tp;
+    ULONG  up;
+    UINT64 kthread;
+    UINT64 eprocess;
+    UINT32 pid;
+    UINT64 flink, blink;
+
+    /* 1) KPCRB.CurrentThread：扫描 KPCRB 前 0x200 字节找第一个内核地址指针，
+     *    且其指向的结构（KTHREAD）在 +0x80..0xC0 范围也存在内核地址指针 */
+    for (ct = 0x40; ct < 0x200; ct += 8)
+    {
+        kthread = DnzReadGuestVa64(GuestCr3, GuestGsBase + ct);
+        if (!DnzIsKernelPtr(kthread))
+        {
+            continue;
+        }
+
+        /* 2) KTHREAD.Process：扫描 KTHREAD +0x80..0xC0 找 EPROCESS 指针 */
+        for (tp = 0x80; tp < 0xC0; tp += 8)
+        {
+            eprocess = DnzReadGuestVa64(GuestCr3, kthread + tp);
+            if (!DnzIsKernelPtr(eprocess))
+            {
+                continue;
+            }
+
+            /* 3) EPROCESS.UniqueProcessId：找 PID(DWORD) 且 +8/+16 是成对内核
+             *    地址（ActiveProcessLinks LIST_ENTRY 结构签名） */
+            for (up = 0x3E0; up < 0x500; up += 8)
+            {
+                pid = DnzReadGuestVa32(GuestCr3, eprocess + up);
+                if (pid == 0 || pid >= 0x10000)
+                {
+                    continue;
+                }
+                flink = DnzReadGuestVa64(GuestCr3, eprocess + up + 8);
+                blink = DnzReadGuestVa64(GuestCr3, eprocess + up + 16);
+                if (!DnzIsKernelPtr(flink) || !DnzIsKernelPtr(blink))
+                {
+                    continue;
+                }
+                /* 结构签名命中：PID + 成对链表指针 */
+                g_DnzHook.OffCurrentThread = (UINT32)ct;
+                g_DnzHook.OffThreadProcess = (UINT32)tp;
+                g_DnzHook.OffUniquePid     = (UINT32)up;
+                InterlockedExchange(&g_DnzHook.OffsetsResolved, 1);
+                return TRUE;
+            }
+        }
+    }
+    return FALSE;
+}
 
 UINT64
 DnzGetGuestPid(
@@ -215,39 +322,45 @@ DnzGetGuestPid(
 {
     UINT64 phys;
     UINT64 kthread, eprocess, pid;
+    ULONG  ct, tp, up;
 
-    //
-    // 老师: v4 = *(EPROCESS + g_Off_EPROCESS_UniqueProcessId)
-    // 我们从 guest KPCRB（GS base）出发：CurrentThread -> KTHREAD->Process
-    // -> EPROCESS->UniqueProcessId，全程用 guest CR3 翻译读 guest 内存。
-    //
     if (GuestGsBase == 0)
     {
         return 0;
     }
 
-    // guest KPCRB.CurrentThread（guest 虚拟地址处的指针）
-    if (!Hv_TranslateGuestVa_Present(GuestCr3,
-                                     GuestGsBase + DNZ_KPCRB_CURRENT_THREAD,
-                                     &phys))
+    /* 首个 violation 时自举解析偏移并缓存（老师 Hook_AllocNtosOffsetCtx 语义） */
+    if (!g_DnzHook.OffsetsResolved)
+    {
+        if (!DnzResolveOffsets(GuestCr3, GuestGsBase))
+        {
+            /* 自举失败：回退 Win10/11 稳定偏移 */
+            g_DnzHook.OffCurrentThread = DNZ_KPCRB_CURRENT_THREAD;
+            g_DnzHook.OffThreadProcess = DNZ_KTHREAD_PROCESS;
+            g_DnzHook.OffUniquePid     = DNZ_EPROCESS_UNIQUE_PID;
+            InterlockedExchange(&g_DnzHook.OffsetsResolved, 1);
+        }
+    }
+    ct = g_DnzHook.OffCurrentThread;
+    tp = g_DnzHook.OffThreadProcess;
+    up = g_DnzHook.OffUniquePid;
+
+    // 老师: v4 = *(EPROCESS + g_Off_EPROCESS_UniqueProcessId)
+    // 我们从 guest KPCRB（GS base）出发：CurrentThread -> KTHREAD->Process
+    // -> EPROCESS->UniqueProcessId，全程用 guest CR3 翻译读 guest 内存。
+    if (!Hv_TranslateGuestVa_Present(GuestCr3, GuestGsBase + ct, &phys))
     {
         return 0;
     }
     kthread = DnzReadPhys64(phys);
 
-    // KTHREAD->Process（偏移 0x98）
-    if (!Hv_TranslateGuestVa_Present(GuestCr3,
-                                     kthread + DNZ_KTHREAD_PROCESS,
-                                     &phys))
+    if (!Hv_TranslateGuestVa_Present(GuestCr3, kthread + tp, &phys))
     {
         return 0;
     }
     eprocess = DnzReadPhys64(phys);
 
-    // EPROCESS->UniqueProcessId（偏移 0x440）
-    if (!Hv_TranslateGuestVa_Present(GuestCr3,
-                                     eprocess + DNZ_EPROCESS_UNIQUE_PID,
-                                     &phys))
+    if (!Hv_TranslateGuestVa_Present(GuestCr3, eprocess + up, &phys))
     {
         return 0;
     }
