@@ -3,3 +3,4 @@
 *.o
 *.log
 run_out.txt
+out/

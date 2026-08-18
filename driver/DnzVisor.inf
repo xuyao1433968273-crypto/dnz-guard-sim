@@ -1,0 +1,35 @@
+; DnzVisor.inf - SimpleVisor 骨架 + 老师工程细节（认人/翻镜子/跨核同步）
+; 演示用驱动，不针对任何反作弊，测试环境（测试签名）加载。
+
+[Version]
+Signature   = "$WINDOWS NT$"
+Class       = System
+ClassGuid   = {4d36e97d-e325-11ce-bfc1-08002be10318}
+Provider    = %ProviderName%
+DriverVer   = 08/18/2026,1.0.0.0
+CatalogFile = DnzVisor.cat
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[DefaultInstall.NTamd64]
+CopyFiles = DnzVisor.Files
+
+[DefaultInstall.NTamd64.Services]
+AddService = DnzVisor,0x00000002,DnzVisor.Service
+
+[DnzVisor.Files]
+DnzVisor.sys
+
+[DnzVisor.Service]
+DisplayName   = %ServiceName%
+Description   = %ServiceDesc%
+ServiceType   = 1
+StartType     = 3
+ErrorControl  = 1
+ServiceBinary = %12%\DnzVisor.sys
+
+[Strings]
+ProviderName = "DnzVisor"
+ServiceName  = "DnzVisor"
+ServiceDesc  = "DnzVisor - EPT dual-view hypervisor skeleton (research)"
